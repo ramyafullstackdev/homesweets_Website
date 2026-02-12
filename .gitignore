@@ -1,1 +1,21 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Angular build cache
+.angular/
+
+# Build output
+dist/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files with secrets
+.env
