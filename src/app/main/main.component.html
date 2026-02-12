@@ -1,0 +1,513 @@
+<!-- <div class="jumbotron jumbotron-fluid">
+    <div class="container label-font">
+        <div>
+            <h4><span  class="label-header">Eat Without Guilt</span></h4>
+        </div>
+        <p class="lead">Our home chefs care for your health as they care for their children and family. We use
+            adulteration free ingrediants cold pressed vegitable oils, homemade A2 ghee, farm sourced sugarcane sugar
+            etc. these are some of our uniqueness.
+        </p>
+    </div>
+</div> -->
+<div class="category-strip">
+    <div class="category-item" *ngFor="let item of categories">
+        <div class="category-icon-bg pointer-view" (click)="redirectCategory(item.label, 'main')">
+            <div class="circle-icon">
+                <mat-icon>{{ item.icon }}</mat-icon>
+            </div>
+            <h6 class="label-text">{{ item.label }}</h6>
+        </div>
+    </div>
+</div>
+
+<div class="carousel_bg">
+    <div class="banner-view">
+        <div class="main_container">
+            <div id="carouselExampleControls" class=" carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" *ngFor="let banner of banners;let i = index"
+                        [ngClass]="{'active': i == 0 }" [attr.data-slide-to]="i" class="active"></li>
+                    <!-- <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                         [src]="baseUrl +banner.imagePath"
+                          [src]="baseUrl+'api/common/getS3File/' +banner.imagePath"
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
+                </ol>
+
+                <div class="carousel-inner ">
+                    <div class="carousel-item" *ngFor="let banner of banners;let i = index"
+                        [ngClass]="{'active': i == 0 }">
+                        <img class="d-block w-100" [src]="s3ApiUrl+'/'+banner.imagePath" alt="First slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="background_svg">
+    <div class="row side-header-hs d-flex justify-content-between align-items-center">
+        <span style="width: 75%;height: 28px;">Exclusive Offers</span>
+        <button class="btn shop-btn" (click)="redirectCategory('exclusive', 'main')">Shop More</button>
+    </div>
+    <div class="main_container">
+
+        <div class="slider-container">
+            <button class="nav-button left" *ngIf="buttonStates[1].showLeft" (click)="scroll('left', 1)">
+                &#10094;
+            </button>
+            <div #scrollContainer2 class="row card-container">
+                <div class="card" *ngFor="let offer of offers">
+                    <!-- Image & Badges -->
+                    <div class="image-container position-relative">
+                        <img class="main-image-view pointer-view" (click)="viewDetailProduct(offer, 'offers')"
+                            [src]="s3ApiUrl + '/' + offer.productImagePath" alt="{{ offer.productName }}" />
+
+                        <!-- Best Seller Tag -->
+                        <div class="badge-tag" *ngIf="offer.bestSeller">Best Seller</div>
+
+                        <!-- Favorite Icon -->
+                        <div class="heart-icon tag-line-top"    [ngStyle]="{'background-color': offer?.tagline?.color, 'color': offer?.tagline?.textColor}" (click)="toggleFavorite(offer, $event, 'offer')">
+                               <span *ngIf="offer?.tagline">{{ offer.tagline.label }} | </span>
+                            <i [ngClass]="getFav(offer._id) ? 'fas fa-heart active' : 'far fa-heart'"></i>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="product-name ellipsis-text">
+                                {{ offer.productName }}
+                            </h5>
+
+                            <div class="price-section">
+                                <span class="current-price">₹{{ getCurrentWeightPrice(offer).currentPrice }}</span>
+                                <span class="original-price">₹{{ getLeastWeight(offer.prices).originalPrice }}</span>
+                            </div>
+                        </div>
+
+                        <p class="desc">{{ offer.shortDescription || 'Low GI | Stoneground' }}</p>
+
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>{{ offer.overallRating }}</span>
+                            <small class="text-muted">({{ offer.reviewsCount || '2k+' }} Reviews)</small>
+                        </div>
+
+                        <select class="variant-select" (change)="onSelectWeight(offer, $event)" >
+                            <option *ngFor="let p of offer.prices; let i = index" [value]="i">{{ p.weight }}</option>
+                        </select>
+
+                        <button class="add-cart-btn"
+                            (click)="openDialog(offer, 'offer', offer.preOrder ? 'Pre-Order' : 'Buy Now')">
+                            {{(offer.preOrder ? "PRE ORDER" : "ADD TO CART")}}
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <button class="nav-button right" *ngIf="buttonStates[1].showRight" (click)="scroll('right', 1)">
+                &#10095;
+            </button>
+        </div>
+    </div>
+</div>
+<div class="category-margin">
+    <div class="main_container">
+        <div class="row side_header_shadow">
+            <div class="side-header">What's On Your Mind?</div>
+        </div>
+        <div class="slider-container category_display_slider" style="margin:2%">
+            <button class="nav-button left" *ngIf="buttonStates[2].showLeft" (click)="scroll('left', 2)">
+                &#10094;
+            </button>
+            <div #scrollContainer3 class="row card-container category_display_slider">
+                <div class="category-card" *ngFor="let category of categoryList">
+                    <!-- <img class="category-view" [src]="baseUrl +category.imagePath"> -->
+                    <img class="category-view" [src]="s3ApiUrl+'/'+ category.imagePath"
+                        [routerLink]="'/' + (category.categoryName | lowercase)">
+
+                    <h4 class="p-mb-1 margin-top-5-hs">
+                        <!-- <button style="--color:#f3738a;--border:2px;--slant:.5em">Button</button> -->
+
+                        <button class="btn btn-buynow category-btn"
+                            [routerLink]="'/' + (category.categoryName | lowercase)">{{category.categoryName}}</button>
+                    </h4>
+                </div>
+            </div>
+            <button class="nav-button right" *ngIf="buttonStates[2].showRight" (click)="scroll('right', 2)">
+                &#10095;
+            </button>
+        </div>
+    </div>
+</div>
+<div class="background_svg">
+    <div class="row side-header-hs d-flex justify-content-between align-items-center">
+        <span style="width: 75%;height: 28px;">Best Selling Products</span>
+    </div>
+    <div class="chip-container">
+        <div class="chip" *ngFor="let category of bestSellersCategories"
+            [ngClass]="{ 'selected': selectedCategory.categoryName === category.categoryName }" (click)="selectCategory(category)">
+            {{ category.categoryName }}
+        </div>
+    </div>
+
+    <div class="main_container">
+
+        <div class="slider-container">
+            <button class="nav-button left" *ngIf="buttonStates[3].showLeft" (click)="scroll('left', 1)">
+                &#10094;
+            </button>
+            <div #scrollContainer2 class="row card-container">
+                <div class="card" *ngFor="let seller of bestSeller">
+                    <!-- Image & Badges -->
+                    <div class="image-container position-relative">
+                        <img class="main-image-view pointer-view"
+                            (click)="viewDetailProduct(seller.product, 'best Sellers')"
+                            [src]="s3ApiUrl + '/' + seller.product.productImagePath" alt="{{ seller.productName }}" />
+
+                        <!-- Best Seller Tag -->
+                        <div class="badge-tag" *ngIf="seller.bestSeller">Best Seller</div>
+
+                        <!-- Favorite Icon -->
+                        <div class="heart-icon tag-line-top-ld"
+                            (click)="toggleFavorite(seller.product, $event, 'product')">
+                            Limited deals | <i
+                                [ngClass]="getFav(seller.product._id) ? 'fas fa-heart active' : 'far fa-heart'"></i>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="product-name ellipsis-text">
+                                {{ seller.product.productName }}
+                            </h5>
+
+                            <div class="price-section">
+                                <span class="current-price">₹{{ getCurrentWeightPrice(seller.product).productPrice
+                                    }}</span>
+                                <!-- <span class="original-price">₹{{ getLeastWeight(seller.product.prices).originalPrice }}</span> -->
+                            </div>
+                        </div>
+                        <p class="desc pointer-view" (click)="viewProducts(seller.kitchen)">{{
+                            seller.kitchen.kitchenDetails.kitchenForm.kitchenName || 'Low GI | Stoneground' }}'s Kitchen
+                        </p>
+                        <p class="desc pointer-view" (click)="viewDetailProduct(seller.product, 'best Sellers')">{{
+                            seller.product.shortDescription || 'Low GI | Stoneground' }}</p>
+
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>{{ seller.product.overallRating }}</span>
+                            <small class="text-muted">({{ seller.reviewsCount || '2k+' }} Reviews)</small>
+                        </div>
+
+                        <select class="variant-select" (change)="onSelectWeight(seller.product, $event)" >
+                            <option *ngFor="let p of seller.product.prices; let i = index" [value]="i">{{ p.weight }}</option>
+                        </select>
+
+                        <button class="add-cart-btn"
+                            (click)="openDialog(seller.product, '', seller.product.preOrder ? 'Pre-Order' : 'Buy Now')">
+                            ADD TO CART
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <button class="nav-button right" *ngIf="buttonStates[3].showRight" (click)="scroll('right', 1)">
+                &#10095;
+            </button>
+        </div>
+    </div>
+    <div class="view-more-products pointer-view" (click)="redirectCategory('bestSelling', 'bestSellers')">
+        View More Products <i class="fas fa-arrow-circle-right"></i>
+    </div>
+</div>
+<div >
+    <div class="row side-header-hs d-flex justify-content-between align-items-center">
+    <span style="width: 75%;height: 28px;">Explore New Sellers</span>
+    </div>
+    <div class="slider-container kitchen-card-slider">
+        <button class="nav-button left" *ngIf="buttonStates[4].showLeft" (click)="scroll('left', 4)">
+            &#10094;
+        </button>
+        <div #scrollContainer5 class="row card-container pointer-view">
+            <div class="card kitchen-img-card" *ngFor="let kitchen of newKitchens">
+                <div class="image-container">
+                    <div class="heart-icon tag-line-top-ld"
+                        (click)="toggleFavorite(kitchen, $event, 'kitchen')">
+                        Limited | <i
+                            [ngClass]="getFav(kitchen._id) ? 'fas fa-heart active' : 'far fa-heart'"></i>
+                    </div>
+                </div>
+                <div (click)="viewProducts(kitchen)">
+
+                    <div class="topleft">
+                        <!-- <div class="image-container"> -->
+
+                        <!-- <img class="card-img-top"
+                            [src]="s3ApiUrl+'/'+kitchen.kitchenDetails.kitchenForm.kitchenImage"
+                            alt="Card image cap"> -->
+
+                            <img class="card-img-top"
+     [src]="s3ApiUrl+'/'+kitchen.kitchenDetails.kitchenForm.kitchenImage"
+     (error)="setDefaultImage($event)"
+     alt="Card image cap">
+
+                        <!-- </div> -->
+
+                    </div>
+                    <div class="card-body kitchen-card-body">
+
+                        <!-- <h3 class="card-title float-right">{{ kitchen.location }}</h3> -->
+                        <br>
+                        <br><br>
+                        <br><br>
+                        <h2 class="card-title">{{kitchen.kitchenDetails.kitchenForm.kitchenName}} 's Store</h2>
+                        <!-- <p> {{kitchen.category}}</p> -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span style="font-size: 18px;"> <i
+                                        class="fas fa-star text-warning"></i>{{kitchen.overallRating}} </span>
+                                <span class="explore-kitchen"><i class="fas fa-arrow-circle-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button class="nav-button right" *ngIf="buttonStates[4].showRight" (click)="scroll('right', 4)">
+            &#10095;
+        </button>
+    </div>
+</div>
+<div class="background_svg">
+    <div class="row side-header-hs d-flex justify-content-between align-items-center">
+        <span style="width: 75%;height: 28px;">New Arrivals</span>
+    </div>
+    <div class="chip-container">
+        <div class="chip" *ngFor="let category of bestSellersCategories"
+            [ngClass]="{ 'selected': selectedCategory.categoryName === category.categoryName }" (click)="selectCategory(category)">
+            {{ category.categoryName }}
+        </div>
+    </div>
+
+    <div class="main_container">
+
+        <div class="slider-container">
+            <button class="nav-button left" *ngIf="buttonStates[3].showLeft" (click)="scroll('left', 1)">
+                &#10094;
+            </button>
+            <div #scrollContainer2 class="row card-container">
+                <div class="card" *ngFor="let seller of bestSeller">
+                    <!-- Image & Badges -->
+                    <div class="image-container position-relative">
+                        <img class="main-image-view pointer-view"
+                            (click)="viewDetailProduct(seller.product, 'best Sellers')"
+                            [src]="s3ApiUrl + '/' + seller.product.productImagePath" alt="{{ seller.productName }}" />
+
+                        <!-- Best Seller Tag -->
+                        <div class="badge-tag" *ngIf="seller.bestSeller">Best Seller</div>
+
+                        <!-- Favorite Icon -->
+                        <div class="heart-icon tag-line-top-ld"
+                            (click)="toggleFavorite(seller.product, $event, 'product')">
+                            Limited deals | <i
+                                [ngClass]="getFav(seller.product._id) ? 'fas fa-heart active' : 'far fa-heart'"></i>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="product-name ellipsis-text">
+                                {{ seller.product.productName }}
+                            </h5>
+
+                            <div class="price-section">
+                                <span class="current-price">₹{{ getCurrentWeightPrice(seller.product).productPrice
+                                    }}</span>
+                                <!-- <span class="original-price">₹{{ getLeastWeight(seller.product.prices).originalPrice }}</span> -->
+                            </div>
+                        </div>
+                        <p class="desc pointer-view" (click)="viewProducts(seller.kitchen)">{{
+                            seller.kitchen.kitchenDetails.kitchenForm.kitchenName || 'Low GI | Stoneground' }}'s Kitchen
+                        </p>
+                        <p class="desc pointer-view" (click)="viewDetailProduct(seller.product, 'best Sellers')">{{
+                            seller.product.shortDescription || 'Low GI | Stoneground' }}</p>
+
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>{{ seller.product.overallRating }}</span>
+                            <small class="text-muted">({{ seller.reviewsCount || '2k+' }} Reviews)</small>
+                        </div>
+
+                        <select class="variant-select" (change)="onSelectWeight(seller.product, $event)" > 
+                            <option *ngFor="let p of seller.product.prices; let i = index" [value]="i">{{ p.weight }}</option>
+                        </select>
+
+                        <button class="add-cart-btn"
+                            (click)="openDialog(seller.product, '', seller.product.preOrder ? 'Pre-Order' : 'Buy Now')">
+                            ADD TO CART
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <button class="nav-button right" *ngIf="buttonStates[3].showRight" (click)="scroll('right', 1)">
+                &#10095;
+            </button>
+        </div>
+    </div>
+    <div class="view-more-products pointer-view" (click)="redirectCategory('new_launches', 'main')">
+        View More Products <i class="fas fa-arrow-circle-right"></i>
+    </div>
+</div>
+<div >
+    <div class="row side-header-hs d-flex justify-content-between align-items-center">
+    <span style="width: 75%;height: 28px;">Best Sellers</span>
+    </div>
+    <div class="slider-container kitchen-card-slider">
+        <button class="nav-button left" *ngIf="buttonStates[4].showLeft" (click)="scroll('left', 4)">
+            &#10094;
+        </button>
+        <div #scrollContainer5 class="row card-container pointer-view">
+            <div class="card kitchen-img-card" *ngFor="let kitchen of bestKitchens">
+                <div class="image-container">
+                    <div class="heart-icon tag-line-top-ld"
+                        (click)="toggleFavorite(kitchen, $event, 'kitchen')">
+                        Limited | <i
+                            [ngClass]="getFav(kitchen._id) ? 'fas fa-heart active' : 'far fa-heart'"></i>
+                    </div>
+                </div>
+                <div (click)="viewProducts(kitchen)">
+
+                    <div class="topleft">
+                        <!-- <div class="image-container"> -->
+
+                        <img class="card-img-top"
+                            [src]="s3ApiUrl+'/'+kitchen.kitchenDetails.kitchenForm.kitchenImage"
+                            alt="Card image cap">
+
+                        <!-- </div> -->
+
+                    </div>
+                    <div class="card-body kitchen-card-body">
+
+                        <!-- <h3 class="card-title float-right">{{ kitchen.location }}</h3> -->
+                        <br>
+                        <br><br>
+                        <br><br>
+                        <h2 class="card-title">{{kitchen.kitchenDetails.kitchenForm.kitchenName}} 's Store</h2>
+                        <!-- <p> {{kitchen.category}}</p> -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span style="font-size: 18px;"> <i
+                                        class="fas fa-star text-warning"></i>{{kitchen.overallRating}} </span>
+                                <span class="explore-kitchen"><i class="fas fa-arrow-circle-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button class="nav-button right" *ngIf="buttonStates[4].showRight" (click)="scroll('right', 4)">
+            &#10095;
+        </button>
+    </div>
+</div>
+<div>
+
+    <div class="d-flex-con review-mainview">
+        <div class="testimonial-wrapper">
+            <h2 class="title">Loved By <span>Millions</span></h2>
+            <p class="subtitle">
+                Home Sweets 5-star delicacies offer authentic taste that keeps customers coming back
+            </p>
+
+            <div class="slider-container">
+                <button class="nav-button left" *ngIf="buttonStates[0].showLeft" (click)="scroll('left', 0)">
+                    &#10094;
+                </button>
+                <div #scrollContainer class="card-container">
+                    <mat-card class="testimonial-card" *ngFor="let review of reviews"
+                        (click)="openReviewDialog(review)">
+                        <img mat-card-image
+                            [src]="s3ApiUrl+'/'+review.imagePaths"
+                            (error)="setDefaultImage($event)"
+                            alt="Review image">
+                        <!-- <img mat-card-image [src]="s3URL + review.imagePath" alt="Review Image" /> -->
+
+                        <div class="stars">
+                            <ng-container *ngFor="let _ of getFullStars(review.rating || 0)">
+                                <mat-icon>star</mat-icon>
+                            </ng-container>
+                            <ng-container *ngIf="hasHalfStar(review.rating || 0)">
+                                <mat-icon>star_half</mat-icon>
+                            </ng-container>
+                            <ng-container *ngFor="let _ of getEmptyStars(review.rating || 0)">
+                                <mat-icon>star_border</mat-icon>
+                            </ng-container>
+                        </div>
+
+                        <div class="title-div">
+                            <mat-card-title>{{ review.titleReview }}</mat-card-title>
+                            <mat-card-content>
+                                <p>{{ review.review }}</p>
+                            </mat-card-content>
+                        </div>
+                    </mat-card>
+                </div>
+
+                <button class="nav-button right" *ngIf="buttonStates[0].showRight" (click)="scroll('right', 0)">
+                    &#10095;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="m-20">
+    <div class="row">
+        <span class="side-header">Best Selling Kitchens</span>
+    </div>
+    <div class="row">
+        <div class="kitchen-card row pointer-view" *ngFor="let kitchen of bestKitchens" (click)="viewProducts(kitchen)">
+            <div class="col">
+                <img class="kitchen-view" src="/assets/images/{{ kitchen.image }}">
+            </div>
+            <div class="col">
+                <h4 class="p-mb-1">From {{kitchen.name}} 's Kitchen</h4>
+                <div>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 0"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 1"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 2"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 3"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 4"></i>
+
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 5"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 4"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 3"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 2"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 1"></i>
+                </div>
+                <div>
+                    {{kitchen.category}}
+                </div>
+                <div>
+                    {{kitchen.location}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

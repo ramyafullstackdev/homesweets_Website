@@ -1,0 +1,20 @@
+<div class="card-block">
+    <h2 class="h1">Your Cards</h2>
+</div>
+<hr class="separator">
+<div class="cart-overview ">
+    <div class="cart cart-layout">
+        <div class="card-columns mr-t-20">
+            <div class="card" *ngFor="let card of cards"  >
+                <div class="card-header">
+                    Card type : {{card.cardType}}
+                </div>
+                <div class="card-body">
+                    <h3>Card Number : {{card.cardNo}}</h3>
+                    <h4>Card Name : {{card.cardName}}</h4>
+                    <h4>Card Expiry On : {{card.cardExpiry}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

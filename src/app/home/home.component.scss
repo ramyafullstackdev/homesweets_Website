@@ -1,0 +1,193 @@
+.stick {
+  position: sticky;
+}
+.nav-bg {
+  background-color: white;
+  color: black;
+}
+
+.h-70 {
+  height: 70px;
+}
+
+.nav-link {
+  
+  font-size: 18px;
+  text-shadow: 3px 10px 10px #cdcaca; 
+  // text-transform: uppercase;
+  font-family: initial;
+
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav .nav-link {
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
+  }
+}
+
+.navbar-nav .nav-link.active {
+  // background-color: #C6A756;
+  border-radius: 10px;
+  color: #ffc107;;
+}
+
+.nav-position {
+  // position: relative;
+  // z-index: -1;
+}
+
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.header-bg {
+  // background-color: #274038;
+  color: white;
+}
+
+
+
+.text-align-end {
+  text-align: end;
+}
+
+.header-nav-link {
+  color: white;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-family: initial;
+  
+}
+
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav .header-nav-link {
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
+  }
+}
+
+.navbar-nav .header-nav-link.active {
+  // background-color: #C6A756;
+  border-radius: 10px;
+  color: #ffc107;;
+}
+
+.text-trans-no {
+  text-transform: none;
+}
+
+.navbar-dark .navbar-nav .header-nav-link {
+  color: white;
+}
+
+.header-nav-link > span {
+  padding-right: 10px;    
+}
+// @media screen and (max-width: 480px) {
+//     .snipcart-checkout {
+//         position: absolute;
+//         top: 13px;
+//         left: 71px;
+//     }
+// }
+
+.signin-menu {
+  background: #fff9ef;
+  width: 270px;
+}
+
+
+
+
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #c67605;
+}
+#lblCartCount {
+    font-size: 14px;
+    background: #C6A756;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -4px; 
+}
+
+.btn-signup {
+  width: 100% !important;
+}
+
+.btn-login {
+  width: 100% !important;
+}
+
+.search-form{
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.nav-row{
+  margin-top: 5px;
+  margin-bottom: -10px !important;
+}
+
+.signin_bg_nav {
+  background: #7e7399;
+  color: white !important;
+}
+
+a:not([href]):not([tabindex]) {
+   color: white; 
+  text-decoration: none;
+}
+
+.menu_side_nav {
+  margin-left: 13px;
+  padding-top:15px;
+  padding-bottom:15px;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 2px solid rgb(246 197 58);
+}
+
+.ml-1r{
+  margin-left: 1rem;
+}
+
+.search-input-lg {
+  font-size: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.search-fx{
+  width: 60px;
+  height: 60px;
+  margin: 5px;
+}
+
+.search-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  object-fit: cover;
+}

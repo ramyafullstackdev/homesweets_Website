@@ -1,0 +1,269 @@
+<div class="row">
+   <div class="col-lg-2 col-md-3 col-sm-6" *ngFor="let kitchenVal of kitchens">
+    <div class="card pointer-view" >
+        
+        <div class="image-container">
+            <img class="main-image-view" (click)="viewDetailProduct(kitchenVal.product, kitchenVal)"
+        [src]="s3ApiUrl+'/'+kitchenVal.product.productImagePath"
+        >
+            <div class="heart-icon" (click)="toggleFavorite(mergeProductAndKitchen(kitchenVal.product, kitchenVal), 'product', $event)" *ngIf="isReset">
+              <i [ngClass]="getFav(kitchenVal.product._id) ? 'fas fa-heart active-fav' : 'fas fa-heart inActive-fav'"></i>
+            </div>
+          </div>
+        <div class="bottomleft-star">
+            <i class="fas fa-star text-warning"></i>
+            <span class="p-l-10">{{kitchenVal.product.overallRating || '5'}}</span>
+        </div>
+        <div class="bottomright-cart">
+            <button type="button" class="btn-cart" *ngIf="kitchenVal?.product.prices[0]?.stock" (click)="addCart(kitchenVal.product, kitchenVal.kitchen)" data-toggle="modal" data-target="#addcartModel">
+                <i class="fas fa-shopping-cart theme-purple"></i>
+            </button>
+            <div class="outofstock-wrapper" *ngIf="!kitchenVal?.product.prices[0]?.stock">
+                <i class="fas fa-ban theme-purple" style="color: red;"></i>
+                <span class="tooltip-text">Out of Stock</span>
+                </div>
+            <!-- <button type="button" class="btn-cart btn-primary" disabled *ngIf="!kitchenVal?.product.prices[0]?.stock">
+                <i class="fas fa-ban theme-purple"></i>
+                <span style="color: red; font-size: 20px; position: absolute; left: 7px; top: 8px;">
+                    &#10006;
+                </span>
+            </button> -->
+        </div>
+        <div class="m-l-10 mr-t-10">
+            <h6 class="header-font">{{kitchenVal.kitchen.kitchenDetails.kitchenForm.kitchenName}}'s Kitchen</h6>
+            <p class="no_m-b">
+                {{kitchenVal.product.productName}}
+            </p>
+            <div class="font-weight-bold">
+                <span>   {{ kitchenVal.product.prices[0]?.weight }}<i class="fas fa-rupee-sign text-secondary m-l-10"></i></span> {{kitchenVal.product.prices[0]?.productPrice }}
+            </div>
+        </div>
+        <div class="modal fade" id="addcartModel"  #addcartModel tabindex="-1" role="dialog" aria-labelledby="addcartModelLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header bg-success-header text-center">
+                  <i class="fas fa-check-circle text-success m-r-10"></i>
+                    <h6 class="text-center header-span" id="addcartModelLabel">
+                        
+                    </h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body row" *ngIf="!kitchenAlert">
+                            <div class="container col">
+                                <img class="img-responsive kitchen-view rounded" width="180" height="180"
+                                [src]="s3ApiUrl+'/'+selectedData.productImagePath"
+                                >
+                            </div>
+                            <div class="container col f-14">
+                                <h6 class="header-font">{{selectedData.productName}}</h6>
+
+                                <div *ngIf="selectedData.prices && selectedData.prices.length">
+                                    <div class="font-weight-bold">
+                                        <span> {{selectedData.prices[0].weight}} <i class="fas fa-rupee-sign text-secondary m-l-10"></i></span> {{selectedData.prices[0].productPrice}}
+                                    </div>
+                                  </div>
+                                  
+                                 <div>
+                                    <label>Quantity : {{selectedData.quantity}}</label>
+                                 </div>
+                                <div class="footer-align">
+                                    <button type="button" class="btn-signup account-btn" data-dismiss="modal">Continue Shopping</button>
+                                    <button type="button" class="btn-login account-btn mr-t-10" data-dismiss="modal" routerLink="/cart">Proceed to Checkout</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="card-body" *ngIf="kitchenAlert">
+                            <div class="container row">
+                                If You are adding item from another kitchen, then cart data will be replaced.
+                                Do you want to continue? 
+                            </div>
+                            <div class="container row">
+                                <div class="footer-align">
+                                    <button type="button" class="btn-signup account-btn" data-dismiss="modal" (click)="kitchenConfirm('no')" >No</button>
+                                    <button type="button" class="btn-login account-btn mr-t-10" (click)="kitchenConfirm('yes')" >Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- <h4 class="p-mb-1"> -->
+            <!-- <a class="m-l-20 text-white">{{offer.weight}}<span> Rs. {{offer.rate}}</span></a><br> -->
+            <!-- <button class="btn btn-buynow">Add Cart</button> -->
+            <!-- <a class="nav-link" [routerLink]="'/'+seller.categoryKey" ></a> -->
+        <!-- </h4> -->
+    </div>
+   </div>
+   <div class="row g-3 search-result-text" *ngIf="otherKitchens.length>0">
+    More Results like this
+    </div>
+   <div class="col-lg-2 col-md-3 col-sm-6" *ngFor="let kitchenVal of otherKitchens">
+    <div class="card pointer-view" >
+        <img class="main-image-view" (click)="viewDetailProduct(kitchenVal.product, kitchenVal)"
+        [src]="s3ApiUrl+'/'+kitchenVal.product.productImagePath"
+        >
+        <div class="bottomleft-star">
+            <i class="fas fa-star text-warning"></i>
+            <span class="p-l-10">{{kitchenVal.product.overallRating || '5'}}</span>
+        </div>
+        <div class="bottomright-cart">
+            <button type="button" class="btn-cart btn-primary" (click)="addCart(kitchenVal.product, kitchenVal.kitchen)" data-toggle="modal" data-target="#addcartModel">
+                <i class="fas fa-shopping-cart theme-purple"></i>
+            </button>
+        </div>
+        <div class="m-l-10 mr-t-10">
+            <h6 class="header-font">{{kitchenVal.kitchen.kitchenDetails.kitchenForm.kitchenName}}'s Kitchen</h6>
+            <p class="no_m-b">
+                {{kitchenVal.product.productName}}
+            </p>
+            <div class="font-weight-bold">
+                <span> {{kitchenVal.product.productWeight}} <i class="fas fa-rupee-sign text-secondary m-l-10"></i></span> {{kitchenVal.product.productCurrentPrice}}
+            </div>
+        </div>
+        <div class="modal fade" id="addcartModel" tabindex="-1" role="dialog" aria-labelledby="addcartModelLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header bg-success-header text-center">
+                  <h6 class="text-center" id="addcartModelLabel">
+                    <i class="fas fa-check-circle text-success m-r-10"></i> Product Successfully added to cart2</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body row" *ngIf="!kitchenAlert">
+                            <div class="container col">
+                                <img class="img-responsive kitchen-view rounded" width="180" height="180"
+                                [src]="s3ApiUrl+'/'+selectedData.productImagePath"
+                                >
+                            </div>
+                            <div class="container col f-14">
+                                <h6 class="header-font">{{selectedData.productName}}</h6>
+                                <div>
+                                    <span><i class="fas fa-rupee-sign text-secondary"></i></span> {{selectedData.productCurrentPrice}}
+                                 </div>
+                                 <div>
+                                    <label>Quantity : {{cartQuantity}}</label>
+                                 </div>
+                                <div class="footer-align">
+                                    <button type="button" class="btn-signup account-btn" data-dismiss="modal">Continue Shopping</button>
+                                    <button type="button" class="btn-login account-btn mr-t-10" data-dismiss="modal" routerLink="/cart">Proceed to Checkout</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="card-body" *ngIf="kitchenAlert">
+                            <div class="container row">
+                                If You are adding item from another kitchen, then cart data will be replaced.
+                                Do you want to continue? 
+                            </div>
+                            <div class="container row">
+                                <div class="footer-align">
+                                    <button type="button" class="btn-signup account-btn" data-dismiss="modal" (click)="kitchenConfirm('no')" >No</button>
+                                    <button type="button" class="btn-login account-btn mr-t-10" (click)="kitchenConfirm('yes')" >Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- <h4 class="p-mb-1"> -->
+            <!-- <a class="m-l-20 text-white">{{offer.weight}}<span> Rs. {{offer.rate}}</span></a><br> -->
+            <!-- <button class="btn btn-buynow">Add Cart</button> -->
+            <!-- <a class="nav-link" [routerLink]="'/'+seller.categoryKey" ></a> -->
+        <!-- </h4> -->
+    </div>
+   </div>
+</div>
+
+<!-- <div class="card-columns">
+    <div class="card" *ngFor="let kitchen of kitchens">
+        <div class="card-header row inner-row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img class="img-responsive rounded-circle" width="40" height="40" src="/assets/images/{{ kitchen.image }}">
+                    </div>
+                    <div class="col-md-7">
+                        <h6 class="header-font">{{kitchen.name}}'s Kitchen</h6>
+                    </div>
+                </div>
+                <i class="fas fa-star text-secondary"></i>
+                <span class="p-l-10">{{kitchen.rating}}</span>
+            </div>
+            <div class="col-md-2">
+                <span class="float-right f-26 ">
+                    <button class="btn" (click)="viewProducts()"><i class="fas fa-arrow-right text-secondary f-20" ></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="card-body row">
+            <div class="container col f-14">
+                <h6 class="header-font">{{kitchen.products[0].productName}}</h6>
+                    <div>
+                       <span><i class="fas fa-rupee-sign text-secondary"></i></span> {{kitchen.products[0].rate}}
+                    </div>
+                    <div>
+                        {{kitchen.products[0].productDescription}}
+                    </div>
+                
+            </div>
+            <div class="container col">
+                <div class="bg-opacity">
+                    <img style="opacity: 0.7;" class="img-responsive kitchen-view rounded" width="180" height="180" src="/assets/images/{{ kitchen.products[0].productImage }}">
+                </div>
+                <button type="button" class="btn-cart btn-primary" (click)="addCart(kitchen.products[0], kitchen)" data-toggle="modal" data-target="#addcartModel">
+                    Add Cart
+                  </button>
+                  
+                  <div class="modal fade" id="addcartModel" tabindex="-1" role="dialog" aria-labelledby="addcartModelLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header bg-success-header text-center">
+                          <h6 class="text-center" id="addcartModelLabel">
+                            <i class="fas fa-check-circle text-success m-r-10"></i> Product Successfully added to cart</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card">
+                                <div class="card-body row">
+                                    <div class="container col">
+                                        <img class="img-responsive kitchen-view rounded" width="180" height="180" src="/assets/images/{{ kitchen.products[0].productImage }}">
+                                    </div>
+                                    <div class="container col f-14">
+                                        <h6 class="header-font">{{kitchen.products[0].productName}}</h6>
+                                        <div>
+                                            <span><i class="fas fa-rupee-sign text-secondary"></i></span> {{kitchen.products[0].rate}}
+                                         </div>
+                                         <div>
+                                            <label>Quantity : {{cartQuantity}}</label>
+                                         </div>
+                                        <div class="footer-align">
+                                            <button type="button" class="btn-signup account-btn" data-dismiss="modal">Continue Shopping</button>
+                                            <button type="button" class="btn-login account-btn mr-t-10" data-dismiss="modal" routerLink="/cart">Proceed to Checkout</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            
+        </div>
+    </div>
+</div> -->

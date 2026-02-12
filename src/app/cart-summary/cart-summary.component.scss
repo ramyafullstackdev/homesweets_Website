@@ -1,0 +1,262 @@
+.scrollable-card {
+    height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.total-highlight {
+  background: var(--btn-color);
+  color: var(--secondary-color);
+  font-weight: bold;
+  font-family: var(--font-heading);
+  font-size: 14px;
+}
+
+.bottom-border {
+  // border-bottom: 1px solid #cbc8c8;
+}
+
+.cart-font {
+  font-weight: bold;
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text-dark)
+}
+.stars {
+  color: gold;
+  font-size: 1.2rem;
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
+  padding: 4px 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.display-none {
+  display: none;
+}
+
+.no-data {
+    display: flex;
+    justify-content: center;
+}
+
+.recommendations-section {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.recommendation-title {
+  font-weight: 500;
+  font-size: 16px;
+  font-family: var(--font-heading);
+  color: var(--text-dark);
+}
+
+.navigation-arrows button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation-arrows button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.recommendations-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.recommendations-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.recommendations-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.recommendations-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.recommendations-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.recommendation-card {
+  min-width: 200px;
+  max-width: 200px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  background: white;
+  transition: box-shadow 0.3s ease;
+  flex-shrink: 0;
+}
+
+.recommendation-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.recommendation-image-wrapper {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background: #f8f8f8;
+}
+
+.recommendation-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recommendation-details {
+  text-align: left;
+}
+
+.recommendation-name {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recommendation-weight {
+  font-size: 12px;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.recommendation-price {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: #dc8d3a;
+}
+
+.btn-add {
+  background-color: var(--btn-color);
+  // border: 1px solid #dc8d3a;
+  color: var(--secondary-color);
+  font-weight: 500;
+  padding: 4px 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  background-color: var(--secondary-color);
+  color: var(--btn-color);
+}
+
+.card {
+  border: none !important; 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.176) !important; 
+}
+
+
+.total-value {
+  font-weight: 500;       
+  font-size: 0.9rem;   
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 4px;              
+}
+
+.cart-img{
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+}
+
+@media (max-width: 991px) {
+  .cart-image {
+    width: 30%;
+    // height: 100px;
+  }
+  
+  .img-responsive {
+    object-fit: cover;
+  }
+  
+  .w-45 {
+    width: 45%;
+  }
+  
+  .w-20 {
+    width: 20%;
+  }
+  
+  .recommendation-card {
+    min-width: 160px;
+    max-width: 160px;
+  }
+  
+  .recommendation-image-wrapper {
+    height: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .recommendation-card {
+    min-width: 140px;
+    max-width: 140px;
+  }
+  
+  .recommendation-name {
+    font-size: 13px;
+  }
+  
+  .recommendation-price {
+    font-size: 14px;
+  }
+}
+.card-header{
+  border: none !important;
+  background-color: #FFF !important;
+}
+
+.offcanvas-header {
+  padding: 10px;
+}
+
+.offcanvas-title {
+  color: var(--text-dark);
+  font-family: var(--font-heading);
+  font-size: 16px;
+}
+
+.offcanvas-body {
+  color: var(--text-dark);
+ height: 100vh;
+  padding: 0px
+}
+
+.detailed-cart-btn {
+  font-weight: 500;
+  font-family: var(--font-body);
+  border: 1px solid var(--btn-color);
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
+}

@@ -1,0 +1,131 @@
+<div class="card-block">
+    <h2 class="h1">Login into Your Account</h2>
+</div>
+<hr class="separator">
+<!-- <div class="cart-\]\
+    rview js-cart" data-refresh-url="//www.sweetkadai.com/cart?ajax=1&action=refresh"> -->
+<div class="cart-overview ">
+  <div class="cart cart-layout">
+    <div class="center_div form">
+      <form [formGroup]="loginFormGroup">
+        <div class="form-group row phone-number">
+          <label for="phoneNumber" class="col-sm-2 col-form-label">
+            Phone Number<span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="text"
+                     placeholder="+Code"
+                     matInput
+                     formControlName="countryCode"
+                     [matAutocomplete]="auto" />
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode">
+                <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code">
+                  {{ code.name }} ({{ code.dial_code }})
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="loginFormGroup.get('countryCode')?.touched && loginFormGroup.get('countryCode')?.hasError('required')">
+                Country code selection is required
+              </mat-error>
+              <mat-error *ngIf="loginFormGroup.get('countryCode')?.hasError('invalidSelection')">
+                Please select a country from the list
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div class="col-sm-8">
+            <mat-form-field class="form-field-login" appearance="outline">
+              <input matInput
+                     type="text"
+               
+                     formControlName="phoneNumber"
+                     placeholder="Enter phone number"
+                     required />
+              <mat-error *ngIf="loginFormGroup.get('phoneNumber')?.touched && loginFormGroup.get('phoneNumber')?.hasError('required')">
+                Phone number is required
+              </mat-error>
+              <mat-error *ngIf="loginFormGroup.get('phoneNumber')?.touched && loginFormGroup.get('phoneNumber')?.hasError('pattern')">
+                Only digits are allowed
+              </mat-error>
+              <mat-error *ngIf="loginFormGroup.get('phoneNumber')?.touched && loginFormGroup.get('phoneNumber')?.hasError('minlength')">
+                Phone number must be at least
+                {{ loginFormGroup.get('countryCode')?.value?.phone_min_length || 10 }} digits
+              </mat-error>
+              <mat-error *ngIf="loginFormGroup.get('phoneNumber')?.touched && loginFormGroup.get('phoneNumber')?.hasError('maxlength')">
+                Phone number cannot exceed
+                {{ loginFormGroup.get('countryCode')?.value?.phone_max_length || 10 }} digits
+              </mat-error>
+            </mat-form-field>
+            <div *ngIf="!validNumber && showField" class="error-message">
+              <mat-error>Invalid phone number. Please check and try again.</mat-error>
+            </div>
+            <div *ngIf="!validNumber && !showField" class="error-message">
+              <mat-error>Unable to send OTP right now. Please try again.</mat-error>
+            </div>
+
+          </div>
+        </div>
+
+<div class="form-group row" *ngIf="showField">
+  <label for="otp" class="col-sm-2 col-form-label">
+    OTP<span class="text-danger">*</span>
+  </label>
+<mat-form-field class="form-field-login" appearance="outline">
+  <input matInput
+         type="text"
+         maxlength="6"
+         formControlName="otp"
+         placeholder="Enter 6-digit OTP"
+         required 
+         (ngModelChange)="onOtpChange()"/>
+  <mat-error *ngIf="loginFormGroup.get('otp')?.hasError('required') 
+     && (loginFormGroup.get('otp')?.touched || loginFormGroup.get('otp')?.dirty)">
+    OTP is required
+  </mat-error>
+  <mat-error *ngIf="loginFormGroup.get('otp')?.hasError('pattern') 
+     && (loginFormGroup.get('otp')?.touched || loginFormGroup.get('otp')?.dirty)">
+    Please enter a valid 6-digit OTP
+  </mat-error>
+</mat-form-field>
+<div *ngIf="!validOTP && loginFormGroup.get('otp')?.value" class="error-message">
+  <mat-error>Invalid OTP. Please enter the correct OTP sent to your phone.</mat-error>
+</div>
+</div>
+
+        <div class="form-group row center-align" *ngIf="invalidUser">
+          <div class="alert alert-danger w-100" role="alert">
+            Unable to find your account. Please check your phone number or register.
+          </div>
+        </div>
+
+        <div class="form-group row center-align">
+          <div class="mr-t-20 w-100">
+            <button class="btn btn-theme btn-block"
+                    (click)="submit()"
+                    [disabled]="isSubmitDisabled()">
+              {{ (showField === true) ? 'Sign In' : 'Continue' }}
+            </button>
+          </div>
+        </div>
+
+<div class="form-group row center-align">
+  <span class="or-span-center">OR</span>
+  <div class="mr-t-10">
+    <asl-google-signin-button text="continue_with"
+                             type="standard"
+                             size="medium"></asl-google-signin-button>
+  </div>
+</div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<hr class="separator">
+
+<div class="card-block" (click)="redirect()">
+  <h5 class="pointer-view">
+    No account? <a style="font-style: italic;font-weight: 100;">Create New Account Here!</a>
+  </h5>
+</div>

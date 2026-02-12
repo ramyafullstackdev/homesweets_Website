@@ -1,0 +1,73 @@
+<footer class="bg-light mt-2 text-dark fs-6 pb-4">
+  <div class="wave-container">
+    <svg viewBox="0 0 1440 150" preserveAspectRatio="none">
+      <path
+        d="M0,96L60,112C120,128,240,160,360,149.3C480,139,600,85,720,85.3C840,85,960,139,1080,144C1200,149,1320,107,1380,85.3L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+        fill="#E9ECEF" opacity="0.95"></path>
+    </svg>
+  </div>
+  <div class="container">
+    <div class="row text-start text-md-left">
+
+      <div class="col-md-3 mb-4 d-flex flex-column align-items-center text-center text-md-start justify-content-center">
+        <img [src]="logoPath" alt="Oorla Logo" class="mb-3" style="height: 50px;" />
+        <p class="text-gray">{{ description }}</p>
+      </div>
+
+
+      <div class="col-md-6 row">
+        <div *ngFor="let section of sections" class="col-md-4 mb-4">
+          <h6 class="fw-bold title mb-3">{{ section.title }}</h6>
+          <ul class="list-unstyled footer-links">
+            <li *ngFor="let link of section.links">
+              <a [routerLink]="link.route">{{ link.label }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+
+      <div class="col-md-3 mb-4">
+        <h6 class="fw-bold mb-3">{{ newsletter.title }}</h6>
+        <p class="small text-gray">{{ newsletter.description }}</p>
+        <form class="input-group mb-2">
+          <input type="email" class="form-control" [placeholder]="newsletter.placeholder">
+          <button class="btn sumbit-btn" type="submit">
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </form>
+        <p class="small text-muted">
+          By subscribing you agree to the
+          <a [routerLink]="newsletter.terms.termsRoute">{{ newsletter.terms.termsText }}</a> &
+          <a [routerLink]="newsletter.terms.privacyRoute">{{ newsletter.terms.privacyText }}</a>.
+        </p>
+
+        <div class="d-flex gap-3 mt-2">
+          <a *ngFor="let social of socialLinks" [href]="social.url"><i [class]="social.icon + ' fs-5'"></i></a>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+  <hr class="mt-4" />
+  <div
+    class="container d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end gap-3">
+    <div class="text-muted small mb-2 mb-md-0">© {{ year }}, Home Sweets</div>
+
+    <div class="d-flex flex-wrap align-items-end gap-3 mb-2 mb-md-0">
+      <a *ngFor="let link of policyLinks" [routerLink]="link.route" routerLinkActive="fw-bold text-primary"
+        class="text-muted small text-decoration-none link-hover" [routerLinkActiveOptions]="{ exact: true }">
+        {{ link.label }}
+      </a>
+    </div>
+
+  </div>
+
+
+</footer>

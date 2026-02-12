@@ -1,0 +1,34 @@
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #C6A756;
+    border: none;
+}
+
+.nav-pills .nav-link {
+    border: #C6A756 1px solid;
+    border-radius: 1.25rem;
+    color: #C6A756;
+    background: white;
+}
+
+
+.search-input-lg {
+    font-size: 1rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.search-fx{
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+}
+
+.search-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+}

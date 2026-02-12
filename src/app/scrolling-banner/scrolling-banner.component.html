@@ -1,0 +1,15 @@
+<div class="scrolling-banner text-white py-2 text-nowrap fw-medium">
+  <div class="scrolling-content">
+    <ng-container *ngFor="let repeat of [1,2]">
+      <ng-container *ngFor="let offer of bannerOffers; trackBy: trackByOfferId">
+        <div class="banner-item d-inline-block me-5 text-uppercase">
+          <i *ngIf="offer.icon" [ngClass]="offer.icon" class="me-2" [style.color]="offer.iconColor"></i>
+          <span class="offer-text">{{ offer.text }}</span>
+          <span *ngIf="offer.code" class="px-2 py-1 rounded fw-bold mx-1" style="color: #7cfc00;">{{ offer.code }}</span>
+          <span *ngIf="offer.discount" class="offer-text">{{ offer.discount }}</span>
+          <span *ngIf="offer.countdown" class="countdown bg-dark bg-opacity-25 px-2 py-1 rounded fw-bold ms-2">{{ offer.countdown }}</span>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

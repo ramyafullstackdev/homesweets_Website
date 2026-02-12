@@ -1,0 +1,52 @@
+<div class="dialog-wrapper">
+    <div class="close-button-wrapper">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+    <!-- Left Image -->
+    <div class="image-section">
+      <img [src]="s3URL + data.image" alt="Review Image" />
+    </div>
+  
+    <!-- Right Content -->
+    <div class="content-section">
+
+      <div class="review-header">
+        <div class="header-row">
+          <h2 class="user-name">{{ data.name }}</h2>
+          <span class="review-date">{{ data.date | date: 'MM/dd/yyyy' }}</span>
+        </div>
+      
+        <div class="stars">
+          <ng-container *ngFor="let _ of data.fullStars">
+            <mat-icon>star</mat-icon>
+          </ng-container>
+          <ng-container *ngIf="data.halfStar">
+            <mat-icon>star_half</mat-icon>
+          </ng-container>
+          <ng-container *ngFor="let _ of data.emptyStars">
+            <mat-icon>star_border</mat-icon>
+          </ng-container>
+        </div>
+      
+        <p class="comment">“{{ data.comment }}”</p>
+      </div>
+  
+      <!-- Product Section -->
+      <div class="product-section">
+        <div class="product-info">
+          <img class="product-image" [src]="s3URL + data.product.productImage" />
+          <div class="product-text">
+            <strong>{{ data.product.productName }}</strong>
+          </div>
+        </div>
+  
+        <button mat-stroked-button color="primary" (click)="viewProduct()">
+          <mat-icon>lock</mat-icon>&nbsp; View product
+        </button>
+      </div>
+    </div>
+  </div>
+  

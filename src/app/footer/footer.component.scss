@@ -1,0 +1,96 @@
+
+* {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.title{
+  color:#3d3d3d;
+}
+.text-gray{
+    color: #4a4a49;
+}
+
+.footer-links a {
+  display: block;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  color: #4a4a49;
+  transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #007bff;
+  transform: translateX(4px);
+}
+
+footer .input-group input {
+  border-right: none;
+}
+
+footer h6 {
+  font-family: 'Times New Roman', Times, serif !important;
+  font-size: 1rem !important; 
+}
+
+
+footer .input-group .btn {
+  border-left: none;
+  background-color: transparent;
+}
+
+footer a i:hover {
+  color: #007bff;
+  transition: color 0.3s ease;
+  transform: scale(1.1);
+}
+
+footer hr {
+  border-top: 1px solid #ddd;
+}
+
+footer .text-muted a {
+  text-decoration: none;
+  color: inherit;
+}
+
+footer .text-muted a:hover, i:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+
+.footer-section {
+  position: relative;
+  background-color: #F8F9FA; 
+  padding-top: 0;
+}
+
+.wave-container {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-container svg {
+  display: block;
+  width: 100%;
+  height: 100px;
+}
+hr {
+      border: none;
+      height: 0.2px;
+      background-color: rgb(0, 0, 0); 
+    }
+.input-group .form-control:focus,
+.input-group .btn:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: #ccc; 
+}
+.sumbit-btn{
+
+    border: 1px solid #cccccc;
+
+}

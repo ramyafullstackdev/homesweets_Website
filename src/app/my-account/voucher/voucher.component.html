@@ -1,0 +1,20 @@
+<div class="card-block">
+    <h2 class="h1">Your Vouchers</h2>
+</div>
+<hr class="separator">
+<div class="cart-overview ">
+    <div class="cart cart-layout">
+        <div class="card-columns mr-t-20">
+            <div class="card" *ngFor="let voucher of vouchers"  >
+                <div class="card-header">
+                    Voucher Id : #{{voucher.voucherId}}
+                </div>
+                <div class="card-body">
+                    <h3>Voucher Code : {{voucher.voucherCode}}</h3>
+                    <h4>Expiry On : {{voucher.expiryDate}}</h4>
+                    <h4>Amount : {{voucher.voucherAmount}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

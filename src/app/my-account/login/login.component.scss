@@ -1,0 +1,166 @@
+.form-field-login {
+    width: 100%;
+}
+
+.btn-outline-secondary {
+    border-color: #ced4da;
+}
+
+.center-align {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.span-center-align {
+    width: 150px;
+    margin: auto;
+}
+
+.or-span-center {
+    width: 70px;
+    margin: 12px auto;
+    display: block;
+    text-align: center;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.cart-layout {
+    color: #C6A756;
+}
+
+.phone-number {
+    margin-bottom: 1.5rem;
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .col-sm-2 {
+        padding-right: 8px;
+    }
+
+    .col-sm-8 {
+        padding-left: 8px;
+    }
+}
+
+.error-message {
+    margin-top: -16px;
+    margin-bottom: 8px;
+    
+    mat-error {
+        font-size: 12px;
+        color: #f44336;
+    }
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.mr-t-20 {
+    margin-top: 20px;
+}
+
+.mr-t-10 {
+    margin-top: 10px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.pointer-view {
+    cursor: pointer;
+    
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.btn-theme {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    
+    &.row {
+        display: flex;
+        align-items: flex-start;
+    }
+}
+
+
+.form-group.row.center-align {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    justify-content: center;
+}
+
+.mr-t-10 {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; 
+    width: 100%;           
+}
+
+
+.col-form-label {
+    padding-top: calc(0.375rem + 1px);
+    padding-bottom: calc(0.375rem + 1px);
+    font-weight: 500;
+    line-height: 2.5;
+    span.text-danger {
+        margin-left: 2px;
+    }
+}
+
+::ng-deep {
+    .mat-form-field-appearance-outline {
+        .mat-form-field-wrapper {
+            margin: 0;
+            padding-bottom: 0;
+        }
+        
+        .mat-form-field-subscript-wrapper {
+            position: static;
+            margin-top: 4px;
+        }
+    }
+}

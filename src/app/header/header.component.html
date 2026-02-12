@@ -1,0 +1,429 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-dark header-bg">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" href="#offcanvasNavbar"
+      aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+        
+    <div class="collapse navbar-collapse justify-content-center">
+      <div class="row nav-row">
+        <div class="col-md-6" *ngIf="router.url == '/'">
+          <form>
+            <div class="input-group mb-3">
+              <form class="full-width" [formGroup]="searchFormGroup">
+                <mat-form-field class="full-width">
+                  <mat-label>Search</mat-label>
+                  <input matInput class="search-input-lg" aria-label="State" [matAutocomplete]="auto"
+                    formControlName="searchCtrl">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option (onSelectionChange)="selectedOption(result)"
+                      *ngFor="let result of filteredSearch | async"
+                      [value]="result.productName ? result.productName : result.kitchenDetails.kitchenForm.kitchenName">
+                      <div class="row">
+                        <div class="col search-fx">
+                          <img alt="" class="search-image"
+                            [src]="result.productName ? s3ApiUrl+'/'+result.productImagePath : s3ApiUrl+'/'+result.kitchenDetails.kitchenForm.kitchenImage">
+                        </div>
+                        <div class="col search-fx">
+                          <span>{{result.productName ? result.productName :
+                            result.kitchenDetails.kitchenForm.kitchenName}}</span><br>
+                          <small>{{result.productName ? 'Dish' : 'Kitchen'}}</small>
+                        </div>
+                      </div>
+
+
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </form>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6" *ngIf="router.url != '/'">
+
+        </div>
+        <div class="col-md-6">
+          <ul class="navbar-nav">
+            <li class="nav-item" *ngIf="router.url != '/order' ">
+              <div class="dropdown">
+                <button class="btn " id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false" type="button">
+                  <a class="header-nav-link text-trans-no" *ngIf="!loggedIn">
+                    <span><i class="fas fa-user icon-color"></i></span>Sign in
+                  </a>
+                  <a class="header-nav-link text-trans-no" *ngIf="loggedIn">
+                    <span><i class="fas fa-user icon-color"></i></span>Hi, {{currentUser.displayName}}
+                  </a>
+                </button>
+                <div class="dropdown-menu signin-menu text-center" aria-labelledby="dropdownMenu2">
+                  <div class="m-20" *ngIf="!loggedIn">
+                    <div>
+                      <span>Returning Customer?</span>
+                      <button class="btn-login account-btn mr-t-10 " routerLink="/my_account"
+                        [queryParams]="{ mode: 'login' }">Sign In</button>
+                    </div>
+                    <div class="mr-t-10 ">
+                      <span>New Customer! Start here.</span>
+                      <button class="btn-signup account-btn mr-t-10 " routerLink="/my_account"
+                        [queryParams]="{ mode: 'register' }">Register</button>
+                    </div>
+                    <span class="ets_geo_line ets_geo_line_custom">Or</span>
+                    <div class="mr-t-10 google-btn">
+                      <asl-google-signin-button text="continue_with" type='standard'
+                        size='medium'></asl-google-signin-button>
+                    </div>
+                  </div>
+                  <div class="m-20" *ngIf="loggedIn">
+                    <div>
+                      <button class="btn-login account-btn mr-t-10 " routerLink="/my_account">My Account</button>
+                    </div>
+                    <div class="mr-t-10 ">
+                      <button class="btn-signup account-btn mr-t-10 " (click)="logout()">Logout</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item" *ngIf="router.url != '/order' && router.url != '/cart'">
+              <button class="btn " type="button" (click)="open(true)">
+                <a class="header-nav-link text-trans-no">
+                  <span><i class="fa fa-shopping-cart icon-color"></i></span>Cart
+                  <span class='badge badge-warning' id='lblCartCount'> {{totalCount ? totalCount: 0}} </span>
+                </a> </button>
+
+            </li>
+            <li class="nav-item">
+                <button class="btn" type="button" (click)="open(false, totalFav)">
+                  <a class="header-nav-link text-trans-no">
+                    <span><i class="fas fa-heart icon-color"></i></span>Favorite
+                    <span class='badge badge-warning' id='lblCartCount'> {{totalFav ? totalFav: 0}} </span>
+                  </a> </button>
+
+            </li>
+            <li class="nav-item">
+              <button class="btn" type="button" (click)="adminLogout()">
+                <a class="header-nav-link text-trans-no">
+                  <span><i class="fas fa-sign-out-alt icon-color"></i></span>Admin Logout
+                </a>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a class="navbar-brand" href="/">Home Sweets</a>
+    <div>
+      <button class="navbar-toggler" *ngIf="router.url != '/order' && router.url != '/cart'" type="button"
+      (click)="(cartData.length > 0) ? open(true) : null">
+      <a class="header-nav-link text-trans-no">
+        <span><i class="fa fa-shopping-cart icon-color"></i></span>
+        <span class='badge badge-warning' id='lblCartCount'> {{totalCount ? totalCount: 0}} </span>
+      </a> </button>
+      <button class="navbar-toggler" type="button" (click)="open(false)">
+        <a class="header-nav-link text-trans-no">
+          <span><i class="fas fa-heart icon-color"></i></span>
+          <span class='badge badge-warning' id='lblCartCount'> {{totalFav ? totalFav: 0}} </span>
+        </a> </button>
+    </div>
+
+  </div>
+</nav>
+<div class="offcanvas offcanvas-start " tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNav">
+  <div class="offcanvas-header theme-purple-bg">
+    <h5 class="offcanvas-title" id="offcanvasNav">Home Sweets</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="">
+    <div class="signin_bg_nav">
+      <div>
+        <button class="btn " id="dropdownMenu2" data-bs-dismiss="offcanvas" routerLink="/my_account" type="button">
+          <a class="header-nav-link text-trans-no" *ngIf="!loggedIn">
+            <span><i class="fas fa-sign-out-alt icon-color"></i></span>Sign in/ <i class="fas fa-user icon-color"></i>
+            Register
+          </a>
+          <a class="header-nav-link text-trans-no" *ngIf="loggedIn">
+            <span><i class="fas fa-user icon-color"></i></span>Hi, {{currentUser.displayName}}
+            <p>My Account</p>
+          </a>
+        </button>
+      </div>
+      <hr>
+      <div class="menu_side_nav">
+        MENU
+      </div>
+    </div>
+
+    <div class="dropdown mt-3 ml-1r">
+      <ul class="navbar-nav">
+        <li class="nav-item" *ngFor="let nav of navLinks">
+          <a class="nav-link" data-bs-dismiss="offcanvas" [routerLink]="[nav.link]" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: nav.label === 'Home' }" ariaCurrentWhenActive="page">
+            {{ nav.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="container_menu nav-bg hidden-down">
+  <div class="container">
+    <div class="row nav-position">
+      <nav class="navbar navbar-expand-lg">
+        
+        <div class="collapse navbar-collapse justify-content-center">
+          <ul class="navbar-nav">
+            <li class="nav-item" *ngFor="let nav of navLinks">
+              <a class="nav-link" (click)="redirect()" [routerLink]="[nav.link]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: nav.label === 'Home' }" ariaCurrentWhenActive="page">
+                {{ nav.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="searchbox-show" *ngIf="router.url == '/'">
+  <form>
+    <div class="input-group mb-3" style="margin-bottom: 0px !important;">
+      <form class="full-width" [formGroup]="searchFormGroup">
+        <mat-form-field class="full-width">
+          <mat-label>Search</mat-label>
+          <input matInput class="search-input-lg" aria-label="State" [matAutocomplete]="auto"
+            formControlName="searchCtrl">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="selectedOption(result)" *ngFor="let result of filteredSearch | async"
+              [value]="result.productName ? result.productName : result.kitchenDetails.kitchenForm.kitchenName">
+              <div class="row">
+                <div class="col search-fx">
+                  <img alt="" class="search-image"
+                    [src]="result.productName ? s3ApiUrl+'/'+result.productImagePath : s3ApiUrl+'/'+result.kitchenDetails.kitchenForm.kitchenImage">
+                </div>
+                <div class="col search-fx">
+                  <span>{{result.productName ? result.productName :
+                    result.kitchenDetails.kitchenForm.kitchenName}}</span><br>
+                  <small>{{result.productName ? 'Dish' : 'Kitchen'}}</small>
+                </div>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+  </form>
+</div>
+
+
+ -->
+
+ <nav class="navbar navbar-expand-lg py-3 custom-navbar">
+  <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
+    <div class="flex-fill d-flex justify-content-start mb-2 mb-lg-0">
+  <mat-form-field class="w-80" style="margin-bottom: -26px;" appearance="outline">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="Search" (focus)="showSearchOverlay = true" (blur)="closeOverlay()"
+      [(ngModel)]="searchQuery" (keydown.enter)="onEnterPress()" />
+  </mat-form-field>
+
+  <!-- Search Overlay -->
+  <div *ngIf="showSearchOverlay" class="search-overlay shadow"  #overlay>
+    <div class="p-3" >
+      <!-- Trending -->
+      <div class="section">
+        <h6 class="fw-bold mb-2">
+          Suggestions
+        </h6>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="tag-btn" *ngFor="let tag of trendingTags">{{ tag }}</button>
+        </div>
+      </div>
+
+      <!-- Recommended -->
+      <div class="section mt-3">
+        <h6 class="fw-bold mb-2">
+          Product Recommended
+        </h6>
+
+        <div class="product-list">
+          <div
+            class="product-card"
+            *ngFor="let item of recommendedProducts"
+          >
+            <img [src]="s3URL + item.productImagePath" alt="{{ item.name }}" />
+            <div class="details">
+              <div class="name ellipsis-text">{{ item.offerName }}</div>
+              <div class="price">₹{{ getCurrentWeightPrice(item).currentPrice }}</div>
+               <select class="form-select form-select-sm" (change)="onSelectWeight(item, $event)" >
+                  <option *ngFor="let p of item.prices; let i = index" [value]="i">{{ p.weight }}</option>
+                </select>
+              <button class="add-btn mt-2" (click)="addToCart(item)">ADD TO CART</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="close-btn" (click)="showSearchOverlay = false">Close</button>
+  </div>
+</div>
+
+
+    <!-- Center: Logo -->
+    <!-- <div class="flex-fill text-center mb-2 mb-lg-0">
+      <a class="navbar-brand d-block text-center" href="/">
+        <div class="logo-title">The Bettr Way</div>
+        <div class="logo-subtitle">Made With Love</div>
+      </a>
+    </div> -->
+    <div class="flex-fill text-center mb-2 mb-lg-0">
+  <a class="navbar-brand d-block text-center" href="/">
+    <img src="../../assets/logos/VP_ ENGLISH.png" alt="The Bettr Way - Made With Love" style="max-height: 60px; width: auto;">
+  </a>
+</div>
+
+    <!-- Right: Icons -->
+    <div class="flex-fill d-flex justify-content-end align-items-center gap-3">
+      <button class="btn icon-btn position-relative" [routerLink]="['/my_account']">
+        <i class="far fa-user"></i>
+      </button>
+      <button class="btn icon-btn position-relative" (click)="open(false)">
+        <i class="far fa-heart"></i>
+        <span class="badge position-absolute top-0 start-100 translate-middle">{{totalFav}}</span>
+      </button>
+      <button class="btn icon-btn position-relative" (click)="open(true)">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <span class="badge position-absolute top-0 start-100 translate-middle">{{totalCount}}</span>
+      </button>
+    </div>
+
+  </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+  <div class="container-fluid header-navbar">
+    <!-- Mobile Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarMenu"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menu Items -->
+    <div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
+      <ul class="navbar-nav align-items-center gap-5">
+
+        <!-- <li class="nav-item">
+          <a class="nav-link fw-semibold text-dark" href="#">VeetuPalagaram</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <img src="../../assets/logos/VP_ ENGLISH.png" alt="VeetuPalagaram" height="40" width="auto">
+          </a>
+        </li>
+        <!-- Dropdown: SHOP BY CATEGORY -->
+        <li class="nav-item dropdown position-static">
+          <a
+            class="nav-link dropdown-toggle fw-semibold text-dark"
+            href="#"
+            id="shopCategoryDropdown"
+            data-bs-toggle="dropdown"
+          >
+          <i class="fa-solid fa-list icon-category"></i>
+            SHOP BY CATEGORY
+          </a>
+          <!-- Dropdown Menu -->
+          <div class="dropdown-menu border-0 mt-0 shadow-lg rounded-4 p-4 dropdown-category-item" aria-labelledby="shopCategoryDropdown">
+            <div class="row text-center">
+
+              <div class="col-md-2 col-4 mb-3" *ngFor="let item of categories">
+                <div class="category-item" (click)="redirectCategory('categories', item.categoryName)">
+                  <i [class]="'fa-solid ' + item.icon + ' fa-2x '"></i>
+                  <p class="mt-2 mb-0 fw-semibold">{{ item.categoryName }}</p>
+                </div>
+              </div>
+
+              <div class="w-100 mt-3 text-center">
+                <button class="btn btn-success rounded-pill px-4" (click)="redirectCategory('categories')">SHOP ALL</button>
+              </div>
+
+            </div>
+          </div>
+        </li>
+         <!-- Dropdown: SHOP BY WELLNESS -->
+        <li class="nav-item dropdown position-static">
+          <a
+            class="nav-link dropdown-toggle fw-semibold text-dark"
+              href="#"
+            id="shopWellnessDropdown"
+            data-bs-toggle="dropdown"
+          >
+          <i class="fa-solid fa-shield-heart"></i>
+
+            SHOP BY WELLNESS
+          </a>
+
+          <!-- Dropdown Menu -->
+          <div class="dropdown-menu border-0 mt-0 shadow-lg rounded-4 p-4 dropdown-category-item" aria-labelledby="shopCategoryDropdown">
+            <div class="row text-center">
+
+              <div class="col-md-2 col-4 mb-3" *ngFor="let item of wellnessCategories">
+                <div class="category-item" (click)="redirectCategory('wellness', item.categoryName)">
+                  <i [class]="'fa-solid ' + item.icon + ' fa-2x '"></i>
+                  <p class="mt-2 mb-0 fw-semibold">{{ item.categoryName }}</p>
+                </div>
+              </div>
+
+              <div class="w-100 mt-3 text-center">
+                <button class="btn btn-success rounded-pill px-4" (click)="redirectCategory('wellness')">SHOP ALL</button>
+              </div>
+
+            </div>
+          </div>
+        </li>
+        <!-- Dropdown:  SPECIAL EDITIONS-->
+        <li class="nav-item dropdown position-static">
+          <a
+            class="nav-link dropdown-toggle fw-semibold text-dark"
+              href="#"
+            id="specialEditionDropdown"
+            data-bs-toggle="dropdown"
+          >
+          <i class="fa-solid fa-box-open"></i>
+            SPECIAL EDITIONS
+          </a>
+
+          <!-- Dropdown Menu -->
+          <div class="dropdown-menu border-0 mt-0 shadow-lg rounded-4 p-4 dropdown-category-item" aria-labelledby="shopCategoryDropdown">
+            <div class="row text-center">
+
+              <div class="col-md-2 col-4 mb-3" *ngFor="let item of specialCategories">
+                <div class="category-item" (click)="redirectCategory('editions', item.categoryName)">
+                  <i [class]="'fa-solid ' + item.icon + ' fa-2x '"></i>
+                  <p class="mt-2 mb-0 fw-semibold">{{ item.categoryName }}</p>
+                </div>
+              </div>
+
+              <div class="w-100 mt-3 text-center">
+                <button class="btn btn-success rounded-pill px-4" (click)="redirectCategory('editions')">SHOP ALL</button>
+              </div>
+
+            </div>
+          </div>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link fw-semibold text-dark" routerLink="/about-us/our-story" routerLinkActive="active">OUR STORY</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+

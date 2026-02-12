@@ -1,0 +1,114 @@
+.dialog-wrapper {
+    display: flex;
+    width: 700px;
+    height: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  
+  .image-section {
+    flex: 1;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  .content-section {
+    flex: 1;
+    padding: 24px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+  
+    .review-header {
+        .header-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      
+          .user-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+          }
+      
+          .review-date {
+            font-size: 12px;
+            color: #999;
+          }
+        }
+      
+        .stars {
+          color: #ffc107;
+          font-size: 18px;
+          margin: 8px 0;
+        }
+      
+        .comment {
+          font-size: 15px;
+          font-style: italic;
+          color: #333;
+          margin-bottom: 16px;
+        }
+      }
+      
+  
+    .product-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #ddd;
+      padding-top: 12px;
+      margin-top: auto;
+  
+      .product-info {
+        display: flex;
+        align-items: center;
+  
+        .product-image {
+          width: 50px;
+          height: 50px;
+          border-radius: 4px;
+          margin-right: 12px;
+        }
+  
+        .product-text {
+          font-size: 14px;
+          strong {
+            font-weight: 600;
+            display: block;
+          }
+          p {
+            margin: 0;
+            color: #666;
+          }
+        }
+      }
+  
+      button {
+        height: 36px;
+      }
+    }
+  }
+
+  .close-button-wrapper {
+    display: flex;
+    justify-content: flex-start; // align to left
+    padding: 8px;
+    position: absolute;
+  }
+
+  .close-button-wrapper button {
+    margin-left: 8px;
+  }
+  

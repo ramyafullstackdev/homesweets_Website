@@ -1,0 +1,127 @@
+<div class="card-block">
+    <h2 class="h1">Your Account</h2>
+</div>
+<hr class="separator">
+<div class="cart-overview ">
+    <div class="cart cart-layout">
+        <div class="row">
+            <div class="col-sm-4">
+              <div class="card pointer-view" (click)="redirect('Information')">
+                <div class="card-body centered-align span-hover">
+                  <div class="row ">
+                    <span>
+                        <i class="fas fa-user f-40 theme-color opacity-7"></i>
+                    </span>
+                  </div>
+                  <div class="row mr-t-20 account-card">
+                    Information
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card pointer-view" (click)="redirect('Address')">
+                  <div class="card-body centered-align span-hover">
+                    <div class="row">
+                      <span>
+                          <i class="fas fa-map-marker-alt f-40 theme-color opacity-7"></i>
+                      </span>
+                    </div>
+                    <div class="row mr-t-20 account-card">
+                      Address
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="card pointer-view" (click)="redirect('Orders')">
+                  <div class="card-body centered-align span-hover">
+                    <div class="row">
+                      <span>
+                          <i class="fas fa-calendar-alt f-40 theme-color opacity-7"></i>
+                      </span>
+                    </div>
+                    <div class="row mr-t-20 account-card">
+                      Order History
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="row mr-t-20">
+            <div class="col-sm-4">
+                <div class="card pointer-view" (click)="redirect('Vouchers')">
+                  <div class="card-body centered-align span-hover">
+                    <div class="row">
+                      <span>
+                          <i class="fas fa-tag f-40 theme-color opacity-7"></i>
+                      </span>
+                    </div>
+                    <div class="row mr-t-20 account-card">
+                      Vouchers
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-sm-4">
+                <div class="card pointer-view" (click)="redirect('Cards')">
+                  <div class="card-body centered-align span-hover">
+                    <div class="row">
+                      <span>
+                          <i class="fas fa-money-check f-40 theme-color opacity-7"></i>
+                      </span>
+                    </div>
+                    <div class="row mr-t-20 account-card">
+                      My Cards
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-sm-4">
+                <div class="card pointer-view" (click)="redirect('Credit Slips')">
+                  <div class="card-body centered-align span-hover">
+                    <div class="row">
+                      <span>
+                          <i class="fas fa-receipt f-40 theme-color opacity-7"></i>
+                      </span>
+                    </div>
+                    <div class="row mr-t-20 account-card">
+                      Credit Slips
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="card pointer-view" (click)="redirect('My Review')">
+                  <div class="card-body centered-align span-hover">
+                    <div class="row">
+                      <span>
+                          <i class="fa fa-comments f-40 theme-color opacity-7"></i>
+                      </span>
+                    </div>
+                    <div class="row mr-t-20 account-card">
+                      My Review
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="row mr-t-20">
+          <div class="col-sm-4">
+            <div class="card pointer-view" (click)="redirect('My wishlist')">
+              <div class="card-body centered-align span-hover">
+                <div class="row">
+                  <span>
+                    <i class="fa fa-heart f-40 theme-color opacity-7"></i>
+                  </span>
+                </div>
+                <div class="row mr-t-20 account-card">
+                  My wishlist
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

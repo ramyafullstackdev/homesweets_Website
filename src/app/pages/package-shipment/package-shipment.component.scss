@@ -1,0 +1,57 @@
+.content-page {
+  min-height: 100vh;
+//   background: #FDFBF7;
+  padding: 60px 0;
+  font-family: var(--font-body, 'Lato', sans-serif);
+}
+
+.container-custom {
+  max-width: 900px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  color: var(--primary-color, #1F3A32);
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #555;
+  max-width: 700px;
+  margin: auto;
+}
+
+.content-card {
+//   background: #fff;
+  padding: 40px;
+  border-radius: 20px;
+//   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  margin-top: 40px;
+}
+
+.content-heading {
+  font-size: 1.5rem;
+  color: var(--primary-color, #1F3A32);
+  margin-top: 25px;
+}
+
+.content-text {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+.content-card ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+.content-list {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}

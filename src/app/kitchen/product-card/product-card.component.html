@@ -1,0 +1,67 @@
+<div class="slider-container">
+     <div class="row card-container">
+                <div class="card" *ngFor="let offer of offers">
+                    <!-- Image & Badges -->
+                    <div class="image-container position-relative">
+                        <img class="main-image-view pointer-view" (click)="viewDetailProduct(offer, 'offers')"
+                            [src]="s3ApiUrl + '/' + offer.productImagePath" alt="{{ offer.productName }}" />
+
+                        <!-- Best Seller Tag -->
+                        <div class="badge-tag" *ngIf="offer.bestSeller">Best Seller</div>
+
+                        <!-- Favorite Icon -->
+                        <div class="heart-icon tag-line-top"  [ngStyle]="{'background-color': offer?.tagline?.color, 'color': offer?.tagline?.textColor}" (click)="toggleFavorite(offer, $event, 'offer')">
+                            <span *ngIf="offer?.tagline">{{ offer.tagline.label }} | </span>
+                            <i [ngClass]="getFav(offer._id) ? 'fas fa-heart active' : 'far fa-heart'"></i>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="product-name ellipsis-text">
+                                {{ offer.productName }}
+                            </h5>
+
+                            <div class="price-section">
+                                <span class="current-price">₹{{ getCurrentWeightPrice(offer).currentPrice || getCurrentWeightPrice(offer).productPrice }}</span>
+                                <span class="original-price" *ngIf="getCurrentWeightPrice(offer).originalPrice">₹{{ getCurrentWeightPrice(offer).originalPrice }}</span>
+                            </div>
+                        </div>
+                        <p class="desc">{{ offer.kitchen?.kitchenDetails?.kitchenForm?.kitchenName || 'Low GI | Stoneground' }}</p>
+
+
+                        <!-- <p class="desc">{{ offer.shortDescription || 'Low GI | Stoneground' }}</p> -->
+
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>{{ offer.overallRating }}</span>
+                            <small class="text-muted">({{ offer.reviewsCount || '2k+' }} Reviews)</small>
+                        </div>
+
+                        <select class="variant-select" (change)="onSelectWeight(offer, $event)">
+                            <option *ngFor="let p of offer.prices; let i = index" [value]="i">{{ p.weight }}</option>
+                        </select>
+                        <button class="add-cart-btn" (click)="onAddToCart(offer)" [disabled]="offer.disableCart">
+                            {{ offer.disableCart ? "OUT OF STOCK" : (offer.preOrder ? "PRE ORDER" : "ADD TO CART") }}
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+<div class="pagination-wrapper d-flex justify-content-center align-items-center mt-3" *ngIf="totalPages > 1">
+  <a class="pagination-arrow" [class.disabled]="currentPage <= 1" (click)="prevPage()">
+    &lt;
+  </a>
+  
+  <span class="pagination-info">
+    {{ currentPage }} of {{ totalPages }}
+  </span>
+  
+  <a class="pagination-arrow" [class.disabled]="currentPage >= totalPages" (click)="nextPage()">
+    &gt;
+  </a>
+</div>
+
+</div>

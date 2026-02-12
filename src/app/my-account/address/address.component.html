@@ -1,0 +1,166 @@
+<div class="card-block">
+    <h2 class="h1">Your Addresses</h2>
+</div>
+<hr class="separator">
+<div class="cart-overview ">
+    <div class="cart cart-layout">
+        <div class="card-columns mr-t-20">
+            <div class="card" *ngFor="let address of addresses"  >
+                <div class="card-body">
+                    <h3><i class="fas fa-map-marker-alt loc-icon"></i>{{address.firstName}} {{address.lastName}}</h3>
+                    <h4>{{address.phone}}</h4>
+                    <p class="card-text">
+                        {{address.address1}}
+                        {{address.address2}}
+                        {{address.city}}
+                        {{address.state}}
+                        - {{address.pincode}}
+                        {{address.country}}
+                    </p>
+                    <a *ngIf="address.name != 'Add New Address' " data-toggle="modal" data-target="#exampleModalCenter" (click)="editAddress(address)" class="btn-login account-btn" ><i class="fas fa-pencil-alt loc-icon"></i>Edit</a>
+                    <a *ngIf="address.name != 'Add New Address' " data-toggle="modal" data-target="#exampleDeleteModalCenter" (click)="currentAddress = address;" class="btn-login account-btn" > <i class="fas fa-trash-alt loc-icon"></i>Delete</a>
+                    <a *ngIf="address.name == 'Add New Address' " data-toggle="modal" data-target="#exampleModalCenter" (click)="getCountries();addNew()" href="#" class="btn-signup account-btn">Add New</a>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3 class="modal-title" id="exampleModalLongTitle">Add New Address</h3>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                <form [formGroup]="addressForm">
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput type="text" formControlName="firstName" required>
+                    <mat-error *ngIf="addressForm.controls.firstName.hasError('required')">
+                      First Name is required
+                    </mat-error>
+                    <mat-error *ngIf="addressForm.controls.firstName.hasError('minlength')">
+                      Minimum 2 characters required
+                    </mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput type="text" formControlName="lastName" required>
+                    <mat-error *ngIf="addressForm.controls.lastName.hasError('required')">
+                      Last Name is required
+                    </mat-error>
+                    <mat-error *ngIf="addressForm.controls.lastName.hasError('minlength')">
+                      Minimum 2 characters required
+                    </mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>Address Line 1</mat-label>
+                    <input matInput type="text" formControlName="address1" required>
+                    <mat-error *ngIf="addressForm.controls.address1.hasError('required')">
+                      Address Line 1 is required
+                    </mat-error>
+                    <mat-error *ngIf="addressForm.controls.address1.hasError('minlength')">
+                      Minimum 5 characters required
+                    </mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>Address Line 2</mat-label>
+                    <input matInput type="text" formControlName="address2" required>
+                    <mat-error *ngIf="addressForm.controls.address2.hasError('required')">
+                      Address Line 2 is required
+                    </mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>Mobile Number</mat-label>
+                    <input matInput type="text" formControlName="phone" required>
+                    <mat-error *ngIf="addressForm.controls.phone.hasError('required')">
+                      Phone number is required
+                    </mat-error>
+                    <mat-error *ngIf="addressForm.controls.phone.hasError('pattern')">
+                      Enter a valid 10-digit phone number
+                    </mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>State</mat-label>
+                    <select matNativeControl formControlName="state" required (change)="getCities($event)">
+                      <option *ngFor="let state of states" [value]="state.isoCode">{{ state.name }}</option>
+                    </select>
+                    <mat-error *ngIf="addressForm.controls.state.hasError('required')">
+                      State is required
+                    </mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>City</mat-label>
+                    <select matNativeControl formControlName="city" required>
+                      <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
+                    </select>
+                    <mat-error *ngIf="addressForm.controls.city.hasError('required')">
+                      City is required
+                    </mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>Postal Code</mat-label>
+                    <input matInput type="text" formControlName="pincode" (focusout)="verifyPin()" required>
+                    <mat-error *ngIf="addressForm.controls.pincode.hasError('required')">
+                      Postal Code is required
+                    </mat-error>
+                    <mat-error *ngIf="addressForm.controls.pincode.hasError('pattern')">
+                      Enter a valid 5-6 digit Postal Code
+                    </mat-error>
+                    <small class="form-text text-danger" *ngIf="!incorrectPin">
+                      Entered Pincode was not in the selected city range
+                    </small>
+                  </mat-form-field>
+                
+                  <mat-form-field class="form-field-login" appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <select matNativeControl formControlName="country" required>
+                      <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+                    </select>
+                    <mat-error *ngIf="addressForm.controls.country.hasError('required')">
+                      Country is required
+                    </mat-error>
+                  </mat-form-field>
+                
+                </form>
+                                         
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-signup" (click)="saveAddress()" [disabled]="addressForm.invalid">
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade bd-example-modal-lg" id="exampleDeleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleDeleteModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3 class="modal-title" id="exampleModalLongTitle">Delete Address</h3>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                   Do you want to remove this address?                                       
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                  <button type="button" class="btn btn-signup" (click)="deleteAddress()" data-dismiss="modal">Yes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>

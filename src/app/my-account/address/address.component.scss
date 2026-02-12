@@ -1,0 +1,34 @@
+@media (min-width: 576px) {
+    .card-columns {
+        column-count: 3;
+    }
+}
+
+.loc-icon {
+    margin-right: 10px;
+    color: #C6A756;
+}
+
+.btn-login {
+    border: 1px solid #C6A756;
+    color: #C6A756;
+    margin-right: 20px;
+}
+
+.btn-signup {
+    border: 1px solid #C6A756;
+    color: white !important;
+    background: #C6A756;
+    margin-right: 20px;
+}
+
+.account-btn {
+    text-align: center;
+    padding: 10px;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.form-field-login {
+    width: 90%;
+}

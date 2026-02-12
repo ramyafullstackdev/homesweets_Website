@@ -1,0 +1,27 @@
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  .full-width-table {
+    min-width: 1000px; /* Or adjust based on your column count */
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .mat-header-cell, .mat-cell {
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .mat-paginator {
+    margin-top: 10px;
+  }
+  
+  .list-image-view {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+}

@@ -1,0 +1,169 @@
+<div class="our-story-page">
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="text-center mb-4">
+                <p class="subtitle">- Our Story -</p>
+                <h1 class="hero-title">
+                    Bringing Back the Pure Way of Living
+                </h1>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="assets/images/img.png" alt="Traditional Snacks Collection" class="img-fluid w-100">
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section fade-in-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="quote-wrapper">
+                        <h2 class="process-title">We Don't Produce, We Handpick Perfection.</h2>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="process-content ps-lg-4">
+                        <p class="process-text  mb-4">
+                            We didn't start The Bettr Way because we wanted to build a business. We started it because
+                            we were tired of doubting what we eat.
+                        </p>
+                        <p class="process-text">
+                            Every time we walked through a supermarket, we felt the same thing —too many brands, too
+                            many claims, and no one we could truly trust.Everything said “pure,” “organic,” “natural,”
+                            —but somehow, nothing felt honest anymore.
+                        </p>
+                        <p class="process-text">
+                            And then, we met people who still believed food should be made with love, not logic.Mothers
+                            who grind their own masalas.Small farmers who refuse to spray what they wouldn't serve their
+                            children.Vendors who wake up before sunrise,not to chase profits, but to keep a promise
+                            —that good food should stay good.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section fade-in-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+                    <div class="timeline-dots">
+                        <span class="dot dot-1"></span>
+                        <span class="dot dot-2"></span>
+                        <span class="dot dot-3"></span>
+                    </div>
+                    <h2 class="section-title mb-0">How It Started</h2>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="timeline-image-wrapper position-relative">
+                        <!-- <div class="timeline-year-vertical">
+              <div class="year-item">2021</div>
+              <div class="year-item">2022</div>
+              <div class="year-item">2023</div>
+              <div class="year-item">2024</div>
+            </div> -->
+                        <img src="assets/images/journey.png" alt="How Home Sweets Started" class="img-fluid rounded-3">
+                        <div class="decorative-circle"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="timeline-content ps-lg-5">
+                        <div class="timeline-year-badge">2025</div>
+                        <p class="timeline-text">
+                            That's where The Bettr Way began.
+                            We wanted to bring all of them together — these honest, quiet food makers who live what they
+                            sell — so people like us don't have to go hunting for trust. You can come here, read their
+                            stories, and know that every jar, every packet, every grain was made by someone who cares
+                            more about your health than their margins.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="special-section fade-in-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="special-image-wrapper">
+                        <img src="assets/images/homesweets.png" alt="Home Sweets Products" class="img-fluid rounded-3">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="special-content ps-lg-5">
+                        <h2 class="section-title mb-4">This isn't just a marketplace.</h2>
+                        <p class="special-text mb-4">
+                            It's a circle — where good people meet good food. Where vendors grow because customers believe in them. And where we all win — because honesty wins.
+                        </p>
+                        <div class="stats-wrapper d-flex gap-5">
+                            <div class="stat-item">
+                                <div class="stat-number">{{ stats.countries }}</div>
+                                <div class="stat-label">Countries</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">{{ stats.doors }}</div>
+                                <div class="stat-label">Doors</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="makers-section fade-in-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 mb-4 mb-lg-0 d-flex align-items-center">
+                    <div class="makers-content">
+                        <h2 class="section-title mb-4">That's our dream.</h2>
+                        <p class="makers-text mb-4">
+                            To make chemical-free, wholesome food available to everyone. To make sure the ones who make it with heart never have to stop doing it.
+That's not marketing. That's <strong>The Bettr Way</strong>.
+                        </p>
+                        <div class="fssai-badge d-flex flex-column align-items-center text-center">
+                            <img src="assets/images/FSSAI_logo.png" alt="FSSAI" class="fssai-logo mb-1">
+                            <p class="fssai-text mb-0">Lic No: 1234567890</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="makers-grid">
+                        <div class="maker-image" *ngFor="let maker of makers">
+                            <img [src]="maker" alt="Local Maker" class="img-fluid rounded-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="promise-section fade-in-section">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">The Bettr Way Promise</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" *ngFor="let card of promiseCards">
+                    <div class="promise-card" [attr.data-color]="card.color">
+                        <div class="promise-image-wrapper">
+                            <img [src]="card.image" [alt]="card.title" class="img-fluid">
+                        </div>
+                        <h3 class="promise-title">{{ card.title }}</h3>
+                        <p class="promise-description">{{ card.description }}</p>
+                        <div class="promise-border" [ngClass]="'border-' + card.color"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

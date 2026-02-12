@@ -1,0 +1,213 @@
+<!-- <div class="filter-container">
+  <div class="filter-header">
+    <h2>
+      FILTERS <span class="badge">{{ activeFilterCount }}</span>
+    </h2>
+    <a href="#" (click)="clearAll($event)">Clear all</a>
+  </div>
+
+  <div class="filter-section">
+    <h3>Categories</h3>
+    <div *ngFor="let category of categories">
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="category.selected"
+          (change)="updateActiveFilterCount()"
+        />
+        {{ category.name }} ({{ category.count }})
+      </label>
+      <div *ngIf="category.subcategories?.length" class="subcategory">
+        <label
+          *ngFor="let sub of category.subcategories"
+          class="sub-item"
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="sub.selected"
+            (change)="updateActiveFilterCount()"
+          />
+          {{ sub.name }} ({{ sub.count }})
+        </label>
+      </div>
+      <hr />
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <h3>Price Range</h3>
+    <div class="price-range">
+      <input
+        type="number"
+        [(ngModel)]="priceMin"
+        placeholder="Min"
+        (change)="updateActiveFilterCount()"
+      />
+      <span>-</span>
+      <input
+        type="number"
+        [(ngModel)]="priceMax"
+        placeholder="Max"
+        (change)="updateActiveFilterCount()"
+      />
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <h3>Availability</h3>
+    <label>
+      <input
+        type="checkbox"
+        [(ngModel)]="inStockOnly"
+        (change)="updateActiveFilterCount()"
+      />
+      In Stock Only
+    </label>
+  </div>
+
+  <div class="filter-section">
+    <h3>Variants</h3>
+    <div class="variant-container">
+      <button
+        *ngFor="let variant of variants"
+        [class.active]="variant.selected"
+        (click)="toggleVariant(variant)"
+      >
+        {{ variant.label }} ({{ variant.count }})
+      </button>
+    </div>
+  </div>
+
+  <button class="apply-btn" (click)="applyFilters()">APPLY</button>
+</div> -->
+
+  <!-- Variants -->
+    <!-- <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="filter-label">Variants</span>
+      </mat-expansion-panel-header>
+      <div class="variant-panel">
+        <button
+          mat-stroked-button
+          *ngFor="let v of variants"
+          class="variant-btn"
+          [color]="v.selected ? 'primary' : ''"
+          [ngClass]="{ active: v.selected }"
+          (click)="toggleVariant(v)">
+          {{v.label}}
+        </button>
+      </div>
+    </mat-expansion-panel> -->
+
+<mat-card class="filter-accordion-card">
+  <div class="filter-title">FILTERS</div>
+  <mat-accordion multi>
+    <!-- Availability -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="filter-label">Availability</span>
+      </mat-expansion-panel-header>
+      <div class="filter-checkbox">
+        <mat-checkbox [(ngModel)]="filters.inStock" (change)="onAvailabilityChange()">In Stock</mat-checkbox>
+        <mat-checkbox [(ngModel)]="filters.outOfStock" (change)="onAvailabilityChange()">Out of stock</mat-checkbox>
+        <mat-checkbox [(ngModel)]="filters.preOrder" (change)="onAvailabilityChange()">Pre-Order</mat-checkbox>
+      </div>
+    </mat-expansion-panel>
+
+    <!-- Price -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="filter-label">Price</span>
+      </mat-expansion-panel-header>
+      <div class="slider-row">
+        <mat-slider [min]="priceMin" [max]="priceMax" step="100" thumbLabel tickInterval="500"
+          [(ngModel)]="filters.price" >
+            <input [value]="filters.price.min" (change)="onPriceChange($event, 'min')" matSliderStartThumb readonly>
+            <input [value]="filters.price.max" (change)="onPriceChange($event, 'max')" matSliderEndThumb readonly>
+        </mat-slider>
+        <div class="range-labels">
+          <span>{{filters.price.min}}</span>
+          <span>{{filters.price.max}}</span>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <!-- Category -->
+     <!-- Category -->
+<mat-expansion-panel [expanded]="true" *ngIf="!isExclsive">
+  <mat-expansion-panel-header>
+    <span class="filter-label">Category</span>
+  </mat-expansion-panel-header>
+
+  <ng-container *ngFor="let cat of categories">
+    <div class="category-row" *ngIf="cat.count > 0">
+  
+      <!-- Main category div replacing checkbox -->
+      <div class="main-category" [class.selected]="cat.selected" (click)="toggleMainCategory(cat)"
+        [class.has-subcategories]="cat.subcategories?.length > 0" [attr.aria-expanded]="cat.expanded ? 'true' : 'false'"
+        role="button" tabindex="0" (keydown.enter)="toggleMainCategory(cat)" (keydown.space)="toggleMainCategory(cat)">
+        {{ cat.categoryName }}
+        <div>
+          <span class="count count-category">({{ cat.count }})</span>
+  
+          <mat-icon *ngIf="cat.subcategories?.length">{{ cat.expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </div>
+  
+      </div>
+  
+      <div *ngIf="cat.subcategories?.length && cat.expanded" class="subcategory-container lvl2">
+        <ng-container *ngFor="let sub of cat.subcategories">
+          <div class="subcategory-row" *ngIf="sub.count > 0">
+  
+            <mat-checkbox [(ngModel)]="sub.selected" class="sub-checkbox lvl2-check"
+              (change)="onCategoryChange(sub, 'sub', cat)">
+              {{ sub.categoryName }}
+              <span class="count">({{ sub.count }})</span>
+            </mat-checkbox>
+  
+            <!-- LEVEL 3 -->
+            <div *ngIf="sub.subcategories?.length" class="subcategory-container lvl3">
+              <ng-container *ngFor="let child of sub.subcategories">
+                <mat-checkbox class="sub-checkbox lvl3-check" *ngIf="child.count > 0" [(ngModel)]="child.selected"
+                  (change)="onCategoryChange(child, 'sub2', sub, cat)">
+                  {{ child.categoryName }}
+                  <span class="count">({{ child.count }})</span>
+                </mat-checkbox>
+              </ng-container>
+            </div>
+  
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+</mat-expansion-panel>
+
+  <!-- <mat-expansion-panel [expanded]="true" *ngIf="!isExclsive">
+    <mat-expansion-panel-header>
+      <span class="filter-label">Category</span>
+    </mat-expansion-panel-header>
+  
+    <ng-container *ngFor="let cat of categories">
+      <div class="category-row" *ngIf="cat.count > 0">
+        <mat-checkbox [(ngModel)]="cat.selected" (change)="onCategoryChange(cat,'main')">
+          {{ cat.categoryName }} <span class="count">({{ cat.count }})</span>
+        </mat-checkbox>
+        <div *ngIf="cat.subcategories?.length" class="subcategory-container">
+          <ng-container *ngFor="let sub of cat.subcategories">
+            <mat-checkbox *ngIf="sub.count > 0" [(ngModel)]="sub.selected" class="sub-checkbox"
+              (change)="onCategoryChange(cat,'sub')">
+              {{ sub.categoryName }} <span class="count">({{ sub.count }})</span>
+            </mat-checkbox>
+          </ng-container>
+    
+        </div>
+      </div>
+    </ng-container>
+
+  </mat-expansion-panel> -->
+  </mat-accordion>
+
+  <button mat-flat-button color="primary" class="apply-btn-wide" (click)="applyFilters()" >APPLY</button>
+</mat-card>

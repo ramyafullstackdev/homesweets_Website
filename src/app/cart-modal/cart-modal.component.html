@@ -1,0 +1,14 @@
+<mat-card class="cart-modal-card">
+  <div class="cart-modal-content">
+    <div class="cart-info">
+      <mat-icon class="cart-icon">shopping_cart</mat-icon>
+      <span class="cart-text">
+        {{ cartCount }} Items in your cart
+      </span>
+    </div>
+    <button mat-raised-button class="view-cart-btn" (click)="goToCart()">
+      View Cart
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</mat-card>

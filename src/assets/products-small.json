@@ -1,0 +1,683 @@
+{
+	"category": [
+		{
+			"name": "Sweet",
+			"key" :"sweets",
+			"description": "Product Description",
+			"image": "1.avif"
+		},
+		{
+			"name": "Snacks",
+			"key" :"snacks",
+			"description": "Product Description",
+			"image": "2.avif"
+		},
+		{
+			"name": "Choclates",
+			"key" :"choclates",
+			"description": "Product Description",
+			"image": "3.avif"
+		},
+		{
+			"name": "Cookies",
+			"key" :"cookies",
+			"description": "Product Description",
+			"image": "4.jpg"
+		},
+		{
+			"name": "Candies",
+			"key" :"candies",
+			"description": "Product Description",
+			"image": "5.jpg"
+		},
+		{
+			"name": "Cakes",
+			"key" :"cakes",
+			"description": "Product Description",
+			"image": "6.jpg"
+		}
+	],
+	"offers" :[
+		{
+			"name":"Halwa",
+			"image":"7.jpg",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"sweets"
+		},
+		{
+			"name":"Kaara Sevu",
+			"image":"8.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"snacks"
+		},
+		{
+			"name":"Homemade Choclate",
+			"image":"9.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"choclates"
+		},
+		{
+			"name":"Biscuits",
+			"image":"10.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"cookies"
+		},
+		{
+			"name":"Then Mittai",
+			"image":"11.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"sweets"
+		},
+		{
+			"name":"Balckforest Cake",
+			"image":"1.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"cakes"
+		},
+		{
+			"name":"Murukku",
+			"image":"2.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"snacks"
+		},{
+			"name":"Jelebi",
+			"image":"4.jpg",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"sweets"
+		},{
+			"name":"Lattu",
+			"image":"5.jpg",
+			"weight":"500g",
+			"originalPrice":"395",
+			"currentPrice":"295",
+			"categoryKey":"sweets"
+		}
+	],
+	"bestSellers" :[
+		{
+			"name":"Halwa",
+			"image":"7.jpg",
+			"categoryKey":"sweets",
+			"weight":"500g",
+			"originalPrice":"395"
+		},
+		{
+			"name":"Kaara Sevu",
+			"image":"8.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"snacks"
+		},
+		{
+			"name":"Homemade Choclate",
+			"image":"9.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"choclates"
+		},
+		{
+			"name":"Biscuits",
+			"image":"10.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"cookies"
+		},
+		{
+			"name":"Then Mittai",
+			"image":"11.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"sweets"
+		},
+		{
+			"name":"Balckforest Cake",
+			"image":"1.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"cakes"
+		},
+		{
+			"name":"Murukku",
+			"image":"2.avif",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"snacks"
+		},{
+			"name":"Jelebi",
+			"image":"4.jpg",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"sweets"
+		},{
+			"name":"Lattu",
+			"image":"5.jpg",
+			"weight":"500g",
+			"originalPrice":"395",
+			"categoryKey":"sweets"
+		}
+	],
+	"newKitchens" :[
+		{
+			"name":"Mano",
+			"image":"k9.jpeg",
+			"rating":"4",
+			"category":"Sweet,Snack",
+			"location":"Madurai"
+			
+		},{
+			"name":"Keerthi",
+			"image":"k10.jpeg",
+			"rating":"4",
+			"category":"Cookie",
+			"location":"Theni"
+		},{
+			"name":"Kumari",
+			"image":"k11.jpeg",
+			"rating":"5",
+			"category":"Cookies,Cakes",
+			"location":"Chennai"
+		},{
+			"name":"Anu",
+			"image":"k12.jpeg",
+			"rating":"5",
+			"category":"Candies",
+			"location":"Chennai"
+		},{
+			"name":"Uma",
+			"image":"k13.jpeg",
+			"rating":"4",
+			"category":"Choclates",
+			"location":"Madurai"
+		}
+	],
+	"bestKitchens":[
+		{
+			"name":"Mahes",
+			"image":"k14.jpeg",
+			"rating":"5",
+			"category":"Sweet,Snack",
+			"location":"Madurai"
+		},{
+			"name":"Pavi",
+			"image":"k16.jpeg",
+			"rating":"5",
+			"category":"Cookies,Cakes",
+			"location":"Chennai"
+		},{
+			"name":"Kuzhali",
+			"image":"k17.jpeg",
+			"rating":"5",
+			"category":"Candies",
+			"location":"Chennai"
+		},{
+			"name":"Tharani",
+			"image":"k18.jpeg",
+			"rating":"5",
+			"category":"Choclates",
+			"location":"Madurai"
+		},{
+			"name":"Keerthi",
+			"image":"k10.jpeg",
+			"rating":"4",
+			"category":"Cookie",
+			"location":"Theni"
+		}
+	],
+	"kitchens":[
+		{
+			"name":"Ramya",
+			"image":"k12.jpeg",
+			"rating":"4",
+			"category":["Sweet","Snack"],
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},{
+			"name":"Keerthi",
+			"image":"k13.jpeg",
+			"rating":"4",
+			"category":"Cookie",
+			"location":"Theni",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"categoryKey":"candies",
+					"productDescription":"something about the product",
+					"productImage":"9.avif"
+				},
+				{
+					"productName":"Halwa",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},{
+			"name":"Mano",
+			"image":"k14.jpeg",
+			"rating":"5",
+			"category":"Cookies,Cakes",
+			"location":"Chennai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"10.avif"
+				},
+				{
+					"productName":"Murukku",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},{
+			"name":"Anu",
+			"image":"k20.jpeg",
+			"rating":"5",
+			"category":"Candies",
+			"location":"Chennai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"categoryKey":"candies",
+					"productDescription":"something about the product",
+					"productImage":"11.avif"
+				}
+			]
+		},{
+			"name":"Mahes",
+			"image":"k21.jpeg",
+			"rating":"4",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"categoryKey":"candies",
+					"productDescription":"something about the product",
+					"productImage":"12.avif"
+				}
+			]
+		},{
+			"name":"Abi",
+			"image":"k22.jpeg",
+			"rating":"5",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"categoryKey":"candies",
+					"productDescription":"something about the product",
+					"productImage":"14.avif"
+				}
+			]
+		},{
+			"name":"Santhya",
+			"image":"k23.jpeg",
+			"rating":"4",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"categoryKey":"candies",
+					"productDescription":"something about the product",
+					"productImage":"1.avif"
+				}
+			]
+		},{
+			"name":"Pavithra",
+			"image":"k24.jpeg",
+			"rating":"3",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"2.avif"
+				}
+			]
+		},{
+			"name":"Megala",
+			"image":"k25.jpeg",
+			"rating":"4",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"3.avif"
+				}
+			]
+		},{
+			"name":"Hema",
+			"image":"k26.jpeg",
+			"rating":"4",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},{
+			"name":"Raji",
+			"image":"k27.jpeg",
+			"rating":"5",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},{
+			"name":"Jeya",
+			"image":"k28.jpeg",
+			"rating":"3",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"categoryKey":"candies",
+					"rating":"4.5",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},{
+			"name":"Kumari",
+			"image":"k29.jpeg",
+			"rating":"4",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"categoryKey":"candies",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},{
+			"name":"Kuzhali",
+			"image":"k30.jpeg",
+			"rating":"4",
+			"category":"Choclates",
+			"location":"Madurai",
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"weight":"500g",
+					"rating":"4.5",
+					"categoryKey":"candies",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		}
+	],
+	"cartSummary" :[
+		{
+			"productName":"Halwa",
+			"productImage":"8.avif",
+			"quantity":"1",
+			"rate":"250"
+		},{
+			"productName":"Halwa",
+			"productImage":"8.avif",
+			"quantity":"2",
+			"rate":"250"
+		},{
+			"productName":"Halwa",
+			"productImage":"8.avif",
+			"quantity":"1",
+			"rate":"250"
+		},{
+			"productName":"Halwa",
+			"productImage":"8.avif",
+			"quantity":"3",
+			"rate":"250"
+		},{
+			"productName":"Halwa",
+			"productImage":"8.avif",
+			"quantity":"2",
+			"rate":"250"
+		}
+	],
+	"products" :{
+		"name":"Ramya",
+		"image":"k12.jpeg",
+		"rating":"4",
+		"category":["Sweet","Snack"],
+		"location":"Madurai",
+		"products":[
+			{
+				"productName":"Sweet Candie",
+				"rate":"100",
+				"productDescription":"something about the product",
+				"productImage":"8.avif"
+			},{
+				"productName":"Sweet Candie",
+				"rate":"100",
+				"productDescription":"something about the product",
+				"productImage":"8.avif"
+			},{
+				"productName":"Sweet Candie",
+				"rate":"100",
+				"productDescription":"something about the product",
+				"productImage":"8.avif"
+			},{
+				"productName":"Sweet Candie",
+				"rate":"100",
+				"productDescription":"something about the product",
+				"productImage":"8.avif"
+			},{
+				"productName":"Sweet Candie",
+				"rate":"100",
+				"productDescription":"something about the product",
+				"productImage":"8.avif"
+			},{
+				"productName":"Sweet Candie",
+				"rate":"100",
+				"productDescription":"something about the product",
+				"productImage":"8.avif"
+			}
+		]
+	},
+	"address" :[
+		{
+			"name":"Ramya",
+			"address1":"3rd street, porkudil nagar",
+			"address2":"sikkandar savadi",
+			"landmark":"porkudil nagar",
+			"city" : "Madurai",
+			"pincode":"625018",
+			"state":"Tamil Nadu",
+			"country":"India",
+			"phone":"9876543210"
+		}
+	],
+	"orders" :[
+		{
+			"orderedOn":"10 June 2023",
+			"orderId":"98764567",
+			"status":"Delivered",
+			"shippingName":"Ramya P",
+			"shippingAddress":{
+				"name":"Ramya",
+				"address1":"3rd street, porkudil nagar",
+				"address2":"sikkandar savadi",
+				"landmark":"porkudil nagar",
+				"city" : "Madurai",
+				"pincode":"625018",
+				"state":"Tamil Nadu",
+				"country":"India",
+				"phone":"9876543210"
+			},
+			"paymentMethod":"Pay On Delivery",
+			"total":"240.00",
+			"payment":{
+				"itemSubTotal":"200.00",
+				"shipping":"40.00",
+				"total":"240.00",
+				"grandTotal":"240.00"
+			},
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				},{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		},
+		{
+			"orderedOn":"15 Aug 2023",
+			"orderId":"234565",
+			"status":"Shipping Inprogress",
+			"shippingName":"Ramya P",
+			"shippingAddress":{
+				"name":"Ramya",
+				"address1":"3rd street, porkudil nagar",
+				"address2":"sikkandar savadi",
+				"landmark":"porkudil nagar",
+				"city" : "Madurai",
+				"pincode":"625018",
+				"state":"Tamil Nadu",
+				"country":"India",
+				"phone":"9876543210"
+			},
+			"paymentMethod":"Pay On Delivery",
+			"total":"240.00",
+			"payment":{
+				"itemSubTotal":"200.00",
+				"shipping":"40.00",
+				"total":"240.00",
+				"grandTotal":"240.00"
+			},
+			"products":[
+				{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				},{
+					"productName":"Sweet Candie",
+					"rate":"100",
+					"productDescription":"something about the product",
+					"productImage":"8.avif"
+				}
+			]
+		}
+	],
+	"vouchers" :[
+		{
+			"expiryDate":"25 Aug 2023",
+			"voucherAmount":"200",
+			"voucherCode":"HM200",
+			"userId":"1",
+			"voucherId":"21"
+		},
+		{
+			"expiryDate":"29 Aug 2023",
+			"voucherAmount":"100",
+			"voucherCode":"HM100",
+			"userId":"2",
+			"voucherId":"63"
+		}
+	],
+	"cards":[
+		{
+			"cardNo":"09876543234567",
+			"cardName":"Ramya",
+			"cardExpiry":"12/24",
+			"cardType":"Master"
+		}
+	]
+}

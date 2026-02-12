@@ -1,0 +1,69 @@
+<div class="content-align">
+    <div>
+        <nav *ngIf="loggedIn && !sideHead && !selectedOrder.orderId" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{showView}}</li>
+            </ol>
+          </nav>
+          <nav *ngIf="loggedIn && sideHead && !selectedOrder.orderId" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="theme-color" href="">Home</a></li>
+                <li class="breadcrumb-item pointer-view"><a class="theme-color" (click)="redirect()">{{mainHead}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{sideLabel}}</li>
+            </ol>
+          </nav>
+          <nav *ngIf="loggedIn && sideHead && selectedOrder.orderId" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="theme-color" href="">Home</a></li>
+                <li class="breadcrumb-item pointer-view"><a class="theme-color" (click)="redirect()">{{mainHead}}</a></li>
+                <li class="breadcrumb-item pointer-view"><a class="theme-color" (click)="redirectOrder()">Orders</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{selectedOrder.orderId}}</li>
+            </ol>
+          </nav>
+        <!-- <div>
+            <p class="account_header">Login into Your Account</p>
+        </div> -->
+        <!-- <hr class="separator"> -->
+        <div class="cart-grid-body col-xs-12 col-lg-12">
+            <div class="card cart-container">
+                <div *ngIf="showView== 'Login'">
+                    <app-login></app-login>
+                </div>
+                <div *ngIf="showView== 'Register'">
+                    <app-register></app-register>
+                </div>
+                <div *ngIf="loggedIn && !sideHead && showView == 'Account'">
+                    <app-account></app-account>
+                </div>
+                <div *ngIf="sideHead">
+                    <div *ngIf="sideLabel == 'Information'">
+                        <app-information></app-information>
+                    </div>
+                    <div *ngIf="sideLabel == 'Address'">
+                        <app-address></app-address>
+                    </div>
+                    <div *ngIf="sideLabel == 'Orders'">
+                        <app-orders></app-orders>
+                    </div>
+                    <div *ngIf="sideLabel == 'Vouchers'">
+                        <app-voucher></app-voucher>
+                    </div>
+                    <div *ngIf="sideLabel == 'Cards'">
+                        <app-cards></app-cards>
+                    </div>
+                    <div *ngIf="sideLabel == 'Credit Slips'">
+                        <app-credits></app-credits>
+                    </div>
+                    <div *ngIf="sideLabel == 'My Review'">
+                        <app-my-review></app-my-review>
+                    </div>
+                    <div *ngIf="sideLabel == 'My wishlist'">
+                        <app-my-wishlist></app-my-wishlist>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

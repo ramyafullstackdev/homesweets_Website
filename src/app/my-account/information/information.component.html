@@ -1,0 +1,114 @@
+<div class="card-block">
+    <h2 class="h1">Your Information</h2>
+</div>
+<hr class="separator">
+<div class="cart-overview ">
+    <div class="cart cart-layout">
+        <div class="center_div form">
+            <form [formGroup]="informationForm">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                    <input matInput class="form-control" type="text" formControlName="name" required>
+                    <mat-error *ngIf="informationForm.get('name')?.hasError('required') && informationForm.get('name')?.touched">
+                        Name is required
+                    </mat-error>
+                    <mat-error *ngIf="informationForm.get('name')?.hasError('minlength') && informationForm.get('name')?.touched">
+                        Name must be at least 3 characters
+                    </mat-error>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input matInput class="form-control" type="email" formControlName="email" required>
+                    <mat-error *ngIf="informationForm.get('email')?.hasError('required') && informationForm.get('email')?.touched">
+                        Email is required
+                    </mat-error>
+                    <mat-error *ngIf="informationForm.get('email')?.hasError('email') && informationForm.get('email')?.touched">
+                        Enter a valid email address
+                    </mat-error>
+                </div>
+            </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Phone Number</label>
+                    <div class="col-sm-10">
+                        <!-- <mat-form-field class="form-field-login" appearance="outline"> -->
+                       
+                            <input matInput class="form-control" type="text" formControlName="phoneNumber" readonly>
+                                     <!-- <div class="input-group mb-3">
+                            <input *ngIf="!viewPassword" type="password" class="form-control"
+                                formControlName="password" required>
+                            <input *ngIf="viewPassword" type="text" class="form-control"
+                                formControlName="password" required>
+                            <div class="input-group-append">
+                                <button *ngIf="!viewPassword" class="btn btn-outline-secondary"
+                                    (click)="viewPassword =!viewPassword" type="button">Show</button>
+                                <button *ngIf="viewPassword" class="btn btn-outline-secondary"
+                                    (click)="viewPassword =!viewPassword" type="button">Hide</button>
+                            </div>
+                        </div> -->
+
+                        <!-- </mat-form-field> -->
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Alternate Phone</label>
+                    <div class="col-sm-2">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input
+                                type="text"
+                                placeholder="+Code"
+                                matInput
+                                formControlName="altCountryCode"
+                                [matAutocomplete]="auto"
+                            />
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode">
+                                <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code">
+                                    {{ code.name }} ({{ code.dial_code }})
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="informationForm.controls.altCountryCode.touched && informationForm.controls.altCountryCode.invalid">
+                                Please select country code
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-8">
+                              <mat-form-field class="w-100" appearance="outline">
+                    
+                            <input matInput type="text" formControlName="altPhoneNumber" placeholder="Enter phone number" required />
+                            <mat-error
+                                *ngIf="informationForm.get('altPhoneNumber')?.touched && informationForm.get('altPhoneNumber')?.hasError('required')">
+                                Phone number is required
+                            </mat-error>
+                            <mat-error
+                                *ngIf="informationForm.get('altPhoneNumber')?.touched && informationForm.get('altPhoneNumber')?.hasError('pattern')">
+                                Only digits are allowed
+                            </mat-error>
+                            <mat-error
+                                *ngIf="informationForm.get('altPhoneNumber')?.touched && informationForm.get('altPhoneNumber')?.hasError('minlength')">
+                                Phone number must be at least
+                                {{ informationForm.get('altCountryCode')?.value?.phone_min_length || 10 }} digits
+                            </mat-error>
+                            <mat-error
+                                *ngIf="informationForm.get('altPhoneNumber')?.touched && informationForm.get('altPhoneNumber')?.hasError('maxlength')">
+                                Phone number cannot exceed
+                                {{ informationForm.get('altCountryCode')?.value?.phone_max_length || 10 }} digits
+                            </mat-error>
+                        </mat-form-field>  
+                    </div>
+                </div>
+
+                <div class="form-group row center-align">
+                    <div class="mr-t-20">
+                        <button class="btn btn-theme" [disabled]="informationForm.invalid || informationForm.pristine"  (click)="submit()">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+.admin-login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #F3EBD2 0%, #1b5e20 100%);
+  padding: 20px;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.admin-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login-button {
+  margin-top: 16px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+}

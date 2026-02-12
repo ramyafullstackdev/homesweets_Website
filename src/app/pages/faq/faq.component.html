@@ -1,0 +1,39 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8">
+      <div class="faq-header-section">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+        <p class="faq-subtitle">Find answers to common questions about our services</p>
+      </div>
+
+      <div class="faq-container">
+        <div *ngFor="let faq of faqs; let i = index" class="faq-item" [class.active]="faq.isOpen">
+          <div class="faq-question" (click)="toggleAccordion(i)">
+            <h6 class="question-text">{{ faq.question }}</h6>
+            <div class="icon-wrapper" [@rotateIcon]="faq.isOpen ? 'expanded' : 'collapsed'">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 12.5L10 7.5L5 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+          <div class="faq-answer" [@expandCollapse]="faq.isOpen ? 'expanded' : 'collapsed'">
+            <p>{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer-custom">
+  <div class="container text-center">
+    <p class="footer-text">
+      Still have questions? <a href="#" class="footer-link">Contact our support team</a>
+    </p>
+    <p class="footer-copyright">
+      © {{ currentYear }} Home Sweets. All rights reserved.
+    </p>
+
+  </div>
+</footer>

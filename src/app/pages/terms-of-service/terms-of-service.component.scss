@@ -1,0 +1,35 @@
+.policy-wrapper {
+//   background: #f9f9f9;
+}
+
+.policy-card {
+  max-width: 900px;
+//   background: #fff;
+//   border-radius: 12px;
+//   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+}
+
+.policy-title {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #1F3A32;
+}
+
+.policy-content p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+}
+
+.section-heading {
+  margin-top: 25px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #1F3A32;
+}
+
+@media (max-width: 576px) {
+  .policy-card {
+    padding: 1.5rem !important;
+  }
+}

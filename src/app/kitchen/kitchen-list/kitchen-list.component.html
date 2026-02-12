@@ -1,0 +1,118 @@
+<div class="row g-3" *ngIf="searchSelection.length > 0 && searchSelection[0].kitchenDetails">
+    <div class="col-md-3 col-sm-6 col-xs-12" *ngFor="let kitchenVal of searchSelection">
+        <div class="card kitchen-card">
+            <div class="card-body row  pointer-view " (click)="viewProducts(kitchenVal)">
+                <div class="container col">
+                    <img class="kitchen-view img-responsive rounded"
+                    [src]="s3ApiUrl+'/'+kitchenVal.kitchenDetails.kitchenForm.kitchenImage"
+                    >
+                </div>
+                <div class="container col f-14">
+                    <h6 class="header-font">{{kitchenVal.kitchenDetails.kitchenForm.kitchenName}}'s Kitchen</h6>
+                    <div class="footer-align">
+                        <div>
+                            <span> <i class="fas fa-star text-warning"></i>{{kitchenVal.overallRating}} </span>
+                        </div>
+                        <div>
+                            {{kitchenVal.category}}
+                        </div>
+                        <div>
+                            {{kitchenVal.kitchenDetails.kitchenForm.city}}
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row g-3 search-result-text" *ngIf="searchSelection.length>0 && searchSelection[0].kitchenDetails">
+    More Results like this
+</div>
+<br>
+<div class="row g-3">
+    <div class="col-md-3 col-sm-6 col-xs-12" *ngFor="let kitchenVal of kitchens">
+        <div class="card kitchen-card">
+            <div class="card-body row  pointer-view " (click)="viewProducts(kitchenVal)">
+                <div class="container col">
+                    <img class="kitchen-view img-responsive rounded"
+                    [src]="s3ApiUrl+'/'+kitchenVal.kitchen.kitchenDetails.kitchenForm.kitchenImage"
+                    >
+                </div>
+                <div class="container col f-14">
+                    <h6 class="header-font">{{kitchenVal.kitchen.kitchenDetails.kitchenForm.kitchenName}}'s Kitchen</h6>
+                    <div class="footer-align">
+                        <div>
+                            <span> <i class="fas fa-star text-warning"></i>{{kitchenVal.kitchen.overallRating}} </span>
+                        </div>
+                        <div>
+                            {{kitchenVal.kitchen.category}}
+                        </div>
+                        <div>
+                            {{kitchenVal.kitchen.kitchenDetails.kitchenForm.city}}
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card" *ngFor="let kitchen of kitchens">
+        <div class="card-body row">
+            <div class="col">
+                <img class="kitchen-view" src="/assets/images/{{ kitchen.image }}">
+            </div>
+            <div class="col">
+                <h4 class="p-mb-1">From {{kitchen.name}} 's Kitchen</h4>
+                <div>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 0"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 1"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 2"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 3"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 4"></i>
+
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 5"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 4"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 3"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 2"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 1"></i>
+                </div>
+                <div>
+                    {{kitchen.category}}
+                </div>
+                <div>
+                    {{kitchen.location}}
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div class="row">
+    <div class="col-6 col-md-3"  *ngFor="let kitchen of kitchens">
+      <div class="card"  >
+        <div class="card-body">
+                <img class="kitchen-view" src="/assets/images/{{ kitchen.image }}">
+                <h4 class="p-mb-1">From {{kitchen.name}} 's Kitchen</h4>
+                <div>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 0"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 1"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 2"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 3"></i>
+                    <i class="fas fa-star text-warning" *ngIf="kitchen.rating > 4"></i>
+        
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 5"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 4"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 3"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 2"></i>
+                    <i class="fas fa-star text-secondary" *ngIf="kitchen.rating < 1"></i>
+                </div>
+                <div>
+                    {{kitchen.category}}
+                </div>
+                <div>
+                    {{kitchen.location}}
+                </div>
+        </div>
+      </div>
+    </div>
+  </div> -->

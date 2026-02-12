@@ -1,0 +1,112 @@
+<div class="dialog-container rating-component">
+    <form [formGroup]="reviewFrom">
+      <div class="heading-container">
+        <div class="row">
+          <div class="col-12">
+            <h1 mat-dialog-title>{{inputdata.title}}</h1>
+            <!-- <div class="close-dialog" (click)="closepopup()">
+              x
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div mat-dialog-content>
+        <div class="form-container">
+          <div class="row">
+            <mat-form-field *ngIf="!data.isLoggedIn" class="form-element" class="full-width" appearance="outline" >
+              <mat-label>FullName</mat-label>
+              <input matInput type="text" placeholder="FullName" formControlName="fullName">
+            </mat-form-field>
+
+              <!-- <mat-form-field *ngIf="!data.isLoggedIn" class="form-element" class="full-width" appearance="outline">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput type="number" placeholder="Phone Number" formControlName="phoneNumber">
+                </mat-form-field> -->
+                 <label for="phoneNumber" class="col col-form-label" *ngIf="!data.isLoggedIn">
+                    Phone Number<span class="text-danger">*</span>
+                  </label>
+                <div class="form-group row phone-number" *ngIf="!data.isLoggedIn">
+                  <div class="col-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input type="text" placeholder="+Code" matInput formControlName="countryCode" [matAutocomplete]="auto" />
+                      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode">
+                        <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code">
+                          {{ code.name }} ({{ code.dial_code }})
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-error
+                        *ngIf="reviewFrom.get('countryCode')?.touched && reviewFrom.get('countryCode')?.hasError('required')">
+                        Country code selection is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field class="form-field-login" appearance="outline">
+                      <input matInput type="text" formControlName="phoneNumber" placeholder="Enter phone number" required />
+                      <mat-error
+                        *ngIf="reviewFrom.get('phoneNumber')?.touched && reviewFrom.get('phoneNumber')?.hasError('required')">
+                        Phone number is required
+                      </mat-error>
+                      <mat-error
+                        *ngIf="reviewFrom.get('phoneNumber')?.touched && reviewFrom.get('phoneNumber')?.hasError('pattern')">
+                        Only digits are allowed
+                      </mat-error>
+                      <mat-error
+                        *ngIf="reviewFrom.get('phoneNumber')?.touched && reviewFrom.get('phoneNumber')?.hasError('minlength')">
+                        Phone number must be at least
+                        {{ reviewFrom.get('countryCode')?.value?.phone_min_length || 10 }} digits
+                      </mat-error>
+                      <mat-error
+                        *ngIf="reviewFrom.get('phoneNumber')?.touched && reviewFrom.get('phoneNumber')?.hasError('maxlength')">
+                        Phone number cannot exceed
+                        {{ reviewFrom.get('countryCode')?.value?.phone_max_length || 10 }} digits
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <mat-form-field *ngIf="!data.isLoggedIn" class="form-element full-width" appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput placeholder="Enter your email" formControlName="email">
+                  <mat-error *ngIf="reviewFrom.get('email')?.hasError('email') && !reviewFrom.get('email')?.hasError('required')">
+                    Please enter a <strong>valid</strong> email
+                  </mat-error>
+                </mat-form-field>
+            <div class="pb-2">
+               Rating:  <p-rating formControlName="rating" [cancel]="false"></p-rating>
+            </div>
+              <mat-form-field class="form-element" class="full-width" appearance="outline">
+                <mat-label>Title For Your Review</mat-label>
+                <input matInput type="text" placeholder="Report Type Name" formControlName="titleReview">
+              </mat-form-field>
+            <!-- </div>
+            <div class="col-12"> -->
+                <mat-form-field class="form-element" class="full-width" appearance="outline">
+                    <mat-label>Your Review</mat-label>
+                    <textarea matInput placeholder="Report Type Name" formControlName="review"></textarea>
+                </mat-form-field>
+            <!-- </div> -->
+            <div class="mb-3 form-floating">
+              <input class="form-control" accept="image/*" type="file" id="reviewImage" (change)="onFileSelected($event)">
+              <label for="reviewImage">image</label>
+          </div>
+          <div class="imagePreview" *ngIf="imageURL && imageURL !== ''">
+              <img [src]="imageURL" class="default-image-view" alt="No Image">
+              <span class="close-image" (click)="removeImage()" *ngIf="mode == 'update'">
+                <i class="fas fa-times fa-2x theme-btn-color pointer-view"></i>
+              </span>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div mat-dialog-actions class="actions">
+        <div class="col-12 d-flex justify-content-end action-btn-container">
+          <button mat-flat-button color="accents" class="m-1" (click)="closepopup()">Cancel</button>
+            <button mat-flat-button type="submit" color="primary" class="m-1" (click)="submit()"><i class="fa fa-save"
+                style="color: white !important"></i>&nbsp;&nbsp;{{this.mode !== 'add' ? 'Update' : 'Save'}}</button>
+        </div>
+    </div>
+    </form>
+  </div>
+  
+  
+  

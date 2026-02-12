@@ -1,0 +1,55 @@
+
+<div class="container mr-t-10">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{formattedCategoryName(categoryName) | titlecase}}</li>
+      </ol>
+    </nav>
+
+    <!-- <div class="input-group full-width">
+      <form class="full-width" [formGroup]="searchFormGroup" >
+        <mat-form-field class="full-width">
+          <mat-label>Search Products</mat-label>
+          <input matInput class="search-input-lg"
+                 aria-label="State"
+                 [matAutocomplete]="auto"
+                 (input)="filter($event)"
+                 formControlName="searchCtrl">
+          <mat-autocomplete #auto="matAutocomplete" >
+            <mat-option (onSelectionChange)="selectedOption(result)" *ngFor="let result of filteredSearch | async" [value]="result.productName ? result.productName : result.kitchenDetails.kitchenForm.kitchenName">
+              <div class="row">
+                <div class="col search-fx">
+                  <img alt="" class="search-image" [src]="result.productName ? s3ApiUrl+'/'+result.productImagePath : s3ApiUrl+'/'+result.kitchenDetails.kitchenForm.kitchenImage" 
+                  >
+                </div>
+                <div class="col search-fx">
+                  <span>{{result.productName ? result.productName : result.kitchenDetails.kitchenForm.kitchenName}}</span><br>
+                  <small>{{result.productName ? 'Dish' : 'Kitchen'}}</small>
+                </div>
+              </div>
+              
+              
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div> -->
+    <!-- <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item p-10" role="presentation">
+          <button class="nav-link " (click)="tabClick('kitchen')" [ngClass]="{'active' : enableKitchenView == true}" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Kitchens</button>
+        </li>
+        <li class="nav-item p-10" role="presentation">
+          <button class="nav-link" (click)="tabClick('product')" [ngClass]="{'active' : enableProductView == true}" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Products</button>
+        </li>
+      </ul> -->
+      <div class="tab-content" id="pills-tabContent"  *ngIf="reloadComp">
+        <app-product-list></app-product-list>
+        <!-- <div class="tab-pane fade show" *ngIf="enableKitchenView" [ngClass]="{'active' : enableKitchenView == true}" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <app-kitchen-list></app-kitchen-list>
+        </div>
+        <div class="tab-pane fade show" *ngIf="enableProductView" [ngClass]="{'active' : enableProductView == true}" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <app-kitchen-products></app-kitchen-products>
+        </div> -->
+      </div>
+</div>

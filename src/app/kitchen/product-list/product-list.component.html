@@ -1,0 +1,25 @@
+<div class="shop-container">
+  <!-- Sidebar -->
+  <app-filter-sidebar class="filter-sidebar-style" (filterChange)="applyFilter($event)"></app-filter-sidebar>
+
+  <!-- Main product area -->
+  <div class="product-content">
+    <div class="product-header">
+  <select
+    [(ngModel)]="sortOption"
+    (change)="sortProducts()"
+    class="custom-select"
+  >
+    <option *ngFor="let option of sortOptions" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+</div>
+
+    <!-- Grid -->
+    <div >
+      <app-product-card (addToCart)="handleAddToCart($event)" [sortOption]="sortOption">
+</app-product-card>
+    </div>
+  </div>
+</div>

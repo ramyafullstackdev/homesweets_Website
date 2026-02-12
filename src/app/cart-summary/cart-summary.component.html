@@ -1,0 +1,342 @@
+<div *ngIf="isCart">
+    <div class="offcanvas-header bottom-border">
+        <h5 class="offcanvas-title">Cart Summary ( {{totalCount}} )</h5>
+        <button
+            type="button"
+            class="btn-close text-reset"
+            aria-label="Close"
+            (click)="activeOffcanvas.dismiss('Cross click')"
+        ></button>
+    </div>
+    <div class="offcanvas-body" *ngIf="totalCount">
+        <div class="container scrollable-card">
+            <div class="card cart-card" *ngFor="let cart of cartData">
+                <div class="card-header row align-items-center">
+                    <div class="col-md-3 col-sm-3 p-2 cart-image d-flex justify-content-center align-items-center">
+                        <img class="cart-img rounded" [src]="s3ApiUrl+'/'+cart.productImagePath[0]">
+                    </div>
+                    <div class="col-md-7 col-sm-7 p-3 w-45">
+                        <h5 class="header-font cart-font product-name mb-2">{{cart.productName | titlecase}}</h5>
+                        <span class="d-block mb-2 normal-font">Weight: {{cart.productWeight}}</span>
+                        <div class="input-group" style="max-width: 220px;">
+                            <input type="number" min="1" [max]="cart.preOrder ? '' : currentStock(cart)"
+                                class="form-control quantity-dd" (change)="calculateValue($event, cart)" [value]="cart.quantity"
+                                id="quantity" name="quantity">
+                            <span class="input-group-text  normal-font">X {{cart.productCurrentPrice}}</span>
+                            <button class="btn p-2" type="button" (click)="removeItem(cart)">
+                                <i class="fas fa-trash text-danger"></i>
+                            </button>
+            
+                        </div>
+                    </div>
+            
+                    <div class="col-md-2 col-sm-2 p-2 w-20 d-flex flex-column align-items-end justify-content-center">
+                        <div class="total-value">
+                            <i class="fas fa-rupee-sign text-secondary  normal-font"></i>
+                            {{ cart.totalVal }}
+                        </div>
+                    </div>
+            
+            
+                </div>
+            
+            </div>
+            
+            <div class="recommendations-section mt-4 mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="recommendation-title mb-0 ">You May Also Like</h5>
+                    <div class="navigation-arrows">
+                        <button class="btn btn-sm btn-outline-secondary me-1" (click)="scrollRecommendations('left')"
+                            [disabled]="!canScrollLeft">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" (click)="scrollRecommendations('right')"
+                            [disabled]="!canScrollRight">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            
+                <div class="recommendations-container" #recommendationsScroll (scroll)="onRecommendationsScroll()">
+                    <div class="recommendation-card" *ngFor="let product of recommendedProducts">
+                        <div class="recommendation-image-wrapper">
+                            <img [src]="product.productImagePath" [alt]="product.productName" class="recommendation-image">
+                        </div>
+                        <div class="recommendation-details">
+                            <h6 class="recommendation-name  normal-font">{{product.productName}}</h6>
+                            <p class="recommendation-weight  normal-font">{{product.productWeight}}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="recommendation-price  normal-font">
+                                    <i class="fas fa-rupee-sign"></i>{{product.productCurrentPrice}}
+                                </span>
+                                <button class="btn btn-sm btn-add" (click)="addRecommendedToCart(product)">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="container total-highlight">
+            <div class="row p-10">
+                <div class="col">
+                    <label>Subtotal :</label>
+                </div>
+                <div class="col">
+                    <label class="float-right"> <i class="fas fa-rupee-sign"></i> {{totalCartValue}}</label>
+                </div>
+            </div>      
+        </div>
+        <div class="container m-t-2">
+            <div class="row">
+                <button class="btn btn-outline-warning detailed-cart-btn" (click)="activeOffcanvas.dismiss('Cross click'); redirect()">View Detailed Cart</button>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-body"  *ngIf="!totalCount">
+        <div class="container">
+            <img class="img-responsive" src="assets/images/empty-fav.png" alt="No cart items" />
+            <h3 class="no-data">No cart items found.</h3>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!isCart">
+    <div class="offcanvas-header bottom-border">
+        <h5 class="offcanvas-title">Favorite Summary ( {{totalFavCont}} )</h5>
+        <button
+            type="button"
+            class="btn-close text-reset"
+            aria-label="Close"
+            (click)="activeOffcanvas.dismiss('Cross click')"
+        ></button>
+    </div>
+    <div class="offcanvas-body"  *ngIf="totalFavCont">
+        <div class="container scrollable-card">
+            <h3>Favorite Offers</h3>
+            <div class="card mb-3 " *ngFor="let fav of favoriteOffers">
+                <div class="card-header row inner-row" (click)="redirectUrl(fav, 'product')">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 p-10 cart-image">
+                                <img class="img-responsive rounded"
+                                [src]="s3ApiUrl+'/'+ fav.productImagePath"
+                                >
+                            </div>
+                            <div class="col-md-7 col-sm-3 p-10 w-45">
+                                <h5 class="header-font cart-font">{{fav.productName | titlecase}}</h5>
+                                <div class="footer-align"> 
+                                    <div class="stars">
+                                        <ng-container *ngFor="let _ of getFullStars(fav.overallRating || 0)">
+                                          <mat-icon>star</mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="hasHalfStar(fav.overallRating || 0)">
+                                          <mat-icon>star_half</mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngFor="let _ of getEmptyStars(fav.overallRating || 0)">
+                                          <mat-icon>star_border</mat-icon>
+                                        </ng-container>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 p-10 w-20">
+                                <span class="float-right f-26 pointer-view" (click)="removeItemFav(fav, 'offer')"><i class="fas fa-trash text-danger"></i></span>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+              </div>
+              <hr>
+              <h3>Favorite Product</h3>
+              <div class="card mb-3 " *ngFor="let fav of favoriteProduct">
+                <div class="card-header row inner-row" (click)="redirectUrl(fav, 'product')">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 p-10 cart-image">
+                                <img class="img-responsive rounded"
+                                [src]="s3ApiUrl+'/'+ fav.productImagePath"
+                                >
+                            </div>
+                            <div class="col-md-7 col-sm-3 p-10 w-45">
+                                <h5 class="header-font cart-font">{{fav.productName | titlecase}}</h5>
+                                <div class="footer-align"> 
+                                    <div class="stars">
+                                        <ng-container *ngFor="let _ of getFullStars(fav.overallRating || 0)">
+                                          <mat-icon>star</mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="hasHalfStar(fav.overallRating || 0)">
+                                          <mat-icon>star_half</mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngFor="let _ of getEmptyStars(fav.overallRating || 0)">
+                                          <mat-icon>star_border</mat-icon>
+                                        </ng-container>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 p-10 w-20">
+                                <span class="float-right f-26 pointer-view" (click)="removeItemFav(fav,'product')"><i class="fas fa-trash text-danger"></i></span>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+              </div>
+              <hr>
+              <h3>Favorite Kitchen</h3>
+              <div class="card mb-3 " *ngFor="let fav of favoriteKitchen">
+                <div class="card-header row inner-row" (click)="redirectUrl(fav, 'kitchen')">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 p-10 cart-image">
+                                <img class="img-responsive rounded"
+                                [src]="s3ApiUrl+'/'+ (fav.kitchenDetails?.kitchenForm?.kitchenImage || '')"
+                                >
+                            </div>
+                            <div class="col-md-7 col-sm-3 p-10 w-45">
+                                <h5 class="header-font cart-font">{{(fav.kitchenDetails?.kitchenForm?.kitchenName + "'s" || "") | titlecase}}</h5>
+                                <div class="footer-align"> 
+                                    <div class="stars">
+                                        <ng-container *ngFor="let _ of getFullStars(fav.overallRating || 0)">
+                                          <mat-icon>star</mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="hasHalfStar(fav.overallRating || 0)">
+                                          <mat-icon>star_half</mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngFor="let _ of getEmptyStars(fav.overallRating || 0)">
+                                          <mat-icon>star_border</mat-icon>
+                                        </ng-container>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 p-10 w-20">
+                                <span class="float-right f-26 pointer-view" (click)="removeItemFav(fav, 'kitchen')"><i class="fas fa-trash text-danger"></i></span>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="offcanvas-body"  *ngIf="!totalFavCont">
+        <div class="container">
+            <img class="img-responsive" src="assets/images/empty-fav.png" alt="No favorite items" />
+            <h3 class="no-data">No favorite items found.</h3>
+        </div>
+    </div>
+</div>
+<button #addInquiry class="display-none" data-toggle="modal" data-target="#addInquiryModel"></button>
+<div class="modal fade addInquiry" id="addInquiryModel" tabindex="-1" role="dialog"
+    aria-labelledby="addInquiryModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success-header text-center">
+                <h6 class="text-center" id="addInquiryModelLabel">
+                    <i class="fas fa-check-circle text-success m-r-10"></i> Please fill the contact form and we will get
+                    back to you soon
+                </h6>
+                <button #closeBtn type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="inquiryForm" (ngSubmit)="submitInquiry()">
+                    <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Your Name" formControlName="name" required>
+                        <mat-error *ngIf="inquiryForm.get('name')?.touched && inquiryForm.get('name')?.invalid">
+                            Name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Your Email" formControlName="email" required>
+                        <mat-error
+                            *ngIf="inquiryForm.get('email')?.touched && inquiryForm.get('email')?.errors?.['required']">
+                            Email is required
+                        </mat-error>
+                        <mat-error
+                            *ngIf="inquiryForm.get('email')?.touched && inquiryForm.get('email')?.errors?.['email']">
+                            Invalid email
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Phone</mat-label>
+                        <input matInput placeholder="Your Phone" formControlName="phone" required>
+                        <mat-error
+                            *ngIf="inquiryForm.get('phone')?.touched && inquiryForm.get('phone')?.errors?.['required']">
+                            Phone is required
+                        </mat-error>
+                        <mat-error
+                            *ngIf="inquiryForm.get('phone')?.touched && inquiryForm.get('phone')?.errors?.['pattern']">
+                            Invalid phone
+                        </mat-error>
+                    </mat-form-field> -->
+ 
+                    <div class="col-12 mb-3">
+                                    <label for="phoneNumber">
+                                        Phone Number<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-4 pr-1">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <input type="text" placeholder="+Code" matInput formControlName="countryCode"
+                                                    [matAutocomplete]="auto" />
+                                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode" style="z-index: 1000;">
+                                                    <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code" style="z-index: 1000;">
+                                                        {{ code.name }} ({{ code.dial_code }})
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('countryCode')?.touched && inquiryForm.get('countryCode')?.hasError('required')">
+                                                    Country code selection is required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-8 pl-1">
+                                            <mat-form-field class="w-100" appearance="outline">
+                                                <input matInput type="text" formControlName="phoneNumber" placeholder="Enter phone number" required />
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('required')">
+                                                    Phone number is required
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('pattern')">
+                                                    Only digits are allowed
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('minlength')">
+                                                    Phone number must be at least
+                                                    {{ inquiryForm.get('countryCode')?.value?.phone_min_length || 10 }} digits
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('maxlength')">
+                                                    Phone number cannot exceed
+                                                    {{ inquiryForm.get('countryCode')?.value?.phone_max_length || 10 }} digits
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                    <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Message</mat-label>
+                        <textarea matInput placeholder="Your Message" formControlName="message" required></textarea>
+                        <mat-error *ngIf="inquiryForm.get('message')?.touched && inquiryForm.get('message')?.invalid">
+                            Message is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="text-right">
+                        <button mat-raised-button color="primary" type="submit">Submit Inquiry</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

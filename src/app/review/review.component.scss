@@ -1,0 +1,34 @@
+.dialog-container {
+    padding: 10px;
+  }
+  
+  .action-btn-container {
+    button {
+      height: 35px;
+    }
+  }
+  
+  .mat-form-field {
+    height: 60px; /* Adjust the height according to your design */
+    width: 100%;
+    margin: 5px;
+  }
+  
+  .custom-label {
+    color: gray;
+    font-size: 14px;
+  }
+  
+  .default-image-view {
+    max-width: 200px;
+    max-width: 200px;
+}
+
+.form-floating>label {
+  left: 12px !important
+}
+
+.close-image {
+  padding-left: 10px;
+}
+    

@@ -1,0 +1,373 @@
+<div class="container">
+    <div class="cart-grid row">
+
+        <!-- Left Block: cart product informations & shpping -->
+        <div class="cart-grid-body  col-lg-8 col-md-8 col-sm-6 col-xs-3">
+            <div class="card cart-container" style="    min-height: 347px;">
+                <div class="card-block">
+                    <h1 class="h1">Shopping Cart</h1>
+                </div>
+                <hr class="separator">
+                <!-- <div class="cart-overview js-cart" data-refresh-url="//www.sweetkadai.com/cart?ajax=1&action=refresh"> -->
+                <div class="cart-overview ">
+                    <div class="cart cart-layout" *ngFor="let cart of cartData">
+                        <div class="row">
+                            <div class="col-1 cart-item">
+                                <span (click)="removeItem(cart)">
+                                    <i class="fas fa-times fa-2x theme-btn-color pointer-view"></i>
+                                </span>
+                            </div>
+                            <div class="col cart-item">
+                                <img class="img-responsive rounded cart-image" [src]="s3ApiUrl+'/'+cart.productImagePath[0]">
+                                <p class="save-align theme-btn-color pointer-view">
+                                    <span (click)="saveforlater(cart)">Save for Later</span>
+                                </p>
+
+                            </div>
+                            <div class="col cart-item">
+                                <h6 class="header-font">{{cart.productName}}</h6>
+                                <span style="font-weight: bold;"><i class="fas fa-rupee-sign text-secondary"></i>&nbsp;{{cart.productCurrentPrice}}</span>
+                                <p style="color: #6759478a;">Weight: {{cart.productWeight}}</p>
+                            </div>
+                            <div class="col cart-item mobile-view">
+                                  <div class="qty-selector">
+                                    <button class="btn" (click)="calculatedTotal(cart,'-')"><i class="fas fa-minus text-secondary"></i></button>
+                                    <!-- <label>{{cart.quantity}}</label> -->
+                                    <input min="0" oninput="this.value = 
+                                      !!this.value && Math.abs(this.value) > 0 ? Math.abs(this.value) : 1" type="number" class="quantity-dd" (change)="calculateValue($event, cart)" [value]="cart.quantity" id="quantity" name="quantity">
+                                    <button class="btn" (click)="calculatedTotal(cart,'+')"><i class="fas fa-plus text-secondary"></i></button>
+                                  </div>
+                                <!-- <input type="number" class="quantity-dd"  [value]="cart.quantity" id="quantity" name="quantity" min="1" max="10"> -->
+                                <!-- <span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span> -->
+                                <!-- <span class="input-group-btn-vertical"><button class="btn btn-touchspin js-touchspin js-increase-product-quantity bootstrap-touchspin-up" type="button"><i class="material-icons touchspin-up"></i></button><button class="btn btn-touchspin js-touchspin js-decrease-product-quantity bootstrap-touchspin-down" type="button"><i class="material-icons touchspin-down"></i></button></span> -->
+                            </div>
+                            <div class="col cart-item">
+                                <i class="fas fa-rupee-sign text-secondary"></i>
+                                {{cart.totalVal ? cart.totalVal : calculatedTotal(cart, null)}}
+                            </div>
+                            <div class="col cart-item">
+                                <mat-chip *ngIf="cart.preOrder" class="preOrder"><mat-icon>history</mat-icon><span class="margin-10px">Pre-Order</span></mat-chip>
+                                <mat-chip *ngIf="!cart.preOrder" class="onStock"><mat-icon>check</mat-icon><span class="margin-10px">OnStock</span></mat-chip>
+                            </div>
+                        </div>
+                        <hr class="separator">
+                    </div>
+                   <div *ngIf="cartData.length == 0">
+                    There are no more items in your cart
+                   </div>
+                </div>
+            </div>
+            <button (click)="continueShopping()" class="btn checkout-btn mr-t-15"> 
+                <i class="fas fa-chevron-left mr-r-6"></i>Continue Shopping</button>
+        </div>
+        <div class="cart-grid-right col-xs-12 col-lg-4">
+
+            <div class="card cart-summary">
+                <div class="cart-detailed-totals">
+                    <div class="card-block">
+                        <div class="cart-summary-line" id="cart-subtotal-products">
+                            <span class="label js-subtotal">
+                                {{totalItems}} items
+                            </span>
+                            <span class="value">
+                                <i class="fas fa-rupee-sign text-secondary"></i>{{totalCartValue}}
+                            </span>
+                        </div>
+                        <div class="cart-summary-line" id="cart-subtotal-shipping">
+                            <span class="label">
+                                Shipping
+                            </span>
+                            <span class="value">
+                                Free
+                            </span>
+                            <div><small class="value"></small></div>
+                            <div class="cart-summary-line">
+                                <span class="label sub">Total taxes </span>
+                                <span class="value sub">Taxes will be calculated during checkout </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block cart-summary-totals">
+                        <div class="cart-summary-line cart-total">
+                            <span class="label">Total&nbsp;(tax incl.)</span>
+                            <span class="value">
+                                <i class="fas fa-rupee-sign text-secondary"></i>{{totalCartValue}}
+                            </span>
+                        </div>
+                    </div>
+                    <!-- <div class="block-promo">
+                        <div class="cart-voucher">
+    
+                            <p class="promo-code-button display-promo">
+                                <a class="collapse-button" href="#promo-code">
+                                    Have a promo code?
+                                </a>
+                            </p>
+    
+                            <div id="promo-code" class="collapse">
+                                <div class="promo-code">
+    
+                                    <form action="https://www.sweetkadai.com/cart" data-link-action="add-voucher"
+                                        method="post">
+                                        <input type="hidden" name="token" value="3e8144a44429955e558c5a71eb9b314d">
+                                        <input type="hidden" name="addDiscount" value="1">
+                                        <input class="promo-input" type="text" name="discount_name"
+                                            placeholder="Promo code">
+                                        <button type="submit" class="btn btn-primary"><span>Add</span></button>
+                                    </form>
+    
+    
+    
+                                    <div class="alert alert-danger js-error" role="alert">
+                                        <i class="material-icons">&#xE001;</i><span class="ml-1 js-error-text"></span>
+                                    </div>
+    
+    
+                                    <a class="collapse-button promo-code-button cancel-promo" role="button"
+                                        data-toggle="collapse" data-target="#promo-code" aria-expanded="true"
+                                        aria-controls="promo-code">
+                                        Close
+                                    </a>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div> -->
+                </div>
+                <div class="checkout cart-detailed-actions card-block">
+                    <div class="container m-t-2">
+                        <div class="row">
+                            <button [disabled]=" this.cartData.length == 0 ?  true : false" (click)="checkPrduct()" class="btn checkout-btn "> <i
+                                    class="fas fa-check m-r-10"></i>Proceed to Checkout</button>
+                        </div>
+                    </div>
+                    <!-- <div class="text-sm-center checkoutbutton">
+
+                        <a href="https://www.sweetkadai.com/order" class="btn btn-primary">
+                            <i class="material-icons rtl-no-flip">&#xE876;</i>Proceed to checkout</a>
+                    </div> -->
+                </div>
+            </div>
+            <div class="blockreassurance_product">
+                <div class="pay-margin">
+                    <i class="fas fa-check-circle item-product theme-btn-color "></i>
+                    <p class="block-title"> Safe and Secure Payments</p>
+                </div>
+                <div class="pay-margin">
+                    <i class="fas fa-credit-card item-product theme-btn-color "></i>
+                    <p class="block-title">100% Payment Protection</p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="cart-grid-body col-xs-12 col-lg-8 mr-auto" *ngIf="showSaveAlert">
+            <span class="buylater">If you want to save products for later you need to login first : <a href="/my_account" class="pointer-view signin">Sign in</a></span>
+        </div>
+        <div class="cart-grid-body col-xs-12 col-lg-8" *ngIf="buylater.length > 0">
+            <div class="card cart-container">
+                <div class="card-block">
+                    <h1 class="h1">Wish List</h1>
+                </div>
+                <hr class="separator">
+                <!-- <div class="cart-overview js-cart" data-refresh-url="//www.sweetkadai.com/cart?ajax=1&action=refresh"> -->
+                <div class="cart-overview ">
+                    <div class="cart cart-layout" *ngFor="let cart of buylater">
+                        <div class="row">
+                            <div class="col cart-item">
+                                 <!-- <button class="btn remove-btn mr-t-15" (click)="removebuyItem(cart)">Remove</button> -->
+                                 <a href="javascript:void(0)" class="remove-btn" (click)="removebuyItem(cart)">Remove</a>
+                            </div>
+                            <div class="col cart-item">
+                                <img class="img-responsive rounded cart-image" [src]="s3ApiUrl+'/'+cart.product.productImagePath">
+                                <!-- <p class="save-align theme-btn-color pointer-view">
+                                    <span (click)="saveforlater(cart)">Save for Later</span>
+                                </p> -->
+
+                            </div>
+                            <div class="col cart-item">
+                                <h6 class="header-font">{{cart.product.productName}}</h6>
+                                <span style="font-weight: bold;"><i class="fas fa-rupee-sign text-secondary"></i>{{cart.product.productCurrentPrice}}</span>
+                                <p style="color: #6759478a;">Weight: 500gms</p>
+                            </div>
+                            <div class="col cart-item">
+                                  <!-- <div class="qty-selector">
+                                    <button class="btn" (click)="calculatedTotal(cart,'-')"><i class="fas fa-minus text-secondary"></i></button>
+                                    <label>{{cart.quantity}}</label>
+                                    <button class="btn" (click)="calculatedTotal(cart,'+')"><i class="fas fa-plus text-secondary"></i></button>
+                                  </div> -->
+                            </div>
+                            <div class="col cart-item">
+                                <button class="btn checkout-btn mr-t-15" (click)="movetocart(cart)"  data-toggle="modal" data-target="#addcartModel"> Move to Cart</button>
+                                <!-- <i class="fas fa-rupee-sign text-secondary"></i>
+                                {{cart.totalVal ? cart.totalVal : calculatedTotal(cart, null)}} -->
+                            </div>
+                        </div>
+                        <div class="modal fade" id="addcartModel" tabindex="-1" role="dialog" aria-labelledby="addcartModelLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header bg-success-header text-center">
+                                  <h6 class="text-center" id="addcartModelLabel">
+                                    <i class="fas fa-check-circle text-success m-r-10"></i> Product Successfully added to cart</h6>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
+                                        <div class="card-body row" *ngIf="!kitchenAlert">
+                                            <div class="container col">
+                                                <img class="img-responsive kitchen-view rounded" width="180" height="180"
+                                                [src]="s3ApiUrl+'/'+selectedData.productImagePath"
+                                                >
+                                            </div>
+                                            <div class="container col f-14">
+                                                <h6 class="header-font">{{selectedData.productName}}</h6>
+                                                <div>
+                                                    <span><i class="fas fa-rupee-sign text-secondary"></i></span> {{selectedData.productCurrentPrice}}
+                                                 </div>
+                                                 <div>
+                                                    <!-- <label>Quantity : {{cartQuantity}}</label> -->
+                                                 </div>
+                                                <div class="footer-align">
+                                                    <button type="button" class="btn-signup account-btn" data-dismiss="modal" (click)="removebuyItem(selectedProduct)">Continue</button>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="card-body" *ngIf="kitchenAlert">
+                                            <div class="container row">
+                                                If You are adding item from another kitchen, then cart data will be replaced.
+                                                Do you want to continue? 
+                                            </div>
+                                            <div class="container row">
+                                                <div class="footer-align">
+                                                    <button type="button" class="btn-signup account-btn" data-dismiss="modal" (click)="kitchenConfirm('no')" >No</button>
+                                                    <button type="button" class="btn-login account-btn mr-t-10" (click)="kitchenConfirm('yes')" >Yes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <hr class="separator">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<button #addInquiry class="display-none" data-toggle="modal" data-target="#addInquiryModel"></button>
+<div class="modal fade addInquiry" id="addInquiryModel" tabindex="-1" role="dialog"
+    aria-labelledby="addInquiryModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success-header text-center">
+                <h6 class="text-center" id="addInquiryModelLabel">
+                    <i class="fas fa-check-circle text-success m-r-10"></i> Please fill the contact form and we will get
+                    back to you soon
+                </h6>
+                <button #closeBtn type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="inquiryForm" (ngSubmit)="submitInquiry()">
+                    <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Your Name" formControlName="name" required>
+                        <mat-error *ngIf="inquiryForm.get('name')?.touched && inquiryForm.get('name')?.invalid">
+                            Name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Your Email" formControlName="email" required>
+                        <mat-error
+                            *ngIf="inquiryForm.get('email')?.touched && inquiryForm.get('email')?.errors?.['required']">
+                            Email is required
+                        </mat-error>
+                        <mat-error
+                            *ngIf="inquiryForm.get('email')?.touched && inquiryForm.get('email')?.errors?.['email']">
+                            Invalid email
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Phone</mat-label>
+                        <input matInput placeholder="Your Phone" formControlName="phone" required>
+                        <mat-error
+                            *ngIf="inquiryForm.get('phone')?.touched && inquiryForm.get('phone')?.errors?.['required']">
+                            Phone is required
+                        </mat-error>
+                        <mat-error
+                            *ngIf="inquiryForm.get('phone')?.touched && inquiryForm.get('phone')?.errors?.['pattern']">
+                            Invalid phone
+                        </mat-error>
+                    </mat-form-field> -->
+                    <div class="col-12 mb-3">
+                                    <label for="phoneNumber">
+                                        Phone Number<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-4 pr-1">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <input type="text" placeholder="+Code" matInput formControlName="countryCode"
+                                                    [matAutocomplete]="auto" />
+                                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode" style="z-index: 1000;">
+                                                    <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code" style="z-index: 1000;">
+                                                        {{ code.name }} ({{ code.dial_code }})
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('countryCode')?.touched && inquiryForm.get('countryCode')?.hasError('required')">
+                                                    Country code selection is required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-8 pl-1">
+                                            <mat-form-field class="w-100" appearance="outline">
+                                                <input matInput type="text" formControlName="phoneNumber" placeholder="Enter phone number" required />
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('required')">
+                                                    Phone number is required
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('pattern')">
+                                                    Only digits are allowed
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('minlength')">
+                                                    Phone number must be at least
+                                                    {{ inquiryForm.get('countryCode')?.value?.phone_min_length || 10 }} digits
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('maxlength')">
+                                                    Phone number cannot exceed
+                                                    {{ inquiryForm.get('countryCode')?.value?.phone_max_length || 10 }} digits
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-3">
+                        <mat-label>Message</mat-label>
+                        <textarea matInput placeholder="Your Message" formControlName="message" required></textarea>
+                        <mat-error *ngIf="inquiryForm.get('message')?.touched && inquiryForm.get('message')?.invalid">
+                            Message is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="text-right">
+                        <button mat-raised-button color="primary" type="submit">Submit Inquiry</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

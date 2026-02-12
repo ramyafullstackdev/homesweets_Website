@@ -1,0 +1,984 @@
+<div class="container mr-t-10" *ngIf="!showDetail">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" *ngIf="categoryName && !kitchen.kitchenDetails.kitchenForm.kitchenName">
+            <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> {{categoryName | titlecase}}</li>
+        </ol>
+        <ol class="breadcrumb" *ngIf="categoryName && kitchen.kitchenDetails.kitchenForm.kitchenName">
+            <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+            <li class="breadcrumb-item" > <a class="theme-color" [href]="'/'+categoryName">{{categoryName | titlecase}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{kitchen.kitchenDetails.kitchenForm.kitchenName + " Sellers" | titlecase}}</li>
+        </ol>
+        <ol class="breadcrumb" *ngIf="!categoryName">
+            <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{kitchen.kitchenDetails.kitchenForm.kitchenName + " Sellers" | titlecase}}</li>
+        </ol>
+    </nav>
+    <div *ngIf="kitchen.kitchenDetails">
+        <!-- <div class="row">
+            <div class="col-md-6  col-sm-12">
+                <img class="img-responsive-kitchen " 
+                [src]="s3ApiUrl+'/'+kitchen.kitchenDetails.kitchenForm.kitchenImage"
+                >
+            </div>
+            <div class="col-md-6  col-sm-12 mr-auto">
+                <p class="font-weight-bold">{{kitchen.kitchenDetails.kitchenForm.kitchenName}}'s Kitchen</p>
+                <p>
+                    {{kitchen.category}}
+                </p>
+                <p>
+                    {{kitchen.kitchenDetails.kitchenForm.city}}
+                </p>
+                <p>
+                    <i class="fas fa-star text-warning"></i>
+                    <span class="p-l-10">{{kitchen.overallRating}}</span>
+                </p>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <div style="padding: 0;">
+                      <p class="font-weight-bold">Review:</p>
+                      <button class="btn-signup account-btn review-btn" (click)="openPopup('kitchen Review')"> {{kitchenReview.length ? 'Update Review' : 'Write a Review'}}</button>                    </div>
+                    <div style="padding: 0;">
+                      <p class="font-weight-bold">Favorite:</p>
+                      <button class="btn-signup account-btn review-btn" (click)="toggleFavorite(kitchen,'kitchen')">
+                        {{ getFav(kitchen._id) ? 'Remove Favorite' : 'Add Favorite' }}
+                      </button>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        -->
+        <div class="carousel_bg">
+        <div class="banner-view">
+            <div class="main_container">
+                <div id="carouselExampleControls" class=" carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" *ngFor="let banner of slides;let i = index"
+                            [ngClass]="{'active': i == 0 }" [attr.data-slide-to]="i" class="active"></li>
+                    </ol>
+
+                    <div class="carousel-inner ">
+                        <div class="carousel-item" *ngFor="let banner of slides;let i = index"
+                            [ngClass]="{'active': i == 0 }">
+                            <img class="d-block w-100" [src]="s3ApiUrl+'/'+banner.imagePath" alt="First slide">
+                            <!-- Caption overlay for kitchen name & description -->
+                            <!-- <div class="carousel-caption-custom">
+                                <div class="kitchen-name">{{ kitchen.kitchenDetails.kitchenForm.city  }} <span (click)="toggleFavorite(kitchen,'kitchen')" *ngIf="isReset"><i  [ngClass]="getFav(kitchen._id) ? 'fas fa-heart active-fav' : 'fas fa-heart inActive-fav'"></i></span> </div>
+                                <div class="main-title">{{ kitchen.kitchenDetails.kitchenForm.kitchenName }} Seller</div>
+                                <div class="kitchen-description"><i class="fas fa-star text-warning"></i>
+                    <span class="p-l-10">{{kitchen.overallRating}}</span></div>
+                         
+                            </div> -->
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+       </div>
+    </div>
+</div>
+<div class="container mr-t-10" *ngIf="!showDetail">
+    <!-- <div style="background-color: white;" *ngIf="products.length">
+    <div class="row mb-3 pt-3 pl-3">
+        <div class="col-md-4 col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Search Products</mat-label>
+                <input matInput type="text" placeholder="Search by product name" [(ngModel)]="searchText" (ngModelChange)="onSearchChange($event)">
+                <button mat-icon-button matSuffix *ngIf="searchText" (click)="searchText=''; onSearchChange('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+    </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-2 col-sm-3 col-xs-6 kitchen-products" *ngFor="let product of products">
+            <div class="card pointer-view" >
+                 <div class="image-container">
+                    <img class="main-image-view" (click)="viewDetail(product)"
+                [src]="s3ApiUrl+'/'+product.productImagePath" 
+                 >
+                    <div class="heart-icon" (click)="toggleFavorite(product, 'product', $event)" *ngIf="isReset">
+                      <i [ngClass]="getFav(product._id) ? 'fas fa-heart active-fav' : 'fas fa-heart inActive-fav'"></i>
+                    </div>
+                  </div>
+                <div class="bottomleft-star">
+                    <i class="fas fa-star text-warning"></i>
+                    <span class="p-l-10">{{product.overallRating}}</span>
+                </div>
+                <div class="bottomright-cart">
+                    <button type="button" class="btn-cart btn-primary" (click)="addCart(product, kitchen)"
+                        data-toggle="modal" data-target="#addcartModel">
+                        <i class="fas fa-shopping-cart theme-purple"></i>
+                    </button>
+                </div>
+                <div class="m-l-10 mr-t-10">
+                    <p class="no_m-b">
+                        {{product.productName}}
+                    </p>
+                    <div class="font-weight-bold">
+                        <span> {{product.prices.length > 1 ?  product.prices[product.prices.length % 2].weight : product.prices[0].weight}} <i class="fas fa-rupee-sign text-secondary m-l-10"></i></span>
+                        {{ product.prices.length > 1 ?  product.prices[product.prices.length % 2].productPrice : product.prices[0].productPrice }}
+                    </div>
+                </div>
+
+                <div class="modal fade" id="addcartModel" #addcartModel tabindex="-1" role="dialog" aria-labelledby="addcartModelLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success-header text-center">
+                                <i class="fas fa-check-circle text-success m-r-10"></i>
+                                <h6 class="text-center header-span" id="addcartModelLabel">
+                                </h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body row" *ngIf="!kitchenAlert">
+                                        <div class="container col">
+                                            <img class="img-responsive kitchen-view rounded"
+                                            [src]="s3ApiUrl+'/'+selectedData.productImagePath" 
+                                            >
+                                        </div>
+                                        <div class="container col f-14">
+                                            <h6 class="header-font">{{selectedData.productName}}</h6>
+                                            <div>
+                                                <span><i class="fas fa-rupee-sign text-secondary"></i></span>
+                                                {{selectedData.productCurrentPrice}}
+                                            </div>
+                                            <div>
+                                                <label>Quantity : {{selectedData.quantity}}</label>
+                                            </div>
+                                            <div class="footer-align">
+                                                <button type="button" class="btn-signup account-btn"
+                                                    data-dismiss="modal">Continue Shopping</button>
+                                                <button type="button" class="btn-login account-btn mr-t-10"
+                                                    data-dismiss="modal" routerLink="/cart">Proceed to
+                                                    Checkout</button>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    <div class="card-body" *ngIf="kitchenAlert">
+                                        <div class="container row">
+                                            If You are adding item from another kitchen, then cart data will be
+                                            replaced.
+                                            Do you want to continue?
+                                        </div>
+                                        <div class="container row">
+                                            <div class="footer-align">
+                                                <button type="button" class="btn-signup account-btn" data-dismiss="modal"
+                                                    (click)="kitchenConfirm('no')">No</button>
+                                                <button type="button" class="btn-login account-btn mr-t-10"
+                                                    (click)="kitchenConfirm('yes')">Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="shop-container">
+        <!-- Sidebar -->
+        <app-filter-sidebar class="filter-sidebar-style" (filterChange)="applyFilter($event)"></app-filter-sidebar>
+    
+        <!-- Main product area -->
+        <div class="product-content">
+            <div class="product-header">
+                <div class="product-header pt-3">
+                    <select [(ngModel)]="sortOption" (change)="sortProducts()" class="custom-select">
+                        <option *ngFor="let option of sortOptionsKtc" [value]="option.value">
+                            {{ option.label }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+    
+            <!-- Grid -->
+            <div class="kitchen-products-container">
+                <div class="products-grid">
+                    <div class="product-cell" *ngFor="let product of products">
+                        <div class="custom-card">
+                            <div class="trending-badge"  [ngStyle]="{'background-color': product?.tagline?.color, 'color': product?.tagline?.textColor}" (click)="toggleFavorite(product, 'product', $event)"
+                                *ngIf="isReset">
+                                <span *ngIf="product?.tagline">{{ product.tagline.label }} | </span>
+                                <i
+                                    [ngClass]="getFav(product._id) ? 'fas fa-heart active-fav' : 'fas fa-heart inActive-fav'"></i>
+                            </div>
+                            <div class="image-container">
+                                <img class="main-image-view" (click)="viewDetail(product)"
+                                    [src]="s3ApiUrl + '/' + product.productImagePath">
+                            </div>
+                            <div class="card-body">
+                                <div class="product-title">{{ product.productName }}</div>
+                                <div class="card-price-row">
+                                    <span class="current-price">₹{{ product.prices[0]?.productPrice }}</span>
+                                    <span class="strike-price" *ngIf="product.prices[0]?.originalPrice">₹{{
+                                        product.prices[0]?.originalPrice }}</span>
+                                </div>
+                                <div class="product-metadata">Low GI | Stoneground</div>
+                                <div class="rating-row">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <span>{{product.overallRating}}</span>
+                                </div>
+                                <select class="weight-select" [(ngModel)]="product.selectedWeight">
+                                    <option *ngFor="let price of product.prices" [ngValue]="price.weight">{{ price.weight }}
+                                    </option>
+                                </select>
+                                <button class="cart-btn-ktc" (click)="addCart(product, kitchen)">ADD TO CART</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="mt-6 faq" *ngIf="faqList.length">
+        <h2 class="faq-heading">FAQ</h2>
+    
+        <mat-accordion class="faq-accordion">
+            <mat-expansion-panel *ngFor="let faq of faqList">
+                <mat-expansion-panel-header>
+                    <span class="faq-question">
+                        {{ faq.faqQustion }}
+                    </span>
+                </mat-expansion-panel-header>
+                <p>
+                    {{ faq.faqAnswer }}
+                </p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+
+    <div class="row g-3 search-result-text" *ngIf="otherProducts.length>0">
+        More Results like this
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-sm-3 col-xs-6 kitchen-products" *ngFor="let product of otherProducts">
+            <div class="card pointer-view" (click)="viewDetail(product)">
+                <img class="main-image-view"
+                [src]="s3ApiUrl+'/'+product.productImagePath" 
+                 >
+
+                    <!-- <button type="button" class="btn btn-link" (click)="addFav(product)"> -->
+                        <!-- <i class="fas fa-heart"></i> -->
+                 <!-- <div class="topright-fav">
+                        <span>
+                            <mat-icon>favorite_border</mat-icon>
+                        </span>
+                </div> -->
+                <div class="bottomleft-star">
+                    <i class="fas fa-star text-warning"></i>
+                    <span class="p-l-10">{{product.overallRating}}</span>
+                </div>
+                <div class="bottomright-cart">
+                    <button type="button" class="btn-cart btn-primary" (click)="addCart(product, kitchen)"
+                        data-toggle="modal" data-target="#addcartModel">
+                        <i class="fas fa-shopping-cart theme-purple"></i>
+                    </button>
+                </div>
+                <div class="m-l-10 mr-t-10">
+                    <p class="no_m-b">
+                        {{product.productName}}
+                    </p>
+                    <div class="font-weight-bold">
+                        <span> {{product.prices.length > 1 ?  product.prices[product.prices.length % 2].weight : product.prices[0].weight}} <i class="fas fa-rupee-sign text-secondary m-l-10"></i></span>
+                        {{ product.prices.length > 1 ?  product.prices[product.prices.length % 2].productPrice : product.prices[0].productPrice }}
+                
+                    </div>
+                </div>
+                <div class="modal fade" id="addcartModel" #addcartModel tabindex="-1" role="dialog" aria-labelledby="addcartModelLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success-header text-center">
+                                <i class="fas fa-check-circle text-success m-r-10"></i>
+                                <h6 class="text-center header-span" id="addcartModelLabel">
+                                </h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body row" *ngIf="!kitchenAlert">
+                                        <div class="container col">
+                                            <img class="img-responsive kitchen-view rounded"
+                                            [src]="s3ApiUrl+'/'+selectedData.productImagePath" 
+                                            >
+                                        </div>
+                                        <div class="container col f-14">
+                                            <h6 class="header-font">{{selectedData.productName}}</h6>
+                                            <div>
+                                                <span><i class="fas fa-rupee-sign text-secondary"></i></span>
+                                                {{selectedData.productCurrentPrice}}
+                                            </div>
+                                            <div>
+                                                <label>Quantity : {{cartQuantity}}</label>
+                                            </div>
+                                            <div class="footer-align">
+                                                <button type="button" class="btn-signup account-btn"
+                                                    data-dismiss="modal">Continue Shopping</button>
+                                                <button type="button" class="btn-login account-btn mr-t-10"
+                                                    data-dismiss="modal" routerLink="/cart">Proceed to
+                                                    Checkout</button>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    <div class="card-body" *ngIf="kitchenAlert">
+                                        <div class="container row">
+                                            If You are adding item from another kitchen, then cart data will be
+                                            replaced.
+                                            Do you want to continue?
+                                        </div>
+                                        <div class="container row">
+                                            <div class="footer-align">
+                                                <button type="button" class="btn-signup account-btn" data-dismiss="modal"
+                                                    (click)="kitchenConfirm('no')">No</button>
+                                                <button type="button" class="btn-login account-btn mr-t-10"
+                                                    (click)="kitchenConfirm('yes')">Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mr-t-10 prodct-list-view" *ngIf="showDetail">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" *ngIf="categoryName && kitchen && kitchen.kitchenDetails?.kitchenForm?.kitchenName">
+            <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+            <li class="breadcrumb-item" > <a class="theme-color" [href]="'/'+categoryName">{{categoryName | titlecase}}</a></li>
+            <li class="breadcrumb-item"><a class="theme-color pointer-view" (click)="goBack()">{{kitchen.kitchenDetails.kitchenForm.kitchenName + "'S Kithcen" | titlecase}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{selectedProduct.productName}}</li>
+        </ol>
+        <ol class="breadcrumb" *ngIf="categoryName && !kitchen.kitchenDetails">
+            <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+            <li class="breadcrumb-item" > <a class="theme-color" [href]="'/'+categoryName">{{categoryName | titlecase}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{selectedProduct.productName}}</li>
+        </ol> 
+        <ol class="breadcrumb" *ngIf="!categoryName && (routeFrom != 'offers' && routeFrom != 'best Sellers')">
+            <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+            <li class="breadcrumb-item"><a class="theme-color pointer-view" (click)="goBack()">{{kitchen.kitchenDetails.kitchenForm.kitchenName + "'S Kithcen" | titlecase}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{selectedProduct.productName}}</li>
+        </ol>
+        <ol class="breadcrumb" *ngIf="!categoryName && (routeFrom == 'offers' || routeFrom == 'best Sellers')">
+            <li class="breadcrumb-item"><a class="theme-color" href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{routeFrom}}</li>
+        </ol>
+    </nav>
+    <div class="kitchen-head">
+        <div class="row">
+            <!-- <div class="col-md-6  col-sm-12">
+                <img class="img-responsive-kitchen " 
+                [src]="s3ApiUrl+'/'+selectedProduct.productImagePath"
+                >
+            </div> -->
+            <div class="col-md-6 col-sm-12">
+                <!-- Main image -->
+                <img class="img-responsive-kitchen" [src]="s3ApiUrl + '/' + selectedProduct.productImagePath[selectedImageIndex]"
+                    alt="Product Image">
+            
+                <!-- Thumbnails -->
+                <div class="image-thumbnail-div">
+                    <img class="image-thumbnail" *ngFor="let img of selectedProduct.productImagePath; let i = index"
+                        [src]="s3ApiUrl + '/' + img" (click)="selectImage(i)"
+                        [style.border]="selectedImageIndex === i ? '2px solid #c00' : '1px solid #ddd'" alt="Thumbnail">
+                </div>
+            </div>
+
+            <!-- <div class="col-md-6  col-sm-12 mr-auto p-15">
+                <p class="font-weight-bold">{{selectedProduct.productName}}</p>
+                <p>
+                    {{selectedProduct.productDescription}}
+                </p>
+                <p>
+                    <i class="fas fa-star text-warning"></i>
+                    <span class="p-l-10">{{selectedProduct.overallRating || "5"}}</span>
+                </p>
+                <div class="price-wrapper">
+                    <div class="price-info">
+                        <span
+                          class="original-price"
+                          *ngIf="selectedProduct.productDiscount || currentWeightSelect?.discount"
+                          style="text-decoration: line-through;"
+                        >
+                          Rs. {{ currentWeightSelect?.originalPrice || currentWeightSelect?.productPrice || 0 }}
+                        </span>
+                      
+                        <span class="discounted-price">
+                            Rs. {{
+                                (selectedProduct.productDiscount || currentWeightSelect?.discount)
+                                  ? currentPriceCalculation(
+                                      currentWeightSelect?.originalPrice ?? currentWeightSelect?.productPrice ?? 0,
+                                      selectedProduct.productDiscount || currentWeightSelect?.discount
+                                    )
+                                  : (currentWeightSelect?.productPrice ?? currentWeightSelect?.originalPrice ?? 0)
+                              }}
+                              
+                        </span>
+                      
+                        <span
+                          class="discount-badge"
+                          *ngIf="selectedProduct.productDiscount || currentWeightSelect?.discount"
+                        >
+                          Save {{ selectedProduct.productDiscount || currentWeightSelect?.discount }}%
+                        </span>
+                      </div>
+                      
+                  </div>
+                  
+                <div>
+                    <span> Weight: {{currentWeightSelect?.weight}}</span>
+                </div>
+                <div class="prices-container">
+                    <div class="prices-div" *ngFor="let prices of selectedProduct.prices; let i = index" [ngClass]="{'price-selected':prices.selected}" (click)="selectedPrice(i)">
+                        <div class="weight">
+                            {{prices.weight}}
+                        </div>
+                    </div>
+                </div>
+              <div class="col cart-item mobile-view" style="padding: 0;">
+                <div class="qty-selector">
+                  Quantity:
+                  <mat-form-field appearance="outline" class="qty-field" *ngIf="selectedProduct.quantity < 31">
+                    <mat-select [(ngModel)]="selectedProduct.quantity" panelClass="custom-panel" (selectionChange)="calculatedTotal1(selectedProduct)">
+                      <mat-option *ngFor="let qty of quantityOptions" [value]="qty?.number ? qty.number : qty">
+                        {{ qty?.display ? qty.display : qty }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="col cart-item mobile-view" style="padding: 0;" *ngIf="selectedProduct.quantity > 30">
+                      <button class="btn" (click)="calculatedTotal(selectedProduct,'-')"><i class="fas fa-minus text-secondary"></i></button>
+                      <input min="0" oninput="this.value = 
+                       !!this.value && Math.abs(this.value) > 0 ? Math.abs(this.value) : 1" type="number" class="quantity-dd" (change)="calculateValue($event, selectedProduct)" [value]="selectedProduct.quantity" id="quantity" name="quantity">
+                      <button class="btn" (click)="calculatedTotal(selectedProduct,'+')"><i class="fas fa-plus text-secondary"></i></button>
+                      <button #addInquiry class="display-none" data-toggle="modal" data-target="#addInquiryModel"></button>
+              </div>
+                  
+                </div>
+              </div>
+              <div style="padding: 0; padding-top: 10px;">
+                <button 
+                    class="btn-signup account-btn" 
+                    data-toggle="modal" 
+                    data-target="#addcartModel" 
+                    (click)="addCart(selectedProduct, '')" 
+                    [disabled]="enableCart"
+                    [ngStyle]="enableCart ? {'background-color': '#ccc', 'color': '#888', 'cursor': 'not-allowed'} : {}"
+                >
+                    {{enableCart ? "Out Of Stock" : "Add to Cart"}}
+                </button>
+                <br>
+                <span class="font-weight-bold">Why Shop from homesweets.konint.com?
+                </span>
+                <p>Products made in small batches <br>
+                    Product procured every 48 hours from its authentic region. <br>
+                    Product Freshness maintained with our limited quantity procurement process</p>
+              </div>
+              <div style="padding: 0;">
+                <span class="font-weight-bold">Product Type:</span> {{selectedProduct.productType ? selectedProduct.productType : '-'}}
+              </div>
+              <div style="padding: 0;" *ngIf="kitchen && kitchen.kitchenDetails">
+               <span class="font-weight-bold"> Location: </span> {{kitchen.kitchenDetails.kitchenForm.city}}
+              </div>
+              <div style="padding: 0;">
+               <span class="font-weight-bold"> Shelf Life:</span>  {{selectedProduct.shelfLife}}
+              </div>
+              <div style="padding: 0;">
+                <span class="font-weight-bold"> Description:</span>  {{selectedProduct.productDescription}}
+              </div>
+              <div style="display: flex; gap: 20px; align-items: center;">
+                <div style="padding: 0;">
+                  <p class="font-weight-bold">Review:</p>
+                  <button class="btn-signup account-btn review-btn" (click)="openPopup('Product Review')">{{ productReview.length ? 'Update Review' : 'Write a Review'}}</button>
+                </div>
+                <div style="padding: 0;">
+                  <p class="font-weight-bold">Favorite:</p>
+                  <button class="btn-signup account-btn review-btn" (click)="toggleFavorite(selectedProduct,'product')">
+                    {{ getFav(selectedProduct._id) ? 'Remove Favorite' : 'Add Favorite' }}
+                  </button>
+                </div>
+              </div>
+              
+            </div> -->
+            <div class="product-detail-container">
+                <!-- Product Title & Ratings -->
+                <h2 class="product-title">{{ selectedProduct.productName }}</h2>
+                <div class="product-subtitle">
+                    {{ selectedProduct.productSubtitle }}
+                </div>
+                <div class="product-rating-price-row">
+                    <div class="star-rating">
+                        <i class="fas fa-star text-warning"></i>
+                        <span>{{ selectedProduct.overallRating || "5.0" }}</span>
+                        <span class="product-rating-count">| {{ selectedProduct.reviewCount }} Reviews</span>
+                    </div>
+                    <div class="main-price">
+                        <span
+                          class="original-price"
+                          *ngIf="selectedProduct.productDiscount || currentWeightSelect?.discount"
+                          style="text-decoration: line-through;"
+                        >
+                          ₹{{ currentWeightSelect?.originalPrice || currentWeightSelect?.productPrice || 0 }}
+                        </span>
+                        <span class="discounted-price">
+                            ₹ {{
+                                (selectedProduct.productDiscount || currentWeightSelect?.discount)
+                                  ? currentPriceCalculation(
+                                      currentWeightSelect?.originalPrice ?? currentWeightSelect?.productPrice ?? 0,
+                                      selectedProduct.productDiscount || currentWeightSelect?.discount
+                                    )
+                                  : (currentWeightSelect?.productPrice ?? currentWeightSelect?.originalPrice ?? 0)
+                              }}
+                              
+                        </span>
+                        <span class="discount-badge" *ngIf="selectedProduct.productDiscount || currentWeightSelect?.discount">
+                            Save {{ selectedProduct.productDiscount || currentWeightSelect?.discount }}%
+                        </span>
+                    </div>
+                </div>
+                <div class="product-description">
+                    {{ selectedProduct.productDescription }}
+                </div>
+            
+                <!-- Features Icons Row -->
+                <div class="feature-icons-row">
+                    <div class="feature-icon-block" *ngFor="let feat of selectedProduct.features">
+                        <img [src]="feat.icon" alt="" class="feature-icon" />
+                    </div>
+                </div>
+            
+                <!-- Price Selection Options -->
+                <div class="price-selection-row">
+                    <div *ngFor="let prices of selectedProduct.prices; let i=index"
+                        [ngClass]="{'selected-price-block':prices.selected, 'price-block':true}" (click)="selectedPrice(i)">
+                        <div class="price-weight">{{ prices.weight }}</div>
+                        <div class="price-main">₹{{ prices.originalPrice || prices.productPrice }}</div>
+                        <div class="price-per-gram">(Rs.{{ getPricePerGram(prices.originalPrice || prices.productPrice, prices.weight) | number:'1.2-2' }}/g)
+                        </div>
+                    </div>
+                </div>
+                <div class="qty-selector">
+                    <span class="pl-2">Quantity:</span>
+                        <mat-form-field appearance="outline" class="qty-field" *ngIf="selectedProduct.quantity < 31">
+                            <mat-select [(ngModel)]="selectedProduct.quantity" panelClass="custom-panel"
+                                (selectionChange)="calculatedTotal1(selectedProduct)">
+                                <mat-option *ngFor="let qty of quantityOptions" [value]="qty?.number ? qty.number : qty">
+                                    {{ qty?.display ? qty.display : qty }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="col cart-item mobile-view" style="padding: 0;" *ngIf="selectedProduct.quantity > 30">
+                            <button class="btn" (click)="calculatedTotal(selectedProduct,'-')"><i
+                                    class="fas fa-minus text-secondary"></i></button>
+                            <input min="0" oninput="this.value = 
+                                           !!this.value && Math.abs(this.value) > 0 ? Math.abs(this.value) : 1" type="number"
+                                class="quantity-dd" (change)="calculateValue($event, selectedProduct)" [value]="selectedProduct.quantity"
+                                id="quantity" name="quantity">
+                            <button class="btn" (click)="calculatedTotal(selectedProduct,'+')"><i
+                                    class="fas fa-plus text-secondary"></i></button>
+                            <button #addInquiry class="display-none" data-toggle="modal" data-target="#addInquiryModel"></button>
+                        </div>
+                    
+                    </div>
+
+                <div class="feature-icons-row">
+                    <div class="feature-icon-block" *ngFor="let inst of commonInstructions">
+                        <img [src]="inst.icon" alt="" class="feature-icon" />
+                        <div class="feature-text-title">{{ inst.desp }}</div>
+                    </div>
+                </div>
+                <div class="sticky-cart-bar">
+                    <img class="cart-thumb" [src]="s3ApiUrl + '/' + selectedProduct.productImagePath[selectedImageIndex]" alt="product">
+                    <div class="cart-details">
+                        <div class="cart-title">{{ selectedProduct.productName }}</div>
+                        <div>
+                            <span class="cart-price">₹{{ currentWeightSelect?.originalPrice || currentWeightSelect?.productPrice || 0  }}</span>
+                            <span class="cart-weight">{{ currentWeightSelect?.weight || currentWeightSelect?.weight || 0  }}</span>
+                        </div>
+                    </div>
+                    
+                    <button class="cart-btn" [disabled]="enableCart" (click)="addCart(selectedProduct, '')">{{enableCart ? "Out Of Stock" : "Add to Cart"}}</button>
+                </div>
+                
+            </div>
+
+            <div class="modal fade" id="addcartModel" #addcartModel tabindex="-1" role="dialog" aria-labelledby="addcartModelLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success-header text-center">
+                                <i class="fas fa-check-circle text-success m-r-10"></i>
+                                <h6 class="text-center header-span" id="addcartModelLabel">
+                                </h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body row" *ngIf="!kitchenAlert">
+                                        <div class="container col">
+                                            <img class="img-responsive kitchen-view rounded"
+                                            [src]="s3ApiUrl+'/'+selectedData.productImagePath" 
+                                            >
+                                        </div>
+                                        <div class="container col f-14">
+                                            <h6 class="header-font">{{selectedData.productName}}</h6>
+                                            <div>
+                                                <span><i class="fas fa-rupee-sign text-secondary"></i></span>
+                                                {{selectedData.productCurrentPrice}}
+                                            </div>
+                                            <div>
+                                                <label>Quantity : {{cartQuantity}}</label>
+                                            </div>
+                                            <div class="footer-align">
+                                                <button type="button" class="btn-signup account-btn"
+                                                    data-dismiss="modal">Continue Shopping</button>
+                                                <button type="button" class="btn-login account-btn mr-t-10"
+                                                    data-dismiss="modal" routerLink="/cart">Proceed to
+                                                    Checkout</button>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    <div class="card-body" *ngIf="kitchenAlert">
+                                        <div class="container row">
+                                            If You are adding item from another kitchen, then cart data will be
+                                            replaced.
+                                            Do you want to continue?
+                                        </div>
+                                        <div class="container row">
+                                            <div class="footer-align">
+                                                <button type="button" class="btn-signup account-btn" data-dismiss="modal"
+                                                    (click)="kitchenConfirm('no')">No</button>
+                                                <button type="button" class="btn-login account-btn mr-t-10"
+                                                    (click)="kitchenConfirm('yes')">Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="modal fade addInquiry" id="addInquiryModel" tabindex="-1" role="dialog"
+                aria-labelledby="addInquiryModelLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success-header text-center">
+                            <h6 class="text-center" id="addInquiryModelLabel">
+                                <i class="fas fa-check-circle text-success m-r-10"></i> Please fill the contact form and we will get
+                                back to you soon
+                            </h6>
+                            <button #closeBtn type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="inquiryForm" (ngSubmit)="submitInquiry()">
+                                <mat-form-field appearance="outline" class="w-100 mb-3">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput placeholder="Your Name" formControlName="name" required>
+                                    <mat-error *ngIf="inquiryForm.get('name')?.touched && inquiryForm.get('name')?.invalid">
+                                        Name is required
+                                    </mat-error>
+                                </mat-form-field>
+            
+                                <mat-form-field appearance="outline" class="w-100 mb-3">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput placeholder="Your Email" formControlName="email" required>
+                                    <mat-error
+                                        *ngIf="inquiryForm.get('email')?.touched && inquiryForm.get('email')?.errors?.['required']">
+                                        Email is required
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="inquiryForm.get('email')?.touched && inquiryForm.get('email')?.errors?.['email']">
+                                        Invalid email
+                                    </mat-error>
+                                </mat-form-field>
+            
+                                <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+                                    <mat-label>Phone</mat-label>
+                                    <input matInput placeholder="Your Phone" formControlName="phone" required>
+                                    <mat-error
+                                        *ngIf="inquiryForm.get('phone')?.touched && inquiryForm.get('phone')?.errors?.['required']">
+                                        Phone is required
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="inquiryForm.get('phone')?.touched && inquiryForm.get('phone')?.errors?.['pattern']">
+                                        Invalid phone
+                                    </mat-error>
+                                </mat-form-field> -->
+                                
+                                <div class="col-12 mb-3">
+                                    <label for="phoneNumber">
+                                        Phone Number<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-4 pr-1">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <input type="text" placeholder="+Code" matInput formControlName="countryCode"
+                                                    [matAutocomplete]="auto" />
+                                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode" style="z-index: 1000;">
+                                                    <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code" style="z-index: 1000;">
+                                                        {{ code.name }} ({{ code.dial_code }})
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('countryCode')?.touched && inquiryForm.get('countryCode')?.hasError('required')">
+                                                    Country code selection is required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-8 pl-1">
+                                            <mat-form-field class="w-100" appearance="outline">
+                                                <input matInput type="text" formControlName="phoneNumber" placeholder="Enter phone number" required />
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('required')">
+                                                    Phone number is required
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('pattern')">
+                                                    Only digits are allowed
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('minlength')">
+                                                    Phone number must be at least
+                                                    {{ inquiryForm.get('countryCode')?.value?.phone_min_length || 10 }} digits
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="inquiryForm.get('phoneNumber')?.touched && inquiryForm.get('phoneNumber')?.hasError('maxlength')">
+                                                    Phone number cannot exceed
+                                                    {{ inquiryForm.get('countryCode')?.value?.phone_max_length || 10 }} digits
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <mat-form-field appearance="outline" class="w-100 mb-3">
+                                    <mat-label>Message</mat-label>
+                                    <textarea matInput placeholder="Your Message" formControlName="message" required></textarea>
+                                    <mat-error *ngIf="inquiryForm.get('message')?.touched && inquiryForm.get('message')?.invalid">
+                                        Message is required
+                                    </mat-error>
+                                </mat-form-field>
+            
+                                <div class="text-right">
+                                    <button mat-raised-button color="primary" type="submit">Submit Inquiry</button>
+                                </div>
+                            </form>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="mt-4">
+        <mat-accordion class="mat-accordion-custom" multi>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <span class="exp-title">DESCRIPTION</span>
+                </mat-expansion-panel-header>
+                <p>
+                    Get the goodness of 8 super grains in every roti with our Multigrain Khapli Atta. Crafted with the
+                    perfect mix of wholegrain heirloom seeds—Khapli (emmer wheat), Jowar (sorghum), Jau (barley), Ragi
+                    (finger millet), Soybean, Kulthi (horse gram), Chana (chickpea), and Alsi (flaxseed). These grains are
+                    stone-ground the traditional way to retain their natural richness. This atta is high in protein and
+                    dietary fibres and has a low glycemic index. So your rotis stay soft & fluffy, and your diet stays
+                    healthy.<br>
+                    It is best before 9 months from the date of packaging.
+                </p>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span class="exp-title">INGREDIENTS</span>
+                </mat-expansion-panel-header>
+                <p>
+                    Khapli wheat, Jowar, Jau, Ragi, Soybean, Kulthi, Chana, Alsi
+                </p>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span class="exp-title">USAGE INFO</span>
+                </mat-expansion-panel-header>
+                <p>
+                    Ideal for soft chapatis and parathas.
+                </p>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span class="exp-title">BENEFITS</span>
+                </mat-expansion-panel-header>
+                <p>
+                    High protein, rich in dietary fibre, low glycemic index.
+                </p>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span class="exp-title">STORAGE INFO</span>
+                </mat-expansion-panel-header>
+                <p>
+                    Best before 9 months from date of packaging.
+                </p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="mt-6 faq" *ngIf="faqList.length">
+        <h2 class="faq-heading">FAQ</h2>
+    
+        <mat-accordion class="faq-accordion">
+            <mat-expansion-panel *ngFor="let faq of faqList">
+                <mat-expansion-panel-header>
+                    <span class="faq-question">
+                        {{ faq.faqQustion }}
+                    </span>
+                </mat-expansion-panel-header>
+                <p>
+                    {{ faq.faqAnswer }}
+                </p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <div class="reviews-card">
+        <div class="reviews-flex">
+            <!-- Left Column: Overall Score -->
+            <div class="overall-summary">
+                <div class="stars-row">
+                    <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
+                        <mat-icon color="warn" fontIcon="star" *ngIf="i < getFloor(averageRating)">star</mat-icon>
+                        <mat-icon color="warn" fontIcon="star_border"
+                            *ngIf="i >= getFloor(averageRating)">star_border</mat-icon>
+                    </ng-container>
+                    <span class="avg-label">{{ selectedProduct.overallRating }} out of 5</span>
+                </div>
+                <div class="reviews-count">
+                    Based on {{ productReview.length }} reviews
+                </div>
+            </div>
+    
+            <!-- Divider -->
+            <div class="v-divider"></div>
+    
+            <!-- Center Column: Breakdown -->
+            <div class="star-bar-col">
+                <div *ngFor="let r of ratingBreakdown">
+                    <span class="bar-row">
+                        <ng-container *ngFor="let s of [1,2,3,4,5]">
+                            <mat-icon color="warn" fontIcon="star" *ngIf="s <= r.stars">star</mat-icon>
+                            <mat-icon color="warn" fontIcon="star_border" *ngIf="s > r.stars">star_border</mat-icon>
+                        </ng-container>
+                        <mat-progress-bar [value]="(r.count / maxReviews) * 100" color="accent" mode="determinate"
+                            class="bar-prog"></mat-progress-bar>
+                        <span class="bar-count">{{ r.count }}</span>
+                    </span>
+                </div>
+            </div>
+    
+            <!-- Divider -->
+            <div class="v-divider"></div>
+    
+            <!-- Right Column: Write button -->
+            <div class="write-review-btnwrap">
+                <button mat-raised-button class="write-review-btn" (click)="openPopup('Product Review')">{{
+                    productReview.length ? 'Update Review' : 'Write a Review'}}</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="reviews-section mt-6">
+        <mat-grid-list cols="3" rowHeight="1:1" gutterSize="24px" *ngIf="productReview.length > 0">
+            <mat-grid-tile *ngFor="let r of productReview">
+                <mat-card class="review-card">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <span class="stars">
+                                <mat-icon *ngFor="let s of [].constructor(r.rating)">star</mat-icon>
+                            </span>
+                            <span class="reviewer">{{ r.userId.displayName || 'Anonymous' }}</span>
+                            <span *ngIf="r.status !== 'Pending'" class="verified-badge">Verified</span>
+                            <span *ngIf="r.status === 'Pending'" class="UnVerified-badge">UnVerified</span>
+                        </mat-card-title>
+                        <mat-card-subtitle>{{ r.date }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="review-title" *ngIf="r.titleReview"><b>{{ r.titleReview }}</b></div>
+                        <div class="review-text">{{ r.review }}</div>
+                        <img *ngIf="r.imagePath" [src]="s3ApiUrl + '/' + r.imagePath " class="review-img" alt="review image">
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    
+    </div> -->
+    <div class="dropdown-bar mt-6">
+        <mat-form-field appearance="fill" class="review-dropdown">
+            <mat-select [(value)]="selectedSort" disableRipple (selectionChange)="sortReviews()">
+                <mat-option *ngFor="let opt of sortOptions" [value]="opt.value">
+                    {{ opt.label }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="reviews-section mt-6">
+        <div class="masonry-grid">
+            <div class="masonry-item" *ngFor="let r of productReview">
+                <mat-card class="review-card">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <span class="stars">
+                                <mat-icon *ngFor="let s of [].constructor(r.rating)">star</mat-icon>
+                            </span>
+                            <span class="reviewer">{{ r.userId.displayName || 'Anonymous' }}</span>
+                            <span *ngIf="r.status !== 'Pending'" class="verified-badge">Verified</span>
+                            <span *ngIf="r.status === 'Pending'" class="UnVerified-badge">UnVerified</span>
+                        </mat-card-title>
+                        <mat-card-subtitle>{{ r.createdOn | date:'dd/MM/YYYY' }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="review-title" *ngIf="r.titleReview"><b>{{ r.titleReview }}</b></div>
+                        <div class="review-text">{{ r.review }}</div>
+                        <img *ngIf="r.imagePath"
+                            [src]="r.imagePath.startsWith('http') ? r.imagePath : (s3ApiUrl + '/' + r.imagePath)"
+                            class="review-img" alt="review image">
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3" *ngIf="productReviewCount > limit">
+            <button mat-raised-button color="accent" class="write-review-btn" (click)="loadmore(limit)">Load More</button>
+        </div>
+    </div>
+</div>

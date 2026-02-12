@@ -1,0 +1,39 @@
+*{
+    font-size: 11px;
+    font-weight: 400;
+    font-family: 'Lato', sans-serif;
+    line-height: 11px;
+}
+.scrolling-banner {
+  // background: linear-gradient(135deg, #7E7298,#D675BA);
+  background: var(--primary-color);
+  overflow: hidden;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.scrolling-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-horizontal 60s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+.scrolling-banner:hover .scrolling-content {
+  animation-play-state: paused;
+}
+.icon {
+  font-size: 1.2rem;
+  vertical-align: middle;
+}

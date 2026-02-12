@@ -1,0 +1,172 @@
+<div class="card-block">
+    <h2 class="h1">Create an Account</h2>
+</div>
+<hr class="separator">
+<!-- <div class="cart-\]\
+    rview js-cart" data-refresh-url="//www.sweetkadai.com/cart?ajax=1&action=refresh"> -->
+<div class="cart-overview ">
+    <div class="span-center-align row" (click)="redirect()">
+        <span class="theme-color pointer-view">Already have an account? <a style="font-style: italic;font-weight: 100;">Login Here!</a></span>
+    </div>
+    <div class="cart cart-layout">
+
+        <div class="center_div form">
+            <form [formGroup]="registerFormGroup">
+                
+                <div class="form-group row align-items-center">
+                    <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                    <div class="col-sm-10">
+                        <mat-form-field class="form-field-login" appearance="outline">
+                            <input 
+                                matInput 
+                                class="form-control" 
+                                type="text" 
+                                formControlName="firstName"
+                                placeholder="Enter first name"
+                                required
+                            >
+                            <mat-error *ngIf="hasError('firstName')">
+                                {{ getErrorMessage('firstName') }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form-group row align-items-center">
+                    <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                    <div class="col-sm-10">
+                        <mat-form-field class="form-field-login" appearance="outline">
+                            <input 
+                                matInput 
+                                class="form-control" 
+                                type="text" 
+                                formControlName="lastName"
+                                placeholder="Enter last name"
+                                required
+                            >
+                            <mat-error *ngIf="hasError('lastName')">
+                                {{ getErrorMessage('lastName') }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form-group row align-items-center">
+                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <mat-form-field class="form-field-login" appearance="outline">
+                            <input 
+                                matInput 
+                                class="form-control" 
+                                type="email" 
+                                formControlName="email"
+                                placeholder="Enter email address"
+                                required
+                            >
+                            <mat-error *ngIf="hasError('email')">
+                                {{ getErrorMessage('email') }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form-group row align-items-center">
+                    <label for="phoneNumber" class="col-sm-2 col-form-label">Phone Number</label>
+                    <div class="col-sm-2">
+                        <mat-form-field appearance="outline" class="form-field-login country-code-field">
+                        
+                            <input type="text" placeholder="+Code" matInput formControlName="countryCode" [matAutocomplete]="auto" />
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode">
+                                <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code">
+                                    {{ code.name }} ({{ code.dial_code }})
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error
+                                *ngIf="registerFormGroup.get('countryCode')?.touched && registerFormGroup.get('countryCode')?.hasError('required')">
+                                Country Code is required
+                            </mat-error>
+                            <mat-error *ngIf="registerFormGroup.get('countryCode')?.hasError('invalidSelection')">
+                                Invalid Country
+                            </mat-error>
+                        
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-sm-8">
+                        <mat-form-field class="form-field-login phone-field" appearance="outline">
+                    
+                            <input matInput type="text" formControlName="phoneNumber" placeholder="Enter phone number" required />
+                            <mat-error
+                                *ngIf="registerFormGroup.get('phoneNumber')?.touched && registerFormGroup.get('phoneNumber')?.hasError('required')">
+                                Phone number is required
+                            </mat-error>
+                            <mat-error
+                                *ngIf="registerFormGroup.get('phoneNumber')?.touched && registerFormGroup.get('phoneNumber')?.hasError('pattern')">
+                                Only digits are allowed
+                            </mat-error>
+                            <mat-error
+                                *ngIf="registerFormGroup.get('phoneNumber')?.touched && registerFormGroup.get('phoneNumber')?.hasError('minlength')">
+                                Phone number must be at least
+                                {{ registerFormGroup.get('countryCode')?.value?.phone_min_length || 10 }} digits
+                            </mat-error>
+                            <mat-error
+                                *ngIf="registerFormGroup.get('phoneNumber')?.touched && registerFormGroup.get('phoneNumber')?.hasError('maxlength')">
+                                Phone number cannot exceed
+                                {{ registerFormGroup.get('countryCode')?.value?.phone_max_length || 10 }} digits
+                            </mat-error>
+                        </mat-form-field>                
+                    </div>
+                </div>
+
+                <div class="form-group row align-items-center" *ngIf="showField">
+                    <label for="otp" class="col-sm-2 col-form-label">Enter OTP</label>
+                    <div class="col-sm-10">
+                        <mat-form-field class="form-field-login" appearance="outline">
+                            <input 
+                                matInput 
+                                onKeyPress="if(this.value.length==6) return false;" 
+                                class="form-control" 
+                                type="number" 
+                                formControlName="otp"
+                                placeholder="Enter 6 digit OTP"
+                                (blur)="checkOTP(registerFormGroup.controls.otp.value)"
+                                required
+                            >
+                            <mat-error *ngIf="hasError('otp')">
+                                {{ getErrorMessage('otp') }}
+                            </mat-error>
+                        </mat-form-field>
+                        <span *ngIf="!validOTP && registerFormGroup.controls.otp.value" 
+                              class="invalid-phone">
+                            Invalid OTP
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row align-items-center center-align" *ngIf="existingPhone">
+                    <span class="text-danger">Phone Number Already Exists!</span>
+                </div>
+
+                <div class="form-group row align-items-center center-align my-2">
+                    <div class="mr-t-20">
+                        <button 
+                            class="btn btn-theme btn-block" 
+                            (click)="submit()" 
+                            [disabled]="registerFormGroup.invalid"
+                            type="button">
+                            {{ showField ? 'Register' : 'Continue' }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group row align-items-center center-align">
+                    <span class="or-span-center">OR</span>
+                    <div class="mr-t-10 google-btn-center">
+                        <asl-google-signin-button text="continue_with" type="standard" size="medium"></asl-google-signin-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="dialog-container">
+    <form [formGroup]="favoriteFrom">
+      <div class="heading-container mb-3">
+        <div class="row">
+          <div class="col-12 d-flex justify-content-between align-items-center">
+            <h1 mat-dialog-title>{{inputdata.title}}</h1>
+            <!-- <div class="close-dialog" (click)="closepopup()">x</div> -->
+          </div>
+        </div>
+      </div>
+      <div mat-dialog-content>
+        <div class="form-container">
+          <div class="row">
+            <div class="col-12 mb-3" *ngIf="!data.isLoggedIn">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Full Name</mat-label>
+                <input matInput type="text" placeholder="Full Name" formControlName="fullName">
+              </mat-form-field>
+            </div>
+            <div class="col-12 mb-3" *ngIf="!data.isLoggedIn">
+              <label for="phoneNumber">
+                Phone Number<span class="text-danger">*</span>
+              </label>
+              <div class="row">
+                <div class="col-4 pr-1">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input type="text" placeholder="+Code" matInput formControlName="countryCode" [matAutocomplete]="auto" />
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode">
+                      <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code">
+                        {{ code.name }} ({{ code.dial_code }})
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="favoriteFrom.get('countryCode')?.touched && favoriteFrom.get('countryCode')?.hasError('required')">
+                      Country code selection is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-8 pl-1">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <input matInput type="text" formControlName="phoneNumber" placeholder="Enter phone number" required />
+                    <mat-error *ngIf="favoriteFrom.get('phoneNumber')?.touched && favoriteFrom.get('phoneNumber')?.hasError('required')">
+                      Phone number is required
+                    </mat-error>
+                    <mat-error *ngIf="favoriteFrom.get('phoneNumber')?.touched && favoriteFrom.get('phoneNumber')?.hasError('pattern')">
+                      Only digits are allowed
+                    </mat-error>
+                    <mat-error *ngIf="favoriteFrom.get('phoneNumber')?.touched && favoriteFrom.get('phoneNumber')?.hasError('minlength')">
+                      Phone number must be at least
+                      {{ favoriteFrom.get('countryCode')?.value?.phone_min_length || 10 }} digits
+                    </mat-error>
+                    <mat-error *ngIf="favoriteFrom.get('phoneNumber')?.touched && favoriteFrom.get('phoneNumber')?.hasError('maxlength')">
+                      Phone number cannot exceed
+                      {{ favoriteFrom.get('countryCode')?.value?.phone_max_length || 10 }} digits
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-3" *ngIf="!data.isLoggedIn">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Enter your email" formControlName="email">
+                <mat-error *ngIf="favoriteFrom.get('email')?.hasError('email') && !favoriteFrom.get('email')?.hasError('required')">
+                  Please enter a <strong>valid</strong> email
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div mat-dialog-actions class="actions">
+        <div class="col-12 d-flex justify-content-end action-btn-container">
+          <button mat-flat-button color="accents" class="m-1" (click)="closepopup()">Cancel</button>
+          <button mat-flat-button type="submit" color="primary" class="m-1" (click)="submit()">
+            <i class="fa fa-save" style="color: white !important"></i>&nbsp;&nbsp;{{'Save'}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  
+  

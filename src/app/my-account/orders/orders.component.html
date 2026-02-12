@@ -1,0 +1,157 @@
+<div class="card-block">
+    <h2 class="h1">Your Orders</h2>
+</div>
+<hr class="separator">
+<div class="cart-overview ">
+    <div class="cart cart-layout">
+        <div class="mr-t-10" *ngIf="!viewDetails">
+            <div class="card mr-b-20" *ngFor="let order of orders"  >
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h5>ORDER PLACED</h5>
+                            <h6>{{order.createdOn | date}}</h6>
+                        </div>
+                        <div class="col">
+                            <h5>TOTAL</h5>
+                            <h6>{{order.totalPrice}}</h6>
+                        </div>
+                        <div class="col">
+                            <h5>SHIP TO</h5>
+                            <h6>{{order.shipTo}}</h6>
+                        </div>
+                        <div class="col">
+                            <h5>ORDER # {{order.orderId}}</h5>
+                            <a class="theme-color" style="text-decoration: underline;" (click)="viewOrder(order)"> View Details </a>
+                        </div>
+                        <div class="col">
+                            <h5>STATUS</h5>
+                            <h6>{{order.status}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div *ngFor="let product of order.cartData">
+                    <div class="card-body">
+                        <div class="row" >
+                             <div class="col">
+                                <img class="rounded" style="object-fit: cover;" width="100" height="90" 
+                                [src]="s3ApiUrl+'/'+product.productImagePath">
+                             </div>
+                             <div class="col">
+                                <h6 class="header-font">{{product.productName}}</h6>
+                                    <div>
+                                       <span><i class="fas fa-rupee-sign text-secondary"></i></span> {{product.productCurrentPrice}}
+                                    </div>
+                                    <div>
+                                        {{product.productDescription}}
+                                    </div>
+                             </div>
+                             <div class="col ">
+                                 <a class="btn-login account-btn review-btn" (click)="openPopup(product)"><i class="fas fa-pencil-alt loc-icon"></i>Write a Review</a>
+                             </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="mr-t-10" *ngIf="viewDetails">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h4>ORDERED ON : {{selectedOrder.createdOn | date}}</h4>
+                        </div>
+                        <div class="col">
+                            <h4>ORDER : {{selectedOrder.orderId}}</h4>
+                        </div>
+                        <div class="col">
+                            <h4>STATUS : {{selectedOrder.status}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h4>Shipping Address</h4>
+                            <h5>{{selectedOrder.address.firstName}}</h5>
+                            <p class="card-text">
+                                {{selectedOrder.address.phone}}
+                                {{selectedOrder.address.address1}}
+                                {{selectedOrder.address.address2}}
+                                {{selectedOrder.address.city}}
+                                {{selectedOrder.address.state}}
+                                - {{selectedOrder.address.pincode}}
+                                {{selectedOrder.address.country}}
+                            </p>
+                        </div>
+                        <div class="col">
+                            <h4>Payment Method</h4>
+                            <h5>{{selectedOrder.paymentMethod}}</h5>
+                        </div>
+                        <div class="col">
+                            <h4>Order Summary</h4>
+                            <div class="row">
+                                <div class="col">
+                                    Items Subtotal:
+                                </div>
+                                <div class="col">
+                                    <i class="fas fa-rupee-sign text-secondary"></i>
+                                    {{selectedOrder.totalPrice}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Shipping:
+                                </div>
+                                <div class="col">
+                                    <i class="fas fa-rupee-sign text-secondary"></i>
+                                    {{selectedOrder.shipping}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Total:
+                                </div>
+                                <div class="col">
+                                    <i class="fas fa-rupee-sign text-secondary"></i>
+                                    {{selectedOrder.grandTotal}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Grand Total:
+                                </div>
+                                <div class="col">
+                                    <i class="fas fa-rupee-sign text-secondary"></i>
+                                    {{selectedOrder.grandTotal}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngFor="let product of selectedOrder.cartData">
+                    <div class="card-body">
+                        <div class="row" >
+                             <div class="col-3">
+                                <img class=" rounded" style="object-fit: cover;" width="100" height="90" 
+                                [src]="s3ApiUrl+'/'+product.productImagePath">
+                             </div>
+                             <div class="col-6">
+                                <h6 class="header-font">{{product.productName}}</h6>
+                                    <div>
+                                       <span><i class="fas fa-rupee-sign text-secondary"></i></span> {{product.productCurrentPrice}}
+                                    </div>
+                                    <div>
+                                        {{product.productDescription}}
+                                    </div>
+                             </div>
+                             <div class="col-3 centered_button">
+                                 <a class="btn-login account-btn review-btn" ><i class="fas fa-pencil-alt loc-icon"></i>Write a Review</a>
+                             </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

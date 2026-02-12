@@ -1,0 +1,67 @@
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+  .mat-mdc-form-field {
+    margin-top: 16px;
+  }
+
+
+  .order-head{
+        background: #dc8d3a;
+        width: 50%;
+        margin: auto;
+        font-family: emoji;
+        color: white;
+        font-size: 20px;
+}
+
+.btn-login {
+        border: 1px solid #C6A756;
+        color: #C6A756;
+        margin-right: 20px;
+}
+.btn-signup {
+    border: 1px solid #C6A756;
+    color: white;
+    background: #C6A756;
+    margin-right: 20px;
+}
+
+.account-btn {
+    text-align: center;
+    padding:10px;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.form-field-login {
+    width: 90%;
+}
+@media (min-width: 576px) {
+    .card-columns {
+        column-count: 2;
+    }
+}
+
+.loc-icon {
+        margin-right: 10px;
+        color: #C6A756;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+a:not([href]):not([tabindex]) {
+    color: white; 
+   text-decoration: none;
+ }

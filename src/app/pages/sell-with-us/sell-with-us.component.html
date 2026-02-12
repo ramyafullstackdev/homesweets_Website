@@ -1,0 +1,97 @@
+<section class="vendor-benefits-section">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Sell your product to thousands of customers</h2>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-12 col-md-6 col-lg-4" *ngFor="let benefit of benefits">
+                <div class="benefit-card">
+                    <div class="icon-wrapper mb-4">
+                        <div class="icon-circle" [ngClass]="benefit.icon">
+                            <ng-container [ngSwitch]="benefit.icon">
+                                <svg *ngSwitchCase="'users'" class="benefit-icon" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+
+                                <svg *ngSwitchCase="'location'" class="benefit-icon" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+
+                                <svg *ngSwitchCase="'money'" class="benefit-icon" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    <circle cx="12" cy="14" r="2"></circle>
+                                    <path d="M12 12v2"></path>
+                                    <path d="M12 16v2"></path>
+                                </svg>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <h3 class="benefit-title">{{ benefit.title }}</h3>
+
+                    <ul class="features-list">
+                        <li *ngFor="let feature of benefit.features">{{ feature }}</li>
+                    </ul>
+
+                    <a class="btn-contact" [routerLink]="['/support/contact-us']">
+                        Contact Us
+                        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="why-section">
+            <h2 class="section-title text-center mb-4">Why you should sell with us?</h2>
+
+            <div class="content-wrapper">
+                <p class="description-text">
+                    We are into the business of enabling a platform for our vendors so that they can sell authentic
+                    South Indian traditional products online. We have an
+                    experience of more than 4 years and we know the ins and outs of this business.
+                </p>
+
+                <p class="description-text">
+                    We are a bootstrapped startup and started our journey with an initial investment of 80.k. Yes, a
+                    business can be started with zero initial investment and lots of
+                    hard work. We have sold thousands of snacks on our platform in the last 3 years and have already
+                    crossed a revenue of INR 1 million. This is a great
+                    achievement for us especially when considering the fact that the company is self sustainable.
+                </p>
+
+                <p class="description-text">
+                    As a vendor, you will be able to leverage the benefits and customer trust that we have gathered in
+                    the past. Unlike other bigger eCommerce brands, we do
+                    free email marketing, blog posts, social media marketing, discounts and everything we can to able to
+                    reach your product to thousands without charging you any
+                    additional fee.
+                </p>
+
+                <p class="description-text">
+                    If you are still not convinced, contact us and we will address all your queries.
+                </p>
+
+                <a class="btn-contact" [routerLink]="['/support/contact-us']">
+                    Contact Us
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
