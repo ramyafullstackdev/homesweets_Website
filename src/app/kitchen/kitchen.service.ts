@@ -17,7 +17,6 @@ export class KitchenService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
-            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -28,7 +27,6 @@ export class KitchenService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
-            console.log(data,">>>>DATA")
             return data; 
         });
     }

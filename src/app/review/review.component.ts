@@ -87,9 +87,7 @@ export class ReviewComponent {
 
   ngOnInit(): void {
     this.inputdata = this.data;
-   console.log(this.inputdata.data)
     if (this.inputdata.data.data.length) {
-      console.log(this.inputdata.data.data)
       this.reviewFrom.patchValue(this.inputdata.data.data[0]);
       this.imageURL = this.inputdata.data.data[0]["imagePath"] ? this.s3URL + this.inputdata.data.data[0]["imagePath"]: "";
       this.mode = 'update';
@@ -107,7 +105,6 @@ export class ReviewComponent {
   }
 
   submit() {
-    console.log(this.reviewFrom)
     if (this.reviewFrom.valid) {
       let data = this.reviewFrom.getRawValue();
       data.isLoggedIn = this.data.isLoggedIn;
@@ -125,7 +122,6 @@ export class ReviewComponent {
       } else {
         this.update(data)
       }
-      console.log(data,"data")
     }
   }
   
@@ -150,7 +146,6 @@ export class ReviewComponent {
   create(data: any){
     this.reviewServices.createReview(data).subscribe({
       next: (result) => {
-        console.log(result, ">>  RESULT");
         let response = result.response;
         if(result.meta.status === 200) {
           if(response.length && response[0].productName){
@@ -183,7 +178,6 @@ export class ReviewComponent {
   update(data: any, type?: string) {
     this.reviewServices.update(data).subscribe({
       next: (result) => {
-        console.log(result, ">>  RESULT");
         let response = result.response;
         if(result.meta.status === 200) {
           if(response.length && response[0].productName){
@@ -235,7 +229,6 @@ export class ReviewComponent {
   // }
 
   onFileSelected(event: any): void {
-    console.log(event.target.files);
     this.file = event.target.files[0];
     this.ngxLoader.start();
     const formData = new FormData();
@@ -246,7 +239,6 @@ export class ReviewComponent {
           this.ngxLoader.stop();
           this.reviewFrom.controls["reviewImage"].setValue(result.image);
           this.reviewFrom.controls["reviewImageName"].setValue(result.name);
-          console.log(this.reviewFrom.getRawValue())
           this.toastr.success('Success!', 'File Uploaded');
         } else {
           this.toastr.error('Error!', 'Invalid File');

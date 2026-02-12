@@ -73,7 +73,6 @@ export class MyWishlistComponent {
     let temp = localStorage.getItem("userId");
     this.loggedUserId = temp ? temp : "";
 
-    console.log(this.tableHeaderConfig, ">>tableHeaderConfig");
     let tempArray = _.filter(this.tableHeaderConfig, { isactive: true });
     this.selectedTableHeader = _.map(tempArray, "value");
 
@@ -96,10 +95,8 @@ export class MyWishlistComponent {
   }
 
   getCustomColumn(columnValue: any, rowData?: any): any {
-    console.log(columnValue, ">>>splitVal")
 
     let splitVal = columnValue.split('.');
-    console.log(splitVal, ">>>splitVal")
     if (splitVal.length) {
       return rowData[splitVal[0]][splitVal[1]] || '';
     }
@@ -109,10 +106,8 @@ export class MyWishlistComponent {
     const offset = this.pageIndex * this.pageSize;
     const limit = this.pageSize
     const userId = localStorage.getItem("currentUser") ? JSON.parse(localStorage.getItem("currentUser") || "") : ''
-    console.log(userId, "userId")
     this.WishlistService.getAllUserWishlist({ offset, limit }, this.searchStr.value || '', userId._id).subscribe({
       next: (result) => {
-        console.log(result);
         let response = result.wishlist;
         this.totalElements = result.total;
         this.dataSource = new MatTableDataSource(response);
@@ -145,7 +140,6 @@ export class MyWishlistComponent {
 
   removebuyItem(cart: any) {
     this.WishlistService.removeSaveLater(cart._id).then(response => {
-      console.log(response, ">>>>response")
       this.ngOnInit();
     });
   }

@@ -25,7 +25,6 @@ export class MyAccountComponent {
 		.getMessage()
 		.pipe(takeUntil(this.unsubscribe))
 		.subscribe((data) => {
-		  console.log(data,">>>>")
       let temp = localStorage.getItem("loggedIn");
       let order = localStorage.getItem("orderDetail");
       this.selectedOrder = order ? JSON.parse(order) : {};
@@ -55,7 +54,6 @@ export class MyAccountComponent {
     this.loggedIn = temp ? true: false;
     // this.loggedIn = true;
     this.showView =( this.loggedIn) ? "Account":"Login";
-    console.log(this.showView,">>>>show")
     this.authService.authState.subscribe((user) => {
       this.user = user;
       this.loggedIn = (user != null);
@@ -65,7 +63,6 @@ export class MyAccountComponent {
 
     this.route.queryParams.subscribe(params => {
       const mode = params['mode'];
-      console.log('Mode:', mode); // login or register
 
       if (params['id']) {
         this.sideHead = true;

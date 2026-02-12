@@ -63,7 +63,6 @@ export class DetailedCartComponent {
     this.currentUser =tempVal ? JSON.parse(tempVal) : null;
     if(this.currentUser) {
       this.cartService.getBuyLater(this.currentUser._id).then(response => {
-        console.log(response,">>>>response")
         this.buylater = response;
       });
     }
@@ -139,7 +138,6 @@ export class DetailedCartComponent {
             next: (result) => {
               this.removeItem(cart);
               this.ngOnInit();
-              console.log(result, ">>>>SAVE LATER")
             },error: (e) => console.error(e),
             complete: () => console.info('complete')
           });
@@ -164,10 +162,6 @@ export class DetailedCartComponent {
       this.selectedData = cart.product ? cart.product : cart;
       this.selectedProduct= cart;
       let cartVal = cart.product ? cart.product : cart;
-    console.log(this.selectedData,">>>>>selectedData")
-      console.log(this.cartProduct,">>>this.cartProduct")
-      console.log(cartVal,">>>product")
-      console.log(this.cartProduct.includes(cartVal),">>>this.cartProduct.includes(product)")
       if(this.cartProduct.includes(cartVal)) {
         let kitchenIndex = _.findIndex(this.cartData, {userId: cartVal.userId});
         let existIndex = _.findIndex(this.cartData, {productName:cartVal.productName,
@@ -182,7 +176,6 @@ export class DetailedCartComponent {
   
       }else{
         let kitchenIndex = _.findIndex(this.cartData, {userId: cartVal.userId});
-        console.log(kitchenIndex,">>>>>kitchenIndex")
         if(kitchenIndex == -1 && this.cartData && this.cartData.length > 0) {
           this.kitchenAlert = true;
         }else{
@@ -210,7 +203,6 @@ export class DetailedCartComponent {
 
   removebuyItem(cart: any) {
     this.cartService.removeSaveLater(cart._id).then(response => {
-      console.log(response,">>>>response")
       this.ngOnInit();
       // this.buylater = response;
 
@@ -220,7 +212,6 @@ export class DetailedCartComponent {
 
   removeItem(cart:any) {
     let index = this.cartData.indexOf(cart);
-    console.log(cart,">>>",index)
     this.cartData.splice(index, 1);
     // this.messageService.sendMessage({refresh:true});
     localStorage.setItem("cartData", JSON.stringify(this.cartData));
@@ -230,7 +221,6 @@ export class DetailedCartComponent {
   checkPrduct(){
     let corrctQantity:any = [];
     this.productService.getselectedProdcts({products: this.productIds}).then(response => {
-      console.log(response,">>>>response")
       let products = response.products || [];
       products.forEach((element: any) => {
         let productIndex = this.cartData.findIndex((x: any)=> x.productId == element._id)
@@ -252,9 +242,7 @@ export class DetailedCartComponent {
             }
         }
       });
-      console.log("coooooo", corrctQantity)
       if(corrctQantity.includes(false)){
-        console.log("pppppp")
       } else {
         this.router.navigate(["/order"])
       }

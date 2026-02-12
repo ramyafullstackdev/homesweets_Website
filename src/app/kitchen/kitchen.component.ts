@@ -95,10 +95,8 @@ export class KitchenComponent {
     localStorage.setItem("currentCategory", this.categoryName);
     this.mainService.getCategory({}).then(result => {
       this.categoryList = result;
-      console.log(this.categoryList,">>>>categoryList")
     });
     this.kitchenService.getSearchData({searchVal: "a"}).then(result => {
-      console.log(result,">>>>>result")
       this.searchResult = result.result;
       this.filteredSearch = this.searchFormGroup.controls["searchCtrl"].valueChanges.pipe(
         debounceTime(1500),
@@ -124,7 +122,6 @@ export class KitchenComponent {
     // this.filteredOptions = this.options.filter(o => o.toLowerCase().includes(filterValue));
   }
   selectedOption(option:any) {
-    console.log(option);
     this.enableKitchenView = false;
     this.enableProductView = false;
     setTimeout(()=>{
@@ -145,11 +142,9 @@ export class KitchenComponent {
     this.enableProductView = (key == 'product') ? true: false;
   }
   private _filterStates(value: string): any {
-    console.log(value,">>>>>value")
     const filterValue = value.toLowerCase();
     // setTimeout(()=>{
     this.kitchenService.getSearchData({searchVal: filterValue}).then(result => {
-      console.log(result,">>>>>result")
       this.searchResult = result.result;
       this.filteredSearch = this.searchFormGroup.controls["searchCtrl"].valueChanges.pipe(
         debounceTime(1500),

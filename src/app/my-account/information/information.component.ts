@@ -133,9 +133,7 @@ export class InformationComponent {
 
     this.orderService.updateCustomer(payload, this.currentUser._id).subscribe({
       next: (result) => {
-        console.log(result, ">>  RESULT");
         let response = result.response;
-        console.log(response);
         if (response) {
           localStorage.setItem("currentUser", JSON.stringify(response));
           this.toastr.success("Success!", "User updated successfully!");

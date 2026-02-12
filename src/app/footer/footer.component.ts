@@ -77,7 +77,6 @@ export class FooterComponent {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((data) => {
         if (data && data.isCateory == true) {
-          console.log(data,"isCateory")
           // this.sections[0].links = [];
           // data.navLinks.map((x: any) => {
             //  this.sections[0].links.push({label: x.label, route: x.link})

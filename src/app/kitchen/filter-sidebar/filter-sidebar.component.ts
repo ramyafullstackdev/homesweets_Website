@@ -43,7 +43,6 @@ export class FilterSidebarComponent {
       this.isExclsive = false;
     }
     this.route.queryParams.subscribe(params => {
-      console.log(params, ">>> Filter Sidebar Query Params");
       if (params['id']) {
         // this.categoryName = params['id'] || '';
         this.getCategory(params['id']);
@@ -101,13 +100,11 @@ export class FilterSidebarComponent {
       inStockOnly: this.inStockOnly
     };
 
-    console.log('Applied Filters:', appliedFilters);
   }
 
   getCategory(categoryName?: string) {
     this.kitchenService.getCategoriesForFilter({ categoryIds: this.categoryIds, kitchen: this.kitchenDetail?._id }).subscribe({
       next: (result) => {
-        console.log(result, ">>> Categories for Filter Loaded");
         this.categories = result.response || [];
 
         this.categories.forEach(cat => {
@@ -136,7 +133,6 @@ export class FilterSidebarComponent {
           }
 
         });
-        console.log(this.categories, ">>> Updated Categories with Selection");
         
         this.categories = this.moveCategoryToFront(this.categories, categoryName)
         this.updateActiveFilterCount();

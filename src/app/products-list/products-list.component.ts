@@ -148,7 +148,6 @@ export class ProductsListComponent {
 
   ngOnInit() {
     this.categoryName = localStorage.getItem("currentCategory");
-    console.log(this.categoryName, ">>categoryName")
     let cartDetail = localStorage.getItem("cartData");
     let cartProduct = localStorage.getItem("cartProduct");
     let kitchenData = localStorage.getItem("selectedKitchen");
@@ -190,19 +189,15 @@ export class ProductsListComponent {
     this.selectedProduct.quantity = 1;
     if(this.searchSelection && this.searchSelection.productName){
       this.productService.getProducts({kitchenId:this.kitchenDetail._id, searchVal : this.searchSelection.productName}).then(result => {
-        console.log(result,">>>>>search result")
         this.products = (result && result.products) ? result.products : [];
         // if()
-        console.log(this.products,"1111111111111");
       });
       this.productService.getProducts({
         kitchenId: this.kitchenDetail._id,
         loadOthers: true,
         searchVal: this.searchSelection.productName
       }).then(result => {
-        console.log(result, ">>>>>search other result")
         this.otherProducts = (result && result.products) ? result.products : [];
-        console.log(this.otherProducts,"222222222");
       });
     } else if (this.kitchenDetail && this.kitchenDetail._id) {
       this.getKitchenWiseData()
@@ -267,7 +262,6 @@ getPricePerGram(price: number, weight: string): number {
   }
 
   sortReviews() {
-    console.log(this.selectedSort, ">>selectedSort")
     this.getProductReview(this.limit);
   }
   getProductReview(limit: number = this.limit) {
@@ -280,7 +274,6 @@ getPricePerGram(price: number, weight: string): number {
     }
     this.reviewServices.getReview(query).subscribe({
       next: (result) => {
-        console.log(result, ">>  RESULT");
         if (result.meta.status === 200) {
           this.productReview = result.response?.response || [];
           this.productReviewCount = result.response?.count || 0;
@@ -314,7 +307,6 @@ getPricePerGram(price: number, weight: string): number {
     }
     this.reviewServices.getReview(query).subscribe({
       next: (result) => {
-        console.log(result, ">>  RESULT");
         if(result.meta.status === 200) {
           this.kitchenReview  = result.response;
         }
@@ -471,7 +463,6 @@ getPricePerGram(price: number, weight: string): number {
   // }
 
   addCart(product: any, kitchen: string, kitchenData?: any) {
-    console.log(kitchen, ">>>kitchen")
   this.cartService.addToCart(product, kitchen, kitchenData, this.currentUser)
     .then((data) => {
     this.selectedData = data;
@@ -496,7 +487,6 @@ getPricePerGram(price: number, weight: string): number {
   }
 
   calculatedTotal(cart: any, action: any) {
-    console.log(cart, ">>>>>")
     cart.quantity = cart.quantity ? cart.quantity : 1;
     if (action == '-') {
       cart.quantity--;
@@ -554,7 +544,6 @@ getPricePerGram(price: number, weight: string): number {
   //   }
   // }
   async viewDetail(product: any) {
-    console.log(product, ">>>>>product")
 
     await product.prices.map((price: any) => { price['selected'] = false });
 
@@ -568,7 +557,6 @@ getPricePerGram(price: number, weight: string): number {
     this.selectedProduct.quantity = 1;
     this.showDetail = true;
 
-    console.log(this.selectedProduct)
     this.getProductReview()
   }
   enableCart: boolean = false;
@@ -652,7 +640,6 @@ getPricePerGram(price: number, weight: string): number {
   }
 
   runToggleFavorite(data: any, type: any, event?: MouseEvent,) {
-  console.log(data,"MainService")
   let icon;
   if(data.offerName){
     type = "offer"
@@ -731,7 +718,6 @@ getPricePerGram(price: number, weight: string): number {
         userId: this.currentUser ? this.currentUser._id : null
       }
        this.mainService.createInquiry(query).then(result => {
-        console.log(result,">>>>result")
         if(result.ERROR){
           this.toastr.error('Error!', result.ERROR);
         } else {
@@ -779,10 +765,8 @@ getPricePerGram(price: number, weight: string): number {
   }
 
   onSearchChange(text: any){
-    console.log(text, ">>text")
      this.productService.getProducts({ kitchenId: this.kitchenDetail._id, searchVal: text }).then(result => {
         this.products = (result && result.products) ? result.products : [];
-        console.log(this.products,"3333333333");
       });
   }
 
@@ -848,7 +832,6 @@ goToSlide(idx: number) {
 
   sortProducts() {
     this.productService.getProducts({kitchenId:this.kitchenDetail._id, searchVal : this.searchSelection.productName, sortOption: this.sortOption}).then(result => {
-        console.log(result,">>>>>search result")
         this.products = (result && result.products) ? result.products : [];
       });
   }

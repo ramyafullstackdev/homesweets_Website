@@ -21,19 +21,16 @@ export class ProductService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
-            console.log(data,">>>>DATA")
             return data; 
         });
     }
 
     getselectedProdcts(data:any) {
-        console.log(data,"data")
         let apiUrl = `${this.baseURL}/product/selectedProdcts`;
         return this.http.post<any>(apiUrl, data)
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
-            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -44,7 +41,6 @@ export class ProductService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
-            console.log(data,">>>>DATA")
             return data; 
         });
     }

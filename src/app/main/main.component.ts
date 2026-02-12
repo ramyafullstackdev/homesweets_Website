@@ -195,9 +195,7 @@ selectCategory(category: string) {
 
     this.mainService.getAllUserReview({ limit: 20, offset:0, reviewType: "product" , rating: 5}, '', '').subscribe({
       next: (result) => {
-        console.log(result);
         this.reviews = result.reviews;
-        console.log(this.reviews, ">>reviews");
       },
       error: (e) => {
         console.error(e)
@@ -673,7 +671,6 @@ selectCategory(category: string) {
     const indexExists = this.cartData.findIndex((cart) => {
       return (cart.productId === element._id) && (cart.productWeight === prodWeight)
     });
-    console.log('indexExists', indexExists);
     let textCon = ''
     if (indexExists !== -1) {
       textCon = "This product is already in your cart.";
@@ -718,7 +715,6 @@ selectCategory(category: string) {
   }
 
   onSelectWeight(offer: any, index: any) {
-    console.log(offer,'weight selected', index.target.value);
     offer.prices[index.target.value]['selected'] = true;
     for (let i = 0; i < offer.prices.length; i++) {
       if (i != index.target.value) {
@@ -733,7 +729,6 @@ selectCategory(category: string) {
 
   redirectCategory(category: any, state: any) {
     const categoryName = category.toLowerCase().replace(/\s+/g, '_');
-    console.log('Redirecting to category:', categoryName);
     this.router.navigate([`/${categoryName}`], { state: { from: state } });
   }
 }

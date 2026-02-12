@@ -64,18 +64,14 @@ export class ProductListComponent implements OnInit {
       data: { cartCount: 1 },
       panelClass: 'cart-modal-panel'
     });
-    console.log('Added to cart:', product);
     this.cartService.addToCart(product, "", product.kitchen, this.currentUser)
       .then((data) => {
-        console.log('Cart updated:', data);
         this.messageService.sendMessage({ refresh: true });
       })
       .catch((err) => {
-        console.log('Cart updated:', err);
       });
   }
 
 openProductDetails(product: any) {
-  console.log('Viewing product:', product);
 }
 }

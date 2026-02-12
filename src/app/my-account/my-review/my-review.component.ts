@@ -69,7 +69,6 @@ export class MyReviewComponent {
     let temp = localStorage.getItem("userId");
     this.loggedUserId = temp ? temp : "";
 
-    console.log(this.tableHeaderConfig, ">>tableHeaderConfig");
     let tempArray = _.filter(this.tableHeaderConfig, { isactive: true });
     this.selectedTableHeader = _.map(tempArray, "value");
 
@@ -92,17 +91,14 @@ export class MyReviewComponent {
   }
 
   onReviewTypeChange(value: any) {
-    console.log('Selected Review Type:', value);
     this.getAllReviwes()
   }
   getAllReviwes() {
     const offset = this.pageIndex * this.pageSize;
     const limit = this.pageSize
     const userId = localStorage.getItem("currentUser") ? JSON.parse(localStorage.getItem("currentUser") || "") : ''
-    console.log(userId,"userId")
     this.ReviewService.getAllUserReview({ offset, limit, reviewType:this.reviewType }, this.searchStr.value || '' , userId._id).subscribe({
       next: (result) => {
-        console.log(result);
         let response = result.reviews;
         this.totalElements = result.total;
         this.dataSource = new MatTableDataSource(response);

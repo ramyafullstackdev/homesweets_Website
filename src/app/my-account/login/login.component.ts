@@ -53,7 +53,6 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
     this.authService.authState.subscribe((user) => {
       this.user = user;
       this.loggedIn = (user != null);
-      console.log(user,">>>USER")
     });
     this.getCountry()
 
@@ -111,7 +110,6 @@ displayCode(code: any): string {
   getOTP(data: any) {
     let phoneNumber = (data.countryCode ? data.countryCode.dial_code : "+91") + data.phoneNumber;
     this.orderService.getOTP(phoneNumber).then(otpVALUE => {
-      console.log(otpVALUE,">>>>otpVALUE");
       if (otpVALUE?.OTP) {
       this.showField = true;
       this.validNumber = true;
@@ -136,13 +134,10 @@ displayCode(code: any): string {
       this.validNumber = false;
       this.showField = false;
     });
-      console.log(this.validNumber,">>>>>validNumber")
   }
 
   checkOTP(value:any) {
-    console.log(value, ">>>>", this.currentOTP);
     this.validOTP = (value == this.currentOTP) ? true: false;
-    console.log(this.validOTP);
   }
 
   isSubmitDisabled(): boolean {
@@ -169,7 +164,6 @@ displayCode(code: any): string {
 
       this.orderService.customerValidation(this.loginFormGroup.value).subscribe({
         next: (result) => {
-          console.log(result, ">>  RESULT");
           let response = result.response;
           if (response && response.length > 0) {
             this.invalidUser = false;

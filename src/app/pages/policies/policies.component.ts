@@ -14,7 +14,6 @@ export class PoliciesComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.policy = params.get('name');
-      console.log('Current Policy:', this.policy);
     });
   }
 }
