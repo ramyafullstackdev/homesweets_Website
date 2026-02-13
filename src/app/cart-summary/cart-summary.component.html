@@ -18,15 +18,20 @@
                     <div class="col-md-7 col-sm-7 p-3 w-45">
                         <h5 class="header-font cart-font product-name mb-2">{{cart.productName | titlecase}}</h5>
                         <span class="d-block mb-2 normal-font">Weight: {{cart.productWeight}}</span>
-                        <div class="input-group" style="max-width: 220px;">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <button class="btn btn-sm btn-outline-secondary qty-btn" type="button" (click)="decreaseQuantity(cart)">
+                                <i class="fas fa-minus"></i>
+                            </button>
                             <input type="number" min="1" [max]="cart.preOrder ? '' : currentStock(cart)"
-                                class="form-control quantity-dd" (change)="calculateValue($event, cart)" [value]="cart.quantity"
+                                class="form-control quantity-dd text-center" style="max-width: 50px;" (change)="calculateValue($event, cart)" [value]="cart.quantity"
                                 id="quantity" name="quantity">
-                            <span class="input-group-text  normal-font">X {{cart.productCurrentPrice}}</span>
-                            <button class="btn p-2" type="button" (click)="removeItem(cart)">
+                            <button class="btn btn-sm btn-outline-secondary qty-btn" type="button" (click)="increaseQuantity(cart)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <span class="normal-font ms-2">X ₹{{cart.productCurrentPrice}}</span>
+                            <button class="btn btn-sm p-1 ms-2" type="button" (click)="removeItem(cart)">
                                 <i class="fas fa-trash text-danger"></i>
                             </button>
-            
                         </div>
                     </div>
             
@@ -141,7 +146,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-2 p-10 w-20">
-                                <span class="float-right f-26 pointer-view" (click)="removeItemFav(fav, 'offer')"><i class="fas fa-trash text-danger"></i></span>
+                                <span class="float-right pointer-view" (click)="removeItemFav(fav, 'offer')"><i class="fas fa-trash text-danger"></i></span>
                             </div>
                         </div>
                     </div>
@@ -176,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-2 p-10 w-20">
-                                <span class="float-right f-26 pointer-view" (click)="removeItemFav(fav,'product')"><i class="fas fa-trash text-danger"></i></span>
+                                <span class="float-right pointer-view" (click)="removeItemFav(fav,'product')"><i class="fas fa-trash text-danger"></i></span>
                             </div>
                         </div>
                     </div>
@@ -211,7 +216,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-2 p-10 w-20">
-                                <span class="float-right f-26 pointer-view" (click)="removeItemFav(fav, 'kitchen')"><i class="fas fa-trash text-danger"></i></span>
+                                <span class="float-right pointer-view" (click)="removeItemFav(fav, 'kitchen')"><i class="fas fa-trash text-danger"></i></span>
                             </div>
                         </div>
                     </div>

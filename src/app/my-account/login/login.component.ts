@@ -95,7 +95,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
 }
 
 displayCode(code: any): string {
-  return code ? code.dial_code : '';
+  return code ? `${code.flag || ''} ${code.dial_code}`.trim() : '';
 }
 
   redirect() {

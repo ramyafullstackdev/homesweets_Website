@@ -255,8 +255,8 @@
           >
             <img [src]="s3URL + item.productImagePath" alt="{{ item.name }}" />
             <div class="details">
-              <div class="name ellipsis-text">{{ item.offerName }}</div>
-              <div class="price">₹{{ getCurrentWeightPrice(item).currentPrice }}</div>
+              <div class="name ellipsis-text">{{ item.productName || item.offerName }}</div>
+              <div class="price">₹{{ getCurrentWeightPrice(item).currentPrice || getCurrentWeightPrice(item).productPrice }}</div>
                <select class="form-select form-select-sm" (change)="onSelectWeight(item, $event)" >
                   <option *ngFor="let p of item.prices; let i = index" [value]="i">{{ p.weight }}</option>
                 </select>
@@ -287,9 +287,40 @@
 
     <!-- Right: Icons -->
     <div class="flex-fill d-flex justify-content-end align-items-center gap-3">
-      <button class="btn icon-btn position-relative" [routerLink]="['/my_account']">
-        <i class="far fa-user"></i>
-      </button>
+      <div class="dropdown">
+        <button class="btn icon-btn position-relative" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="far fa-user"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+          <li *ngIf="!loggedIn">
+            <a class="dropdown-item" [routerLink]="['/my_account']" [queryParams]="{ mode: 'login' }">
+              <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </a>
+          </li>
+          <li *ngIf="!loggedIn">
+            <a class="dropdown-item" [routerLink]="['/my_account']" [queryParams]="{ mode: 'register' }">
+              <i class="fas fa-user-plus me-2"></i>Register
+            </a>
+          </li>
+          <li *ngIf="loggedIn">
+            <a class="dropdown-item" [routerLink]="['/my_account']">
+              <i class="fas fa-user me-2"></i>My Account
+            </a>
+          </li>
+          <li *ngIf="loggedIn"><hr class="dropdown-divider"></li>
+          <li *ngIf="loggedIn">
+            <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" (click)="adminLogout()" style="cursor: pointer;">
+              <i class="fas fa-lock me-2"></i>Admin Logout
+            </a>
+          </li>
+        </ul>
+      </div>
       <button class="btn icon-btn position-relative" (click)="open(false)">
         <i class="far fa-heart"></i>
         <span class="badge position-absolute top-0 start-100 translate-middle">{{totalFav}}</span>
@@ -323,7 +354,7 @@
         </li> -->
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <img src="../../assets/logos/VP_ ENGLISH.png" alt="VeetuPalagaram" height="40" width="auto">
+            <img src="../../assets/logos/VP_ ENGLISH.png" alt="VeetuPalagaram" height="50" width="auto">
           </a>
         </li>
         <!-- Dropdown: SHOP BY CATEGORY -->
@@ -378,8 +409,11 @@
                   <p class="mt-2 mb-0 fw-semibold">{{ item.categoryName }}</p>
                 </div>
               </div>
+              <div *ngIf="!wellnessCategories || wellnessCategories.length === 0" class="w-100 text-center py-3">
+                <p class="text-muted">Coming Soon</p>
+              </div>
 
-              <div class="w-100 mt-3 text-center">
+              <div class="w-100 mt-3 text-center" *ngIf="wellnessCategories && wellnessCategories.length > 0">
                 <button class="btn btn-success rounded-pill px-4" (click)="redirectCategory('wellness')">SHOP ALL</button>
               </div>
 
@@ -408,8 +442,11 @@
                   <p class="mt-2 mb-0 fw-semibold">{{ item.categoryName }}</p>
                 </div>
               </div>
+              <div *ngIf="!specialCategories || specialCategories.length === 0" class="w-100 text-center py-3">
+                <p class="text-muted">Coming Soon</p>
+              </div>
 
-              <div class="w-100 mt-3 text-center">
+              <div class="w-100 mt-3 text-center" *ngIf="specialCategories && specialCategories.length > 0">
                 <button class="btn btn-success rounded-pill px-4" (click)="redirectCategory('editions')">SHOP ALL</button>
               </div>
 
