@@ -89,16 +89,15 @@ export class DetailedCartComponent {
       cart.quantity--;
     }
 
-    if(cart.stock && cart.quantity < cart.stock && action == '+'){
-      cart.quantity++;
-    } else if(!cart.stock && action == '+' ){
-      cart.quantity++;
+    if(action == '+'){
+      if(cart.preOrder || !cart.stock){
+        cart.quantity++;
+      } else if(cart.stock && cart.quantity < cart.stock){
+        cart.quantity++;
+      }
     }
     if(cart.quantity < 1){
       cart.quantity = 1;
-    }
-    if(cart.preOrder && action == '+'){
-      cart.quantity++; 
     }
 
     if (cart.quantity > 500 && cart.preOrder) {
@@ -166,7 +165,7 @@ export class DetailedCartComponent {
         let kitchenIndex = _.findIndex(this.cartData, {userId: cartVal.userId});
         let existIndex = _.findIndex(this.cartData, {productName:cartVal.productName,
           productImagePath:cartVal.productImagePath,
-          productDescription:cartVal.productDescription,productCurrentPrice:cart.cartproduct.productCurrentPrice})
+          productDescription:cartVal.productDescription,productCurrentPrice:cartVal.productCurrentPrice})
           this.cartData[existIndex].quantity =  this.cartData[existIndex].quantity+1;
           // setTimeout(()=>{
           //   this.removebuyItem(cart);
@@ -212,6 +211,7 @@ export class DetailedCartComponent {
 
   removeItem(cart:any) {
     let index = this.cartData.indexOf(cart);
+    if (index === -1) return;
     this.cartData.splice(index, 1);
     // this.messageService.sendMessage({refresh:true});
     localStorage.setItem("cartData", JSON.stringify(this.cartData));
@@ -243,6 +243,7 @@ export class DetailedCartComponent {
         }
       });
       if(corrctQantity.includes(false)){
+        this.toastr.error('Stock Error', 'Some items exceed available stock. Please adjust quantity.');
       } else {
         this.router.navigate(["/order"])
       }

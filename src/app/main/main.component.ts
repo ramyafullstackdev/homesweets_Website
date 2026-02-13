@@ -136,7 +136,7 @@ selectCategory(category: string) {
     let cartProduct = localStorage.getItem("cartProduct");
     this.cartData = cartDetail ? JSON.parse(cartDetail) : [];
     this.cartProduct = cartProduct ? JSON.parse(cartProduct) : [];
-    this.currentUser = JSON.parse(localStorage.getItem("currentUser") || "[]")
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser") || "null")
     this.getfavorite()
 
     this.mainService.getCategory({mainDisplay:true}).then(result => {
@@ -500,6 +500,7 @@ selectCategory(category: string) {
   }
 
   getLeastWeight(data: any) {
+    if (!data || data.length === 0) return {};
     const leastWeightObj = data.reduce((min: { weight: string; }, item: { weight: string; }) => {
       const itemWeight = parseFloat(item.weight);
       const minWeight = parseFloat(min.weight);
@@ -723,6 +724,7 @@ selectCategory(category: string) {
     }
   }
   getCurrentWeightPrice(offer: any) {
+    if (!offer || !offer.prices || offer.prices.length === 0) return {};
     const selectedPrice = offer.prices.find((price: any) => price.selected);
     return selectedPrice ? selectedPrice : offer.prices[0];
   }

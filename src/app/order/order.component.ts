@@ -9,6 +9,7 @@ import {map, startWith} from 'rxjs/operators';
 import { MessageService } from '../services';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 // import {} from 'googlemaps';
 declare var Razorpay: any;
@@ -95,7 +96,6 @@ export class OrderComponent {
     this.currentUser = tempVal ? JSON.parse( tempVal):{}
     if(this.currentUser.userName) {
       this.loginForm.controls["phoneNumber"].setValue(this.currentUser.userName);
-      this.loginForm.controls["otp"].setValue("398989");
     }
     this.calculateMainTotal();
 
@@ -143,7 +143,7 @@ export class OrderComponent {
           }
         )
         
-      });1
+      });
     }else{
       this.addresses.push(
         {
@@ -165,7 +165,8 @@ export class OrderComponent {
   }
 
   calculateMainTotal (){
-    this.totalCartValue =0;
+    this.totalCartValue = 0;
+    this.totalItems = 0;
     _.forEach(this.cartData , (cart)=>{
       cart.totalVal = Math.round(cart.quantity * cart.productCurrentPrice);
       this.totalItems = this.totalItems + parseInt(cart.quantity);
@@ -203,8 +204,14 @@ export class OrderComponent {
 
   verifyPin () {
     this.orderService.verifyCityPincode(this.addressForm.value.city).then(result => {
-      let pincodes = _.map(result[0].PostOffice, "Pincode");
-      this.incorrectPin = pincodes.includes(this.addressForm.value.pincode);
+      if (result && result[0] && result[0].PostOffice) {
+        let pincodes = _.map(result[0].PostOffice, "Pincode");
+        this.incorrectPin = pincodes.includes(this.addressForm.value.pincode);
+      } else {
+        this.incorrectPin = false;
+      }
+    }).catch(() => {
+      this.incorrectPin = false;
     })
   }
 
@@ -238,7 +245,7 @@ export class OrderComponent {
   }
 
   checkOTP(value:any) {
-    this.validOTP = (value == this.currentOTP) ? true: false;
+    this.validOTP = (String(value) === String(this.currentOTP)) ? true: false;
   }
 
   login(stepper:any) {
@@ -329,7 +336,7 @@ export class OrderComponent {
       currency: 'INR',
       amount: this.totalCartValue+"00",
       name: 'Home Sweets',
-      key: 'rzp_test_o82lDugIpLKqcp',
+      key: environment.razorpayKey,
       image: 'https://images.freeimages.com/images/large-previews/3ff/chain-link-fence-1187948.jpg',
       prefill: {
         name: this.currentUser.displayName,

@@ -4,6 +4,7 @@ export const environment = {
     baseUrl: 'https://api-hs.konint.com/',
     s3Url: 'https://dobjfnt4kbgqn.cloudfront.net/',
     s3Api: 'https://dobjfnt4kbgqn.cloudfront.net',
+    razorpayKey: 'rzp_test_o82lDugIpLKqcp',
     adminCredentials: {
       username: 'VeetuAdmin',
       password: 'IamVeetuAdmin@2026'

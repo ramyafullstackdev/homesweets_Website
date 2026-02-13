@@ -69,7 +69,7 @@ export class CartSummaryComponent {
       { productName: 'Chicken Curry', productImagePath: 'assets/images/6.jpg', productWeight: '400g', productCurrentPrice: 220 },
       { productName: 'Chapati Set', productImagePath: 'assets/images/7.jpg', productWeight: '2 pcs', productCurrentPrice: 60 },
     ];
-    this.currentUser = JSON.parse(localStorage.getItem("currentUser") || "[]")
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser") || "null")
     if(this.isCart){
       let cartDetails = localStorage.getItem("cartData");
       this.cartData = cartDetails ? JSON.parse(cartDetails) : [];
@@ -138,21 +138,25 @@ export class CartSummaryComponent {
   //   }
       
   // }
+  private cartUpdateSubscribed = false;
   calculatedTotal(cart: any, action: '+' | '-' | null) {
   this.cartService.updateCartQuantity(cart, action, this.currentUser);
 
-  this.cartService.cartUpdated$.subscribe(msg => {
-    if (msg.inquiry) {
-      this.currentCart = msg.inquiry;
-      this.addInquiryBtn.nativeElement.click();
-    }
-    if (msg.refresh) {
-      this.cd.detectChanges();
-      this.cartData = JSON.parse(localStorage.getItem("cartData") || "[]");
-      this.calculateMainTotal();
-      this.messageService.sendMessage({ key: 'headerCart' });
-    }
-  });
+  if (!this.cartUpdateSubscribed) {
+    this.cartUpdateSubscribed = true;
+    this.cartService.cartUpdated$.subscribe(msg => {
+      if (msg.inquiry) {
+        this.currentCart = msg.inquiry;
+        this.addInquiryBtn.nativeElement.click();
+      }
+      if (msg.refresh) {
+        this.cd.detectChanges();
+        this.cartData = JSON.parse(localStorage.getItem("cartData") || "[]");
+        this.calculateMainTotal();
+        this.messageService.sendMessage({ key: 'headerCart' });
+      }
+    });
+  }
 }
   redirect(){
     this.router.navigate(["cart"]);

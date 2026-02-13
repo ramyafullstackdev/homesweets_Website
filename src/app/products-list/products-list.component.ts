@@ -155,7 +155,7 @@ export class ProductsListComponent {
     this.routeFrom = localStorage.getItem("routeFrom");
     let searchVal = localStorage.getItem("searchSelection");
     this.searchSelection = searchVal ? JSON.parse(searchVal) : {};
-    this.currentUser = JSON.parse(localStorage.getItem("currentUser") || "[]")
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser") || "null")
     this.getfavorite()
 
     this.selectedProduct = selectedVal ? JSON.parse(selectedVal) : {};
@@ -163,7 +163,7 @@ export class ProductsListComponent {
       this.showDetail = true;
     }
 
-    this.selectedProduct.productImagePath = [ this.selectedProduct.productImagePath, ...this.selectedProduct.additionalImages ];
+    this.selectedProduct.productImagePath = [ this.selectedProduct.productImagePath, ...(this.selectedProduct.additionalImages || []) ];
     this.selectedProduct.features = [
       {
         icon: "assets/images/native_heirloom.png",
@@ -250,7 +250,7 @@ getPricePerGram(price: number, weight: string): number {
   }
   }
   addFav(product: any) {
-
+    this.toggleFavorite(product, 'product');
   }
 
   loadmore(limit:number){
@@ -483,7 +483,7 @@ getPricePerGram(price: number, weight: string): number {
   }
 
   getSelectedPrice() {
-
+    return this.currentWeightSelect;
   }
 
   calculatedTotal(cart: any, action: any) {
@@ -491,17 +491,15 @@ getPricePerGram(price: number, weight: string): number {
     if (action == '-') {
       cart.quantity--;
     }
-    if(cart.stock && cart.quantity < cart.stock && action == '+'){
-      cart.quantity++;
-    } else if(!cart.stock && action == '+' ){
-      cart.quantity++;
+    if(action == '+'){
+      if(cart.preOrder || !cart.stock){
+        cart.quantity++;
+      } else if(cart.stock && cart.quantity < cart.stock){
+        cart.quantity++;
+      }
     }
     if(cart.quantity < 1){
       cart.quantity = 1;
-    }
-
-     if(cart.preOrder && action == '+'){
-      cart.quantity++; 
     }
     
     if(cart.quantity > 500 && cart.preOrder){
@@ -515,10 +513,11 @@ getPricePerGram(price: number, weight: string): number {
   }
 
   calculateValue(eventVal:any, product:any) {
-    if(eventVal.target.value < 31){
-      product.quantity = 30
+    const val = parseInt(eventVal.target.value, 10);
+    if(val > 30){
+      product.quantity = 30;
     } else {
-      product.quantity = eventVal.target.value;
+      product.quantity = val || 1;
     }
     this.calculatedTotal(product, null);
   }
@@ -547,8 +546,8 @@ getPricePerGram(price: number, weight: string): number {
 
     await product.prices.map((price: any) => { price['selected'] = false });
 
-    if (product.prices.length > 1) {
-      product.prices[product.prices.length % 2].selected = true;
+    if (product.prices.length > 0) {
+      product.prices[0].selected = true;
     }
 
 
