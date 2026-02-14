@@ -64,15 +64,20 @@ selectCategory(category: string) {
   currentUser: any;
   favoriteProduct: any[] = [];
   favoriteKitchen: any[] = [];
-  @ViewChild('scrollContainer', { static: true }) scrollContainer!: ElementRef;
-  @ViewChild('scrollContainer2', { static: true }) scrollContainer2!: ElementRef;
-  @ViewChild('scrollContainer3', { static: true }) scrollContainer3!: ElementRef;
-  @ViewChild('scrollContainer4', { static: true }) scrollContainer4!: ElementRef;
-  @ViewChild('scrollContainer5', { static: true }) scrollContainer5!: ElementRef;
-  @ViewChild('scrollContainer6', { static: true }) scrollContainer6!: ElementRef;
+  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+  @ViewChild('scrollContainer2', { static: false }) scrollContainer2!: ElementRef;
+  @ViewChild('scrollContainer3', { static: false }) scrollContainer3!: ElementRef;
+  @ViewChild('scrollContainer5', { static: false }) scrollContainer5!: ElementRef;
 
   scrollContainers: any[] = [];
-  buttonStates: { showLeft: boolean; showRight: boolean }[] = [];
+  buttonStates: { showLeft: boolean; showRight: boolean }[] = [
+    { showLeft: false, showRight: false },
+    { showLeft: false, showRight: false },
+    { showLeft: false, showRight: false },
+    { showLeft: false, showRight: false },
+    { showLeft: false, showRight: false },
+  ];
+  private scrollListenersAttached = false;
   bestSellersCategories: any[] = [];
   selectedCategory : any; // default selection
   bestSellerCopy: any[] = [];
@@ -119,16 +124,9 @@ selectCategory(category: string) {
       this.scrollContainer,
       this.scrollContainer2,
       this.scrollContainer3,
-      this.scrollContainer4,
+      null,
       this.scrollContainer5,
-      this.scrollContainer6
     ];
-
-    // Initialize button states for each container
-    this.buttonStates = this.scrollContainers.map(() => ({
-      showLeft: false,
-      showRight: false
-    }));
 
     localStorage.removeItem("currentCategory");
     localStorage.removeItem("selectedProduct");
@@ -533,21 +531,37 @@ selectCategory(category: string) {
   }
 
   detectScroll() {
-    this.buttonStates = this.scrollContainers.map(() => ({
-      showLeft: false,
-      showRight: false
-    }));
+    // Re-resolve ViewChild refs since data may have loaded
+    this.scrollContainers = [
+      this.scrollContainer,
+      this.scrollContainer2,
+      this.scrollContainer3,
+      null,
+      this.scrollContainer5,
+    ];
 
+    // Update button states for each valid container
     this.scrollContainers.forEach((container, index) => {
+      if (!container || !container.nativeElement) return;
       this.updateButtonState(index);
-      container.nativeElement.addEventListener('scroll', () => {
-        this.updateButtonState(index);
-      });
     });
+
+    // Only attach scroll listeners once
+    if (!this.scrollListenersAttached) {
+      this.scrollListenersAttached = true;
+      this.scrollContainers.forEach((container, index) => {
+        if (!container || !container.nativeElement) return;
+        container.nativeElement.addEventListener('scroll', () => {
+          this.updateButtonState(index);
+        });
+      });
+    }
   }
 
   updateButtonState(index: number) {
-    const el = this.scrollContainers[index].nativeElement;
+    const container = this.scrollContainers[index];
+    if (!container || !container.nativeElement) return;
+    const el = container.nativeElement;
     const scrollLeft = el.scrollLeft;
     const maxScrollLeft = el.scrollWidth - el.clientWidth;
     this.buttonStates[index].showLeft = scrollLeft > 0;
@@ -556,10 +570,11 @@ selectCategory(category: string) {
   }
 
   scroll(direction: 'left' | 'right', index: number) {
+    const container = this.scrollContainers[index];
+    if (!container || !container.nativeElement) return;
     const scrollAmount = direction === 'left' ? -266 : 266;
-    this.scrollContainers[index].nativeElement.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    container.nativeElement.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     this.updateButtonState(index);
-
   }
 
 
