@@ -49,6 +49,7 @@ export class OrdersComponent {
     this.messageService.sendMessage(obj);
     this.orderService.getOrders(userId).then(orders => {
       this.orders = orders;
+      console.log(this.orders,">>>>>orders")
     });
   }
 
@@ -71,9 +72,11 @@ export class OrdersComponent {
       userId: userId
     };
   
+    console.log(currentData);
   
     this.http.post<any>(`${this.baseURL}/review/get`, dataObj).subscribe({
       next: (result) => {
+        console.log(result, ">> RESULT");
         if (result.meta.status === 200) {
           this.productReview = result.response;
   

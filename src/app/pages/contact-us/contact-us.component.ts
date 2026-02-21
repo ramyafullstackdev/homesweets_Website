@@ -102,6 +102,7 @@ contactMethods: ContactMethod[] = [
       return;
     }
 
+    console.log('Form submitted:', this.contactForm.value);
 
     this.contactForm.reset();
     this.submitted = false;

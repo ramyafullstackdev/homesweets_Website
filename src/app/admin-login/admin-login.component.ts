@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-login',
@@ -10,8 +9,6 @@ import { environment } from 'src/environments/environment';
 })
 export class AdminLoginComponent {
   adminLoginForm: FormGroup;
-  loginError = false;
-  showPassword = false;
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.adminLoginForm = this.fb.group({
@@ -20,26 +17,22 @@ export class AdminLoginComponent {
     });
   }
 
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
-  }
-
   onSubmit() {
-    if (this.adminLoginForm.invalid) {
-      return;
-    }
+    console.log(this.adminLoginForm.value);
+    let username = this.adminLoginForm.get('username')?.value;
+    let password = this.adminLoginForm.get('password')?.value;
 
-    const username = this.adminLoginForm.get('username')?.value;
-    const password = this.adminLoginForm.get('password')?.value;
-
-    const { username: adminUser, password: adminPass } = environment.adminCredentials;
-
-    if (username === adminUser && password === adminPass) {
-      this.loginError = false;
+    // Simple hardcoded check for demonstration purposes
+    if (username === 'VeetuAdmin' && password === 'IamVeetuAdmin@2026') {
       localStorage.setItem('adminLoggedIn', 'true');
       this.router.navigate(['/']);
     } else {
-      this.loginError = true;
+      alert('Invalid credentials. Please try again.');
     }
+    // if (this.adminLoginForm.valid) {
+    //   // For testing purposes, assume login is successful
+    //   localStorage.setItem('adminLoggedIn', 'true');
+    //   this.router.navigate(['/']);
+    // }
   }
 }

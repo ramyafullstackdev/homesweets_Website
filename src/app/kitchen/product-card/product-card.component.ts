@@ -43,11 +43,13 @@ export class ProductCardComponent {
         this.categoryName = params['id'] || '';
       }
       
+      console.log('Query param q:', this.searchQuery);
       this.ngOnInit();
     });
     this.messageService
     .getMessage()
     .subscribe((data) => {
+      console.log(data, ">>> Message Service Data in Product Card");
       if(data && data.category && data.product ){
         this.categoryName = "";
         this.categoryIds = data.categoryIds;
@@ -67,10 +69,12 @@ export class ProductCardComponent {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['sortOption'] && !changes['sortOption'].firstChange) {
+      console.log('Sort option changed:', this.sortOption);
       this.loadProductsPage(this.currentPage, this.pageSize, this.searchQuery);
     }
   }
   ngOnInit() {
+    console.log(this.sortOption, ">>> Sort Option in Product Card");
     // Sample offers data; in real scenario, this might come from @Input() or a service
     //     this.mainService.getOffers().then(result => {
     //   this.offers = (result && result.offers) ? result.offers : [];
@@ -93,6 +97,7 @@ export class ProductCardComponent {
              offer.disableCart = true
           }
         });
+        console.log(response, ">>> Offers Loaded");
         this.offers = response.products;
         this.totalRecords = response.total;
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
@@ -156,6 +161,7 @@ export class ProductCardComponent {
   }
   disableCart: boolean = false;
   onSelectWeight(offer: any, index: any) {
+    console.log(offer, 'weight selected', index.target.value);
     if (!offer.prices[index.target.value].onStock) {
       offer.disableCart = true;
     } else {

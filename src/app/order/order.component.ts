@@ -97,6 +97,7 @@ export class OrderComponent {
       this.loginForm.controls["phoneNumber"].setValue(this.currentUser.userName);
       this.loginForm.controls["otp"].setValue("398989");
     }
+    console.log(this.currentUser,">>>CURRENT USER");
     this.calculateMainTotal();
 
     this.orderService.getAllCities().subscribe({
@@ -106,6 +107,7 @@ export class OrderComponent {
             startWith(''),
             map(city => (city ? this._filterCities(city) : this.cities.slice())),
           );
+          console.log(this.filteredCities,">>>filteredCities")
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
@@ -128,6 +130,7 @@ export class OrderComponent {
       queryVal["userName"] = this.currentUser.userName;
       this.orderService.getAddress(queryVal).then(addresses => {
         this.addresses = (addresses.response) ? addresses.response : [];
+        console.log(this.addresses);
         this.addresses.push(
           {
             "firstName":"Add New Address",
@@ -174,12 +177,14 @@ export class OrderComponent {
   }
 
   stepperNext(stepper: any) {
+    console.log(this.loginForm.value);
     stepper.next()
   }
 
   getCountries() {
     this.orderService.getCountry().then(result => {
       this.countries.push(result["response"]);
+      console.log(this.countries,">>this.countries")
       this.getStates();
     })
   }
@@ -187,12 +192,15 @@ export class OrderComponent {
   getStates() {
     this.orderService.getStates().then(result => {
         this.states = result["response"];
+        console.log(this.states,">>this.states")
 
     })
   }
 
   getCities (event: any) {
+    console.log( event.target.value,">>value")
     this.orderService.getCities(event.target.value).then(result => {
+      console.log(result,">>>CITY")
       this.cities = result["response"];
       this.filteredCities = this.addressForm.controls.city.valueChanges.pipe(
         startWith(''),
@@ -202,19 +210,26 @@ export class OrderComponent {
   }
 
   verifyPin () {
+    console.log(this.addressForm.value.city,">>>> city")
+    console.log(this.addressForm.value.pincode,">>>> pin")
     this.orderService.verifyCityPincode(this.addressForm.value.city).then(result => {
+      console.log(result,">>>CITY")
       let pincodes = _.map(result[0].PostOffice, "Pincode");
+      console.log(pincodes,">>>>>pincodes")
       this.incorrectPin = pincodes.includes(this.addressForm.value.pincode);
+      console.log(this.incorrectPin,">>incorrect")
     })
   }
 
   goForward(stepper: MatStepper, address:any){
+    console.log(stepper,">>>>STEPPER")
     this.selectedAddress = address;
     this.secondFormGroup.setValue({"addressVal":"1"})
     stepper.next();
   }
 
   submit(){
+    console.log(this.addressForm.value,">>>>this.addressForm.value")
     // this.addresses.push(this.addressForm.value);
     this.orderService.createAddress(this.addressForm.value, this.currentUser.userName).subscribe({
       next: (result) => {
@@ -225,11 +240,14 @@ export class OrderComponent {
   }
 
   getOTP(phoneNumber: any) {
+    console.log(phoneNumber);
     this.orderService.getOTP(phoneNumber).then(otpVALUE => {
+      console.log(otpVALUE,">>>>otpVALUE");
       this.showOtpField = true;
       this.currentOTP = otpVALUE.OTP ? otpVALUE.OTP : "";
       this.validNumber =  otpVALUE.OTP ?  true: false;
       this.validOTP = false;
+      console.log(this.validNumber,">>>>>validNumber")
     });
   }
 
@@ -238,7 +256,9 @@ export class OrderComponent {
   }
 
   checkOTP(value:any) {
+    console.log(value, ">>>>", this.currentOTP);
     this.validOTP = (value == this.currentOTP) ? true: false;
+    console.log(this.validOTP);
   }
 
   login(stepper:any) {
@@ -248,6 +268,7 @@ export class OrderComponent {
       if(this.loginForm.valid){
         this.orderService.customerLogin(this.loginForm.value).subscribe({
           next: (result) => {
+            console.log(result, ">>  RESULT");
             let response = result.response;
             if(response && response.length > 0) {
               this.invalidUser = false;
@@ -270,6 +291,7 @@ export class OrderComponent {
     }else{
       this.orderService.customerValidation(this.loginForm.value).subscribe({
         next: (result) => {
+          console.log(result, ">>  RESULT");
           let response = result.response;
           if(response && response.length > 0) {
              this.getOTP(this.loginForm.controls.phoneNumber.value);
@@ -291,6 +313,7 @@ export class OrderComponent {
       if(this.registerForm.valid){
         this.orderService.createCustomer(this.registerForm.value).subscribe({
           next: (result) => {
+            console.log(result, ">>  RESULT");
             let response = result.response;
             if(response.isExist) {
               this.existingPhone = true;
@@ -347,15 +370,18 @@ export class OrderComponent {
       },
       modal: {
         ondismiss:  () => {
+          console.log('dismissed')
         }
       }
     }
     this.RazorpayOptions['handler'] = this.razorPaySuccessHandler.bind(this);
 
     const successCallback = (paymentid: any) => {
+      console.log(paymentid);
     }
 
     const failureCallback = (e: any) => {
+      console.log(e);
     }
 
     Razorpay.open(this.RazorpayOptions)
@@ -363,6 +389,7 @@ export class OrderComponent {
 
   public razorPaySuccessHandler(response:any) {
     // alert("dfv")
+    console.log(response, ">>>>razorPaySuccessHandler");
     if(response && response.razorpay_payment_id == undefined){
       this.successPayment = false;
     }else{ 
@@ -381,6 +408,7 @@ export class OrderComponent {
       }
       this.orderService.placeOrder(formData, this.currentUser.userName).subscribe({
         next: (result) => {
+           console.log(result,">>>>>> result")
 
           //need to create payment history
           const paymentHistroyReqData = {
@@ -401,6 +429,7 @@ export class OrderComponent {
       localStorage.removeItem('cartData');
       localStorage.removeItem('cartProduct');
       this.messageService.sendMessage({refresh:true});
+      console.log(this.successPayment)
     }
     this.cd.detectChanges()
   }

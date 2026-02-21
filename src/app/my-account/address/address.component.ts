@@ -50,6 +50,7 @@ addressForm = this._formBuilder.group({
     let tempVal = localStorage.getItem("currentUser");
     this.currentUser = tempVal ? JSON.parse(tempVal) : {};
     this.orderService.getAddress({userName: this.currentUser.userName}).then(addresses => {
+      console.log(addresses,">>>>addresses")
       this.addresses = (addresses.response) ? addresses.response : [];
       this.addresses.push(
         {
@@ -64,6 +65,7 @@ addressForm = this._formBuilder.group({
           "phone" :"Phone Number"
         }
       )
+      console.log(this.addresses);
     });
     this.orderService.getAllCities().subscribe({
       next: (result) => {
@@ -72,6 +74,7 @@ addressForm = this._formBuilder.group({
             startWith(''),
             map(city => (city ? this._filterCities(city) : this.cities.slice())),
           );
+          console.log(this.filteredCities,">>>filteredCities")
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
@@ -86,6 +89,7 @@ addressForm = this._formBuilder.group({
   getCountries() {
     this.orderService.getCountry().then(result => {
       this.countries.push(result["response"]);
+      console.log(this.countries, ">>this.countries")
       this.getStates();
     })
   }
@@ -100,6 +104,7 @@ editAddress(address: any) {
 
 
   deleteAddress(){
+    console.log(this.currentAddress,">>>CURENT")
     this.orderService.deleteAddress(this.currentAddress._id).then(resp => {
       this.ngOnInit();
     });
@@ -121,12 +126,15 @@ editAddress(address: any) {
   getStates() {
     this.orderService.getStates().then(result => {
       this.states = result["response"];
+      console.log(this.states, ">>this.states")
 
     })
   }
 
   getCities(event: any) {
+  console.log(event.target.value, ">>value");
   this.orderService.getCities(event.target.value).then(result => {
+    console.log(result, ">>>CITY");
     this.cities = result["response"];
 
     this.filteredCities = this.addressForm.controls.city.valueChanges.pipe(
@@ -138,13 +146,18 @@ editAddress(address: any) {
 
 
 verifyPin() {
+  console.log(this.addressForm.value.city, ">>>> city");
+  console.log(this.addressForm.value.pincode, ">>>> pin");
   this.orderService.verifyCityPincode(this.addressForm.value.city).then(result => {
+    console.log(result, ">>>CITY");
     if (Array.isArray(result) && result.length > 0 && result[0].PostOffice) {
       let pincodes = _.map(result[0].PostOffice, "Pincode");
+      console.log('paru pincodes', pincodes);
       this.incorrectPin = pincodes.includes(this.addressForm.value.pincode);
     } else {
       this.incorrectPin = false;
     }
+    console.log(this.incorrectPin, ">>incorrect");
   });
 }
 
@@ -161,6 +174,7 @@ saveAddress() {
   if (this.editMode && this.editId) {
     this.orderService.updateAddress(formData, this.editId).subscribe({
       next: (res) => {
+        console.log("Address updated:", res);
         this.ngOnInit();
         (document.getElementById('exampleModalCenter') as any)?.click();
         this.resetEditState();
@@ -170,6 +184,7 @@ saveAddress() {
   } else {
     this.orderService.createAddress(formData, userName).subscribe({
       next: (res) => {
+        console.log("Address created:", res);
         this.ngOnInit();
         (document.getElementById('exampleModalCenter') as any)?.click();
         this.resetEditState();

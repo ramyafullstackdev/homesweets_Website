@@ -64,6 +64,7 @@ export class MainService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
+            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -75,6 +76,7 @@ export class MainService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
+            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -84,6 +86,7 @@ export class MainService {
           .toPromise()
           .then(res => <any>res.response)
           .then(data => {
+            console.log(data, ">>> product Created");
             return data;
           });
     }
@@ -100,6 +103,7 @@ export class MainService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
+            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -117,6 +121,7 @@ export class MainService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
+            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -127,6 +132,7 @@ export class MainService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
+            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -147,6 +153,7 @@ export class MainService {
           .toPromise()
           .then(res => <any>res.response)
           .then(data => {
+            console.log(data, ">>> Cart Created");
             return data;
           });
       }  
@@ -157,6 +164,7 @@ export class MainService {
           .toPromise()
           .then(res => <any>res.response)
           .then(data => {
+            console.log(data, ">>> Favorite Created");
             return data;
           });
       }      
@@ -167,6 +175,7 @@ export class MainService {
         .toPromise()
         .then(res => <any>res.response)
         .then(data => { 
+            console.log(data,">>>>DATA")
             return data; 
         });
     }
@@ -182,6 +191,7 @@ export class MainService {
           .toPromise()
           .then(res => <any>res.response)
           .then(data => {
+            console.log(data, ">>> inqiry Created");
             return data;
           });
       }   

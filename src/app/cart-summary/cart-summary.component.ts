@@ -158,6 +158,7 @@ export class CartSummaryComponent {
     this.router.navigate(["cart"]);
   }
   calculateValue(eventVal:any, cart:any) {
+    console.log(eventVal.target.value,">>>>>", cart)
     // cart.quantity = eventVal.target.value;
     cart.quantity = parseInt(eventVal.target.value, 10);
     this.calculatedTotal(cart, null);
@@ -243,6 +244,7 @@ export class CartSummaryComponent {
         userId: this.currentUser ? this.currentUser._id : null
       }
        this.mainService.createInquiry(query).then(result => {
+        console.log(result,">>>>result")
         if(result.ERROR){
           this.toastr.error('Error!', result.ERROR);
         } else {

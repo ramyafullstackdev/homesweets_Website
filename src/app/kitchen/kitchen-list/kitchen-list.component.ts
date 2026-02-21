@@ -41,10 +41,12 @@ searchSelection : any = [];
   }
 
   ngOnInit() {
+    console.log(this.router.url,">>>>kitchen router");
     this.currentRoute = this.router.url;
     let kitchenData = localStorage.getItem("kitchens");
     this.kitchens = kitchenData ?  JSON.parse(kitchenData): [];
     let selectedData = localStorage.getItem("searchSelection");
+    console.log(selectedData,">>>selectedData")
     if(selectedData) {
       this.searchSelection = [];
       this.searchSelection.push(JSON.parse(selectedData));
@@ -55,11 +57,13 @@ searchSelection : any = [];
   }
 
   getFilterData (searchVal:any) {
+    console.log(searchVal,">>>searchVal")
     if(searchVal == '') {
       this.ngOnInit()
     }else{
       this.kitchens = _.filter(
         this.kitchens, function(el) {
+          console.log(el,">>>ele")
            return  el.name.toLowerCase().includes(searchVal.toLowerCase());
         }
       );

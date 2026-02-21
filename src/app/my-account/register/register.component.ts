@@ -73,6 +73,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
   }
   
   private _filter(name: string): any[] {
+    console.log(name,"formControlName")
     const filterValue = name.toLowerCase();
     return this.countryCodes.filter(option =>
       option.name.toLowerCase().includes(filterValue) ||
@@ -155,6 +156,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
     let phoneNumber = (data.countryCode ? data.countryCode.dial_code : "+91") + data.phoneNumber;
 
     this.orderService.getOTP(phoneNumber).then(otpVALUE => {
+      console.log(otpVALUE,">>>>otpVALUE");
       this.currentOTP = otpVALUE.OTP ? otpVALUE.OTP : "";
       this.validNumber =  otpVALUE.OTP ?  true: false;
       
@@ -172,6 +174,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
   }
 
   checkOTP(value:any) {
+    console.log(value, ">>>>", this.currentOTP);
     this.validOTP = (value == this.currentOTP);
     if (!this.validOTP && value) {
       this.toastr.error('Error!', 'Invalid OTP');
@@ -179,6 +182,9 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
   }
 
   submit(){
+    console.log(this.registerFormGroup,">>VALID");
+    console.log(this.registerFormGroup.value);
+    console.log(this.validOTP,">> OTP")
     Object.keys(this.registerFormGroup.controls).forEach(key => {
       this.registerFormGroup.get(key)?.markAsTouched();
     });
@@ -189,6 +195,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
       if (this.validOTP && this.validNumber && this.registerFormGroup.valid) {
         this.orderService.createCustomer(this.registerFormGroup.value).subscribe({
           next: (result) => {
+            console.log(result, ">>  RESULT");
             let response = result.response;
             if(response.isExist) {
               this.existingPhone = true;

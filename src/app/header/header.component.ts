@@ -84,11 +84,13 @@ export class HeaderComponent {
 		private cartService : CartService,
 		public dialog: MatDialog
 	    ) {
+		console.log(this.router.url, ">>>>router");
 		this.navLinks = []
 		this.messageService
 			.getMessage()
 			.pipe(takeUntil(this.unsubscribe))
 			.subscribe((data) => {
+				console.log(data, ">>>>")
 				if (data && data.refresh == true) {
 					this.ngOnInit();
 				}
@@ -104,6 +106,7 @@ export class HeaderComponent {
 			.getMessageCategory()
 			.pipe(takeUntil(this.unsubscribe))
 			.subscribe((data) => {
+				console.log(data, ">>>>")
 				if (data && data.isFav) {
 					let totalFav = localStorage.getItem("favoritsIds");
 					this.totalFav = (totalFav ? JSON.parse(totalFav) : []).length;
@@ -111,6 +114,7 @@ export class HeaderComponent {
 			});
 		this.authService.authState.subscribe((user) => {
 			this.user = user;
+			console.log(user, ">>>USER")
 			let userObj = {
 				email: user.email,
 				password: user.idToken,
@@ -120,6 +124,7 @@ export class HeaderComponent {
 			}
 			this.orderService.createCustomer(userObj).subscribe({
 				next: (result) => {
+					console.log(result, ">>  RESULT");
 					let response = result.response;
 					if (response.isExist) {
 						localStorage.setItem("loggedIn", "true")
@@ -146,6 +151,7 @@ export class HeaderComponent {
 		let tempVal = localStorage.getItem("currentUser");
 		this.currentUser = tempVal ? JSON.parse(tempVal) : {};
 
+		console.log(this.router.url, ">>>>router");
 		this.router.events.subscribe((res) => {
 			this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
 		});
@@ -156,6 +162,7 @@ export class HeaderComponent {
 		this.getCategory()
 		this.calculateQty();
 		this.kitchenService.getSearchData({ searchVal: "a" }).then(result => {
+			console.log(result, ">>>>>result")
 			this.searchResult = result.result;
 			this.filteredSearch = this.searchFormGroup.controls["searchCtrl"].valueChanges.pipe(
 				debounceTime(1500),
@@ -175,6 +182,7 @@ export class HeaderComponent {
 		let qty = _.map(this.cartData, "quantity");
 		this.totalCount = qty.reduce((a, b) => parseInt(a) + parseInt(b), 0);
 		this.cd.detectChanges();
+		console.log(this.totalCount, ">>>>TOTAL")
 	}
 	onActive(route: string) {
 		this.router.navigate([route])
@@ -207,6 +215,7 @@ export class HeaderComponent {
 	}
 
 	selectedOption(option: any) {
+		console.log(option);
 		localStorage.setItem("searchSelection", JSON.stringify(option));
 		localStorage.setItem("fromSearch", "true");
 		if (option.productName) {
@@ -230,6 +239,7 @@ export class HeaderComponent {
 	private _filterStates(value: string): any {
 		const filterValue = value.toLowerCase();
 		this.kitchenService.getSearchData({ searchVal: filterValue }).then(result => {
+			console.log(result, ">>>>>result")
 			this.searchResult = result.result;
 			this.filteredSearch = this.searchFormGroup.controls["searchCtrl"].valueChanges.pipe(
 				debounceTime(1500),
@@ -245,10 +255,12 @@ export class HeaderComponent {
 	getCategory() {
 		this.kitchenService.getAllParentCategories().subscribe({
 			next: (result) => {
+				console.log(result, ">>  RESULT");
 				let response = result.response;
 				this.categories = response.category;
 				this.wellnessCategories = response.wellness;
 				this.specialCategories = response.special;
+				console.log(this.categories, ">>  categories",response);
 				// this.navLinks = response.map((item: any, index: any) => ({
 				// 	label: item.categoryName,
 				// 	link: `/${item.categoryName.toLowerCase().replace(/\s+/g, '_')}`,

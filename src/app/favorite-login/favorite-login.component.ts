@@ -53,7 +53,9 @@ private mainService: MainService, private messageService: MessageService, privat
 
   }
   ngOnInit(): void {
+    console.log(this.data)
     this.inputdata = this.data;
+    console.log(this.inputdata.data)
     this.getCountry()
     this.filteredCountryCodes = this.favoriteFrom.controls['countryCode'].valueChanges.pipe(
       startWith(''),
@@ -67,8 +69,10 @@ private mainService: MainService, private messageService: MessageService, privat
   }
 
   submit() {
+    console.log(this.favoriteFrom)
     if (this.favoriteFrom.valid) {
       let data = this.favoriteFrom.getRawValue();
+      console.log(data,"data")
       this.create(data)
     }
   }
@@ -76,6 +80,7 @@ private mainService: MainService, private messageService: MessageService, privat
   create(data: any){
     this.mainService.createLoginFavorite(data).subscribe({
       next: (result) => {
+        console.log(result, ">>  RESULT");
         let response = result.response;
         if(result.meta.status === 200) {
           

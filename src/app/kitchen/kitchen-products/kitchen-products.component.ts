@@ -69,9 +69,11 @@ export class KitchenProductsComponent {
     this.searchSelection = searchData ?  JSON.parse(searchData) :  {};
     this.currentUser = JSON.parse(localStorage.getItem("currentUser") || "[]")
     this.getfavorite()
+    console.log(this.router.url,">>>>kitchen router");
     this.currentRoute = this.router.url;
     let queryObj:any = {};
     queryObj["category"] =  this.currentRoute;
+    console.log(this.searchSelection.productName,">>>>this.searchSelection.productName")
     if(this.searchSelection && this.searchSelection.productName){
       queryObj.searchName = this.searchSelection.productName;
     }
@@ -79,9 +81,11 @@ export class KitchenProductsComponent {
       this.kitchenService.getKitchens(queryObj).then(result => {
         localStorage.setItem("kitchens", JSON.stringify(result.kitchens));
         this.kitchens = result.kitchens;
+        console.log(this.kitchens,">>>>>>>>>>>kitchens")
       });
       queryObj.loadOthers = true;
       this.kitchenService.getKitchens(queryObj).then(result => {
+        console.log(result,">>>>>search other result")
         this.otherKitchens = result.kitchens;
         // this.otherProducts = (result && result.products) ? result.products : [];
         // console.log(this.products);
@@ -97,6 +101,7 @@ export class KitchenProductsComponent {
         })
         localStorage.setItem("kitchens", JSON.stringify(kitchenData));
         this.kitchens = result.kitchens;
+        console.log(this.kitchens,">>>>>>>>>>>kitchens")
       });
     }
     this.favoriteIds = JSON.parse(localStorage.getItem("favoritsIds") || '[]');
@@ -122,6 +127,7 @@ export class KitchenProductsComponent {
   }
 
   getFilterData (searchVal:any) {
+    console.log(searchVal,">>>searchVal")
     localStorage.setItem("searchKeyKitchen" , searchVal);
 
     if(searchVal == '') {
@@ -129,6 +135,7 @@ export class KitchenProductsComponent {
     }else{
       let filteredProducts = _.filter(
         this.kitchens, function(el) {
+          console.log(el,">>>ele")
           let products = _.filter(el.products, function(prod){
             return prod.productName.toLowerCase().includes(searchVal.toLowerCase())
           });
@@ -139,6 +146,7 @@ export class KitchenProductsComponent {
       if(filteredProducts && filteredProducts.length == 0 ) {
         this.kitchens = _.filter(
           this.kitchens, function(el) {
+            console.log(el,">>>ele")
              return  el.name.toLowerCase().includes(searchVal.toLowerCase());
           }
         );
@@ -157,6 +165,7 @@ export class KitchenProductsComponent {
   viewDetailProduct(product:any, kitchen:any){
     localStorage.setItem("selectedKitchen", JSON.stringify(kitchen.kitchen));
     localStorage.setItem("selectedProduct", JSON.stringify(product));
+    console.log(product,">>>>>>>product")
     this.router.navigate(['products']);
   }
 
@@ -309,6 +318,7 @@ export class KitchenProductsComponent {
   }
 
   runToggleFavorite(data: any, type: any, event?: MouseEvent,) {
+  console.log(data,"MainService")
   let icon;
   if(data.offerName){
     type = "offer"
