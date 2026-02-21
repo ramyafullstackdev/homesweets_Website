@@ -15,6 +15,7 @@ import { CountryCode } from 'src/app/scrolling-banner/interface';
 })
 export class RegisterComponent {
   registerFormGroup = this._formBuilder.group({
+    inputformControl: [''],  
     firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
     // socialTitle: ['', Validators.required],
 
@@ -39,6 +40,13 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
     private orderService: OrderService,
     private toastr : ToastrService,
      private messageService: MessageService) {
+      this.getCountry()
+
+      this.filteredCountryCodes = this.registerFormGroup.controls['countryCode'].valueChanges.pipe(
+        startWith(''),
+        map((value: any) => typeof value === 'string' ? value : value?.name),
+        map(name => name ? this._filter(name) : this.countryCodes.slice())
+      );
   }
 
     ngOnInit() {
@@ -164,7 +172,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
   }
 
   checkOTP(value:any) {
-    this.validOTP = (String(value) === String(this.currentOTP));
+    this.validOTP = (value == this.currentOTP);
     if (!this.validOTP && value) {
       this.toastr.error('Error!', 'Invalid OTP');
     }

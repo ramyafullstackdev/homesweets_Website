@@ -137,11 +137,6 @@ export class HeaderComponent {
 			});
 		});
 	}
-	ngOnDestroy() {
-		this.unsubscribe.next();
-		this.unsubscribe.complete();
-	}
-
 	ngOnInit() {
 
 		if (!this.loggedIn) {
@@ -151,7 +146,9 @@ export class HeaderComponent {
 		let tempVal = localStorage.getItem("currentUser");
 		this.currentUser = tempVal ? JSON.parse(tempVal) : {};
 
-		this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
+		this.router.events.subscribe((res) => {
+			this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
+		});
 		let cartDetail = localStorage.getItem("cartData");
 		this.cartData = cartDetail ? JSON.parse(cartDetail) : [];
 		let totalFav = localStorage.getItem("favoritsIds");
@@ -214,7 +211,7 @@ export class HeaderComponent {
 		localStorage.setItem("fromSearch", "true");
 		if (option.productName) {
 			let category = option.category;
-			let categoryName = category ? category.categoryName.toLowerCase() : 'products';
+			let categoryName = category.categoryName.toLowerCase();
 			this.router.navigate([categoryName]);
 
 		} else {
@@ -230,15 +227,19 @@ export class HeaderComponent {
 		localStorage.removeItem("fromSearch");
 	}
 
-	private _filterStates(value: string): any[] {
+	private _filterStates(value: string): any {
 		const filterValue = value.toLowerCase();
 		this.kitchenService.getSearchData({ searchVal: filterValue }).then(result => {
-			this.searchResult = result.result || [];
+			this.searchResult = result.result;
+			this.filteredSearch = this.searchFormGroup.controls["searchCtrl"].valueChanges.pipe(
+				debounceTime(1500),
+				startWith(''),
+				map(state =>
+					(state ? this._filterStates(state) : this.searchResult.slice())
+				),
+			);
+			return this.searchResult;
 		});
-		return this.searchResult ? this.searchResult.filter((item: any) => {
-			const name = (item.productName || item.kitchenName || '').toLowerCase();
-			return name.includes(filterValue);
-		}) : [];
 	}
 
 	getCategory() {
@@ -266,10 +267,10 @@ export class HeaderComponent {
 	}
 
 	redirectCategory(type: string, categoryName?: string) {
-		if (categoryName) {
-			this.router.navigate([`/${type}`], { queryParams: { id: categoryName } });
-		} else {
+		if (!type) {
 			this.router.navigate([`/${type}`]);
+		} else {
+			this.router.navigate([`/${type}`], { queryParams: { id: categoryName } });
 		}
 	}
 

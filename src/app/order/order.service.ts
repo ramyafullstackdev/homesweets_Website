@@ -17,7 +17,7 @@ export class OrderService {
     // }
 
     getAddress(val: any){
-        return this.http.get<any>(`${this.baseURL}/address?userName=${encodeURIComponent(val.userName)}`)
+        return this.http.get<any>(`${this.baseURL}/address?userName=`+val.userName)
         .toPromise()
         .then(res => <any>res)
         .then(data => { return data; });
@@ -110,14 +110,14 @@ export class OrderService {
     }
     createAddress(formData: any, userName: any): Observable<any> {
         return this.http
-        .post(`${this.baseURL}/address/create?userName=${encodeURIComponent(userName)}`, formData);
+        .post(`${this.baseURL}/address/create?userName=`+userName, formData);
     }
     placeOrder(formData: any, userName: any): Observable<any> {
         return this.http
-        .post(`${this.baseURL}/orders/create?userName=${encodeURIComponent(userName)}`, formData);
+        .post(`${this.baseURL}/orders/create?userName=`+userName, formData);
     }
     deleteAddress(id: any) {
-        return this.http.get<any>(`${this.baseURL}/address/deleteAddress?id=${encodeURIComponent(id)}`)
+        return this.http.get<any>(`${this.baseURL}/address/deleteAddress?id=`+id)
         .toPromise()
         .then(res => <any>res)
         .then(data => { return data.response; });

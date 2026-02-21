@@ -88,10 +88,6 @@ export class ProductCardComponent {
       .then((resp: any) => {
         let response = resp;
         response.products.forEach((offer: any) => {
-          if (!offer.prices || offer.prices.length === 0) {
-            offer.disableCart = true;
-            return;
-          }
           offer.disableCart = offer.prices.every((price: any) => price.onStock === false);
           if(!offer.prices[0].onStock){
              offer.disableCart = true
@@ -147,7 +143,6 @@ export class ProductCardComponent {
   }
 
     getLeastWeight(data: any) {
-    if (!data || data.length === 0) return {};
     const leastWeightObj = data.reduce((min: { weight: string; }, item: { weight: string; }) => {
       const itemWeight = parseFloat(item.weight);
       const minWeight = parseFloat(min.weight);
@@ -156,21 +151,19 @@ export class ProductCardComponent {
     return leastWeightObj
   }
   getCurrentWeightPrice(offer: any) {
-    if (!offer || !offer.prices || offer.prices.length === 0) return {};
     const selectedPrice = offer.prices.find((price: any) => price.selected);
     return selectedPrice ? selectedPrice : offer.prices[0];
   }
   disableCart: boolean = false;
   onSelectWeight(offer: any, index: any) {
-    const idx = parseInt(index.target.value, 10);
-    if (!offer.prices[idx] || !offer.prices[idx].onStock) {
+    if (!offer.prices[index.target.value].onStock) {
       offer.disableCart = true;
     } else {
       offer.disableCart = false;
     }
-    offer.prices[idx]['selected'] = true;
+    offer.prices[index.target.value]['selected'] = true;
     for (let i = 0; i < offer.prices.length; i++) {
-      if (i !== idx) {
+      if (i != index.target.value) {
         offer.prices[i]['selected'] = false;
       }
     }
