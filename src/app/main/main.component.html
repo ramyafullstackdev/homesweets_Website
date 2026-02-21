@@ -59,7 +59,7 @@
     <div class="main_container">
 
         <div class="slider-container">
-            <button class="nav-button left" *ngIf="buttonStates[1].showLeft" (click)="scroll('left', 1)">
+            <button class="nav-button left" *ngIf="buttonStates[1]?.showLeft" (click)="scroll('left', 1)">
                 &#10094;
             </button>
             <div #scrollContainer2 class="row card-container">
@@ -113,7 +113,7 @@
 
 
             </div>
-            <button class="nav-button right" *ngIf="buttonStates[1].showRight" (click)="scroll('right', 1)">
+            <button class="nav-button right" *ngIf="buttonStates[1]?.showRight" (click)="scroll('right', 1)">
                 &#10095;
             </button>
         </div>
@@ -125,7 +125,7 @@
             <div class="side-header">What's On Your Mind?</div>
         </div>
         <div class="slider-container category_display_slider" style="margin:2%">
-            <button class="nav-button left" *ngIf="buttonStates[2].showLeft" (click)="scroll('left', 2)">
+            <button class="nav-button left" *ngIf="buttonStates[2]?.showLeft" (click)="scroll('left', 2)">
                 &#10094;
             </button>
             <div #scrollContainer3 class="row card-container category_display_slider">
@@ -143,7 +143,7 @@
                     </h4>
                 </div>
             </div>
-            <button class="nav-button right" *ngIf="buttonStates[2].showRight" (click)="scroll('right', 2)">
+            <button class="nav-button right" *ngIf="buttonStates[2]?.showRight" (click)="scroll('right', 2)">
                 &#10095;
             </button>
         </div>
@@ -155,7 +155,7 @@
     </div>
     <div class="chip-container">
         <div class="chip" *ngFor="let category of bestSellersCategories"
-            [ngClass]="{ 'selected': selectedCategory.categoryName === category.categoryName }" (click)="selectCategory(category)">
+            [ngClass]="{ 'selected': selectedCategory?.categoryName === category.categoryName }" (click)="selectCategory(category)">
             {{ category.categoryName }}
         </div>
     </div>
@@ -163,7 +163,7 @@
     <div class="main_container">
 
         <div class="slider-container">
-            <button class="nav-button left" *ngIf="buttonStates[3].showLeft" (click)="scroll('left', 1)">
+            <button class="nav-button left" *ngIf="buttonStates[3]?.showLeft" (click)="scroll('left', 1)">
                 &#10094;
             </button>
             <div #scrollContainer2 class="row card-container">
@@ -222,7 +222,7 @@
 
 
             </div>
-            <button class="nav-button right" *ngIf="buttonStates[3].showRight" (click)="scroll('right', 1)">
+            <button class="nav-button right" *ngIf="buttonStates[3]?.showRight" (click)="scroll('right', 1)">
                 &#10095;
             </button>
         </div>
@@ -236,7 +236,7 @@
     <span style="width: 75%;height: 28px;">Explore New Sellers</span>
     </div>
     <div class="slider-container kitchen-card-slider">
-        <button class="nav-button left" *ngIf="buttonStates[4].showLeft" (click)="scroll('left', 4)">
+        <button class="nav-button left" *ngIf="buttonStates[4]?.showLeft" (click)="scroll('left', 4)">
             &#10094;
         </button>
         <div #scrollContainer5 class="row card-container pointer-view">
@@ -279,7 +279,7 @@
 
             </div>
         </div>
-        <button class="nav-button right" *ngIf="buttonStates[4].showRight" (click)="scroll('right', 4)">
+        <button class="nav-button right" *ngIf="buttonStates[4]?.showRight" (click)="scroll('right', 4)">
             &#10095;
         </button>
     </div>
@@ -290,7 +290,7 @@
     </div>
     <div class="chip-container">
         <div class="chip" *ngFor="let category of bestSellersCategories"
-            [ngClass]="{ 'selected': selectedCategory.categoryName === category.categoryName }" (click)="selectCategory(category)">
+            [ngClass]="{ 'selected': selectedCategory?.categoryName === category.categoryName }" (click)="selectCategory(category)">
             {{ category.categoryName }}
         </div>
     </div>
@@ -298,7 +298,7 @@
     <div class="main_container">
 
         <div class="slider-container">
-            <button class="nav-button left" *ngIf="buttonStates[3].showLeft" (click)="scroll('left', 1)">
+            <button class="nav-button left" *ngIf="buttonStates[3]?.showLeft" (click)="scroll('left', 1)">
                 &#10094;
             </button>
             <div #scrollContainer2 class="row card-container">
@@ -357,7 +357,7 @@
 
 
             </div>
-            <button class="nav-button right" *ngIf="buttonStates[3].showRight" (click)="scroll('right', 1)">
+            <button class="nav-button right" *ngIf="buttonStates[3]?.showRight" (click)="scroll('right', 1)">
                 &#10095;
             </button>
         </div>
@@ -371,7 +371,7 @@
     <span style="width: 75%;height: 28px;">Best Sellers</span>
     </div>
     <div class="slider-container kitchen-card-slider">
-        <button class="nav-button left" *ngIf="buttonStates[4].showLeft" (click)="scroll('left', 4)">
+        <button class="nav-button left" *ngIf="buttonStates[4]?.showLeft" (click)="scroll('left', 4)">
             &#10094;
         </button>
         <div #scrollContainer5 class="row card-container pointer-view">
@@ -410,7 +410,7 @@
 
             </div>
         </div>
-        <button class="nav-button right" *ngIf="buttonStates[4].showRight" (click)="scroll('right', 4)">
+        <button class="nav-button right" *ngIf="buttonStates[4]?.showRight" (click)="scroll('right', 4)">
             &#10095;
         </button>
     </div>
@@ -425,7 +425,7 @@
             </p>
 
             <div class="slider-container">
-                <button class="nav-button left" *ngIf="buttonStates[0].showLeft" (click)="scroll('left', 0)">
+                <button class="nav-button left" *ngIf="buttonStates[0]?.showLeft" (click)="scroll('left', 0)">
                     &#10094;
                 </button>
                 <div #scrollContainer class="card-container">
@@ -458,7 +458,7 @@
                     </mat-card>
                 </div>
 
-                <button class="nav-button right" *ngIf="buttonStates[0].showRight" (click)="scroll('right', 0)">
+                <button class="nav-button right" *ngIf="buttonStates[0]?.showRight" (click)="scroll('right', 0)">
                     &#10095;
                 </button>
             </div>
