@@ -78,7 +78,7 @@
                             <input type="text" placeholder="+Code" matInput formControlName="countryCode" [matAutocomplete]="auto" />
                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCode">
                                 <mat-option *ngFor="let code of filteredCountryCodes | async" [value]="code">
-                                    {{ code.flag }} {{ code.name }} ({{ code.dial_code }})
+                                    {{ code.name }} ({{ code.dial_code }})
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-error

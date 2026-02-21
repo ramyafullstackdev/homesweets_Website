@@ -36,7 +36,7 @@
                 <div class="carousel-inner ">
                     <div class="carousel-item" *ngFor="let banner of banners;let i = index"
                         [ngClass]="{'active': i == 0 }">
-                        <img class="d-block w-100" [src]="s3ApiUrl+'/'+banner.imagePath" (error)="setDefaultImage($event)" alt="First slide">
+                        <img class="d-block w-100" [src]="s3ApiUrl+'/'+banner.imagePath" alt="First slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -67,7 +67,7 @@
                     <!-- Image & Badges -->
                     <div class="image-container position-relative">
                         <img class="main-image-view pointer-view" (click)="viewDetailProduct(offer, 'offers')"
-                            [src]="s3ApiUrl + '/' + offer.productImagePath" (error)="setDefaultImage($event)" alt="{{ offer.productName }}" />
+                            [src]="s3ApiUrl + '/' + offer.productImagePath" alt="{{ offer.productName }}" />
 
                         <!-- Best Seller Tag -->
                         <div class="badge-tag" *ngIf="offer.bestSeller">Best Seller</div>
@@ -87,8 +87,8 @@
                             </h5>
 
                             <div class="price-section">
-                                <span class="current-price">₹{{ getCurrentWeightPrice(offer).currentPrice || getCurrentWeightPrice(offer).productPrice }}</span>
-                                <span class="original-price" *ngIf="getLeastWeight(offer.prices).originalPrice">₹{{ getLeastWeight(offer.prices).originalPrice }}</span>
+                                <span class="current-price">₹{{ getCurrentWeightPrice(offer).currentPrice }}</span>
+                                <span class="original-price">₹{{ getLeastWeight(offer.prices).originalPrice }}</span>
                             </div>
                         </div>
 
@@ -132,7 +132,6 @@
                 <div class="category-card" *ngFor="let category of categoryList">
                     <!-- <img class="category-view" [src]="baseUrl +category.imagePath"> -->
                     <img class="category-view" [src]="s3ApiUrl+'/'+ category.imagePath"
-                        (error)="setDefaultImage($event)"
                         [routerLink]="'/' + (category.categoryName | lowercase)">
 
                     <h4 class="p-mb-1 margin-top-5-hs">
@@ -172,7 +171,7 @@
                     <div class="image-container position-relative">
                         <img class="main-image-view pointer-view"
                             (click)="viewDetailProduct(seller.product, 'best Sellers')"
-                            [src]="s3ApiUrl + '/' + seller.product.productImagePath" (error)="setDefaultImage($event)" alt="{{ seller.productName }}" />
+                            [src]="s3ApiUrl + '/' + seller.product.productImagePath" alt="{{ seller.productName }}" />
 
                         <!-- Best Seller Tag -->
                         <div class="badge-tag" *ngIf="seller.bestSeller">Best Seller</div>
@@ -193,7 +192,8 @@
                             </h5>
 
                             <div class="price-section">
-                                <span class="current-price">₹{{ getCurrentWeightPrice(seller.product).currentPrice || getCurrentWeightPrice(seller.product).productPrice }}</span>
+                                <span class="current-price">₹{{ getCurrentWeightPrice(seller.product).productPrice
+                                    }}</span>
                                 <!-- <span class="original-price">₹{{ getLeastWeight(seller.product.prices).originalPrice }}</span> -->
                             </div>
                         </div>
@@ -265,8 +265,14 @@
                         <!-- </div> -->
 
                     </div>
-                    <div class="card-body kitchen-card-body" style="padding-top: 110px;">
-                        <h2 class="card-title">{{kitchen.kitchenDetails.kitchenForm.kitchenName}}'s Store</h2>
+                    <div class="card-body kitchen-card-body">
+
+                        <!-- <h3 class="card-title float-right">{{ kitchen.location }}</h3> -->
+                        <br>
+                        <br><br>
+                        <br><br>
+                        <h2 class="card-title">{{kitchen.kitchenDetails.kitchenForm.kitchenName}} 's Store</h2>
+                        <!-- <p> {{kitchen.category}}</p> -->
                         <div class="row">
                             <div class="col-sm-12">
                                 <span style="font-size: 18px;"> <i
@@ -307,7 +313,7 @@
                     <div class="image-container position-relative">
                         <img class="main-image-view pointer-view"
                             (click)="viewDetailProduct(seller.product, 'best Sellers')"
-                            [src]="s3ApiUrl + '/' + seller.product.productImagePath" (error)="setDefaultImage($event)" alt="{{ seller.productName }}" />
+                            [src]="s3ApiUrl + '/' + seller.product.productImagePath" alt="{{ seller.productName }}" />
 
                         <!-- Best Seller Tag -->
                         <div class="badge-tag" *ngIf="seller.bestSeller">Best Seller</div>
@@ -328,7 +334,8 @@
                             </h5>
 
                             <div class="price-section">
-                                <span class="current-price">₹{{ getCurrentWeightPrice(seller.product).currentPrice || getCurrentWeightPrice(seller.product).productPrice }}</span>
+                                <span class="current-price">₹{{ getCurrentWeightPrice(seller.product).productPrice
+                                    }}</span>
                                 <!-- <span class="original-price">₹{{ getLeastWeight(seller.product.prices).originalPrice }}</span> -->
                             </div>
                         </div>
@@ -390,14 +397,19 @@
 
                         <img class="card-img-top"
                             [src]="s3ApiUrl+'/'+kitchen.kitchenDetails.kitchenForm.kitchenImage"
-                            (error)="setDefaultImage($event)"
                             alt="Card image cap">
 
                         <!-- </div> -->
 
                     </div>
-                    <div class="card-body kitchen-card-body" style="padding-top: 110px;">
-                        <h2 class="card-title">{{kitchen.kitchenDetails.kitchenForm.kitchenName}}'s Store</h2>
+                    <div class="card-body kitchen-card-body">
+
+                        <!-- <h3 class="card-title float-right">{{ kitchen.location }}</h3> -->
+                        <br>
+                        <br><br>
+                        <br><br>
+                        <h2 class="card-title">{{kitchen.kitchenDetails.kitchenForm.kitchenName}} 's Store</h2>
+                        <!-- <p> {{kitchen.category}}</p> -->
                         <div class="row">
                             <div class="col-sm-12">
                                 <span style="font-size: 18px;"> <i

@@ -81,7 +81,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
   }
   
   displayCode(code: any): string {
-  return code ? `${code.flag || ''} ${code.dial_code}`.trim() : '';
+  return code ? code.dial_code : '';
   }
   
   redirect() {
@@ -222,11 +222,7 @@ countryCode: [null as CountryCode | null, [Validators.required, this.validateCou
   
   getCountry(){
     this.orderService.getCountryCode().then(countryCodes => {
-         this.countryCodes = countryCodes.response || [];
-         const defaultCountry = this.countryCodes.find((c: any) => c.dial_code === '+91');
-         if (defaultCountry) {
-           this.registerFormGroup.patchValue({ countryCode: defaultCountry });
-         }
+         this.countryCodes = countryCodes.response
     }).catch(err => {
       console.error(err)
     })
