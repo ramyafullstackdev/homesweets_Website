@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CartModalComponent } from 'src/app/cart-modal/cart-modal.component';
 import { MainService } from 'src/app/main/main.service';
 import { MessageService } from 'src/app/services';
+import { CartService } from 'src/app/cart-summary/cart.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,6 +17,7 @@ export class ProductCardComponent {
   @Input() product: any;
   offers!: any[];
   s3ApiUrl: any = environment.s3Api;
+  cartData: any[] = [];
 
   /** Output: Event emitter if you want to trigger actions (optional) */
   @Output() addToCart = new EventEmitter<any>();
@@ -31,7 +33,7 @@ export class ProductCardComponent {
   availabilityFilter: any = {};
   priceRamge: any = { min: 0, max: 5000 };
   mainPageFilter: any;
-  constructor(private mainService: MainService, private route: ActivatedRoute, private dialog: MatDialog, private messageService: MessageService, private router: Router) {
+  constructor(private mainService: MainService, private route: ActivatedRoute, private dialog: MatDialog, private messageService: MessageService, private router: Router, private cartService: CartService) {
     const state = history.state;
     if (state && state.from === 'main') {
       this.mainPageFilter = this.router.url.replace(/^\//, "");;
@@ -42,7 +44,7 @@ export class ProductCardComponent {
       } else if(params['id']){
         this.categoryName = params['id'] || '';
       }
-      
+
       console.log('Query param q:', this.searchQuery);
       this.ngOnInit();
     });
@@ -50,6 +52,9 @@ export class ProductCardComponent {
     .getMessage()
     .subscribe((data) => {
       console.log(data, ">>> Message Service Data in Product Card");
+      if(data && data.refresh ){
+        this.loadCartData();
+      }
       if(data && data.category && data.product ){
         this.categoryName = "";
         this.categoryIds = data.categoryIds;
@@ -65,6 +70,10 @@ export class ProductCardComponent {
         this.loadProductsPage(this.currentPage, this.pageSize, this.searchQuery, this.categoryIds);
       }
     });
+
+    this.cartService.cartUpdated$.subscribe(() => {
+      this.loadCartData();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -75,15 +84,69 @@ export class ProductCardComponent {
   }
   ngOnInit() {
     console.log(this.sortOption, ">>> Sort Option in Product Card");
-    // Sample offers data; in real scenario, this might come from @Input() or a service
-    //     this.mainService.getOffers().then(result => {
-    //   this.offers = (result && result.offers) ? result.offers : [];
-    // });
-    // this.mainService.getAllProdcts({}).then(result => {
-    //   this.offers = (result && result.products) ? result.products : [];
-    // });
-     
+    this.loadCartData();
     this.loadProductsPage(this.currentPage, this.pageSize, this.searchQuery);
+  }
+
+  loadCartData() {
+    this.cartData = JSON.parse(localStorage.getItem("cartData") || "[]");
+  }
+
+  isInCart(offer: any): boolean {
+    const selectedWeight = this.getCurrentWeightPrice(offer)?.weight;
+    return this.cartData.some(item =>
+      item.productId === offer._id && item.productWeight === selectedWeight
+    );
+  }
+
+  getCartQuantity(offer: any): number {
+    const selectedWeight = this.getCurrentWeightPrice(offer)?.weight;
+    const item = this.cartData.find(item =>
+      item.productId === offer._id && item.productWeight === selectedWeight
+    );
+    return item ? item.quantity : 0;
+  }
+
+  increaseQuantity(offer: any) {
+    const selectedWeight = this.getCurrentWeightPrice(offer)?.weight;
+    const index = this.cartData.findIndex(item =>
+      item.productId === offer._id && item.productWeight === selectedWeight
+    );
+    if (index !== -1) {
+      this.cartData[index].quantity++;
+      localStorage.setItem('cartData', JSON.stringify(this.cartData));
+      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+      if (currentUser?._id) {
+        this.cartService.updateCartQuantity({ ...this.cartData[index] }, null, currentUser);
+      }
+      this.messageService.sendMessage({ refresh: true });
+    }
+  }
+
+  decreaseQuantity(offer: any) {
+    const selectedWeight = this.getCurrentWeightPrice(offer)?.weight;
+    const index = this.cartData.findIndex(item =>
+      item.productId === offer._id && item.productWeight === selectedWeight
+    );
+    if (index === -1) return;
+
+    const cartItem = { ...this.cartData[index] };
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null") || {};
+
+    if (cartItem.quantity > 1) {
+      this.cartData[index].quantity--;
+      localStorage.setItem('cartData', JSON.stringify(this.cartData));
+      if (currentUser._id) {
+        this.cartService.updateCartQuantity({ ...this.cartData[index] }, null, currentUser);
+      }
+    } else {
+      // Remove item from cart
+      this.cartData.splice(index, 1);
+      this.cartService.removeItem(cartItem, currentUser).catch(() => {
+        this.loadCartData();
+      });
+    }
+    this.messageService.sendMessage({ refresh: true });
   }
 
   loadProductsPage(page: number, pageSize: number, searchValue: any, categoryIds?: any[]) {

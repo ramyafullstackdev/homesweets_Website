@@ -42,9 +42,18 @@
                         <select class="variant-select" (change)="onSelectWeight(offer, $event)">
                             <option *ngFor="let p of offer.prices; let i = index" [value]="i">{{ p.weight }}</option>
                         </select>
-                        <button class="add-cart-btn" (click)="onAddToCart(offer)" [disabled]="offer.disableCart">
+                        <ng-container *ngIf="isInCart(offer) && !offer.disableCart; else addToCartTpl">
+                          <div class="qty-controls">
+                            <button class="qty-btn" (click)="decreaseQuantity(offer)">−</button>
+                            <span class="qty-count">{{ getCartQuantity(offer) }}</span>
+                            <button class="qty-btn" (click)="increaseQuantity(offer)">+</button>
+                          </div>
+                        </ng-container>
+                        <ng-template #addToCartTpl>
+                          <button class="add-cart-btn" (click)="onAddToCart(offer)" [disabled]="offer.disableCart">
                             {{ offer.disableCart ? "OUT OF STOCK" : (offer.preOrder ? "PRE ORDER" : "ADD TO CART") }}
-                        </button>
+                          </button>
+                        </ng-template>
                     </div>
                 </div>
 
