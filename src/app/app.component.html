@@ -1,13 +1,13 @@
 <ngx-ui-loader></ngx-ui-loader>
 
-<div class="sticky-container" *ngIf="isAdminLoggedIn">
+<div class="sticky-container">
   <app-scrolling-banner></app-scrolling-banner>
   <app-header></app-header>
 </div>
 
 <main #contentArea>
   <router-outlet></router-outlet>
-  <app-footer *ngIf="isAdminLoggedIn"></app-footer>
+  <app-footer></app-footer>
 </main>
 
 <!-- <h1 style="margin: 10%;">Page Under Construction, will</h1> -->

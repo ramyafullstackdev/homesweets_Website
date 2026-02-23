@@ -33,9 +33,6 @@ export class AppComponent implements OnInit{
     fgsPosition: POSITION.centerCenter
   };
 
-  get isAdminLoggedIn(): boolean {
-    return localStorage.getItem('adminLoggedIn') === 'true';
-  }
   constructor(private router:Router,
     private viewportScroller: ViewportScroller,
     private changeDetectorRef: ChangeDetectorRef,
