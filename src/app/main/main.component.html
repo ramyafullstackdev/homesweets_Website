@@ -87,8 +87,8 @@
                             </h5>
 
                             <div class="price-section">
-                                <span class="current-price">₹{{ getCurrentWeightPrice(offer).currentPrice }}</span>
-                                <span class="original-price">₹{{ getLeastWeight(offer.prices).originalPrice }}</span>
+                                <span class="current-price">₹{{ getCurrentWeightPrice(offer).currentPrice || getCurrentWeightPrice(offer).productPrice }}</span>
+                                <span class="original-price" *ngIf="getLeastWeight(offer.prices).originalPrice">₹{{ getLeastWeight(offer.prices).originalPrice }}</span>
                             </div>
                         </div>
 
@@ -104,7 +104,12 @@
                             <option *ngFor="let p of offer.prices; let i = index" [value]="i">{{ p.weight }}</option>
                         </select>
 
-                        <button class="add-cart-btn"
+                        <div class="qty-controls" *ngIf="isInCart(offer)">
+                            <button class="qty-btn" (click)="decreaseQty(offer)">−</button>
+                            <span class="qty-count">{{ getCartQuantity(offer) }}</span>
+                            <button class="qty-btn" (click)="increaseQty(offer)">+</button>
+                        </div>
+                        <button class="add-cart-btn" *ngIf="!isInCart(offer)"
                             (click)="openDialog(offer, 'offer', offer.preOrder ? 'Pre-Order' : 'Buy Now')">
                             {{(offer.preOrder ? "PRE ORDER" : "ADD TO CART")}}
                         </button>
@@ -213,7 +218,12 @@
                             <option *ngFor="let p of seller.product.prices; let i = index" [value]="i">{{ p.weight }}</option>
                         </select>
 
-                        <button class="add-cart-btn"
+                        <div class="qty-controls" *ngIf="isInCart(seller.product)">
+                            <button class="qty-btn" (click)="decreaseQty(seller.product)">−</button>
+                            <span class="qty-count">{{ getCartQuantity(seller.product) }}</span>
+                            <button class="qty-btn" (click)="increaseQty(seller.product)">+</button>
+                        </div>
+                        <button class="add-cart-btn" *ngIf="!isInCart(seller.product)"
                             (click)="openDialog(seller.product, '', seller.product.preOrder ? 'Pre-Order' : 'Buy Now')">
                             ADD TO CART
                         </button>
@@ -355,7 +365,12 @@
                             <option *ngFor="let p of seller.product.prices; let i = index" [value]="i">{{ p.weight }}</option>
                         </select>
 
-                        <button class="add-cart-btn"
+                        <div class="qty-controls" *ngIf="isInCart(seller.product)">
+                            <button class="qty-btn" (click)="decreaseQty(seller.product)">−</button>
+                            <span class="qty-count">{{ getCartQuantity(seller.product) }}</span>
+                            <button class="qty-btn" (click)="increaseQty(seller.product)">+</button>
+                        </div>
+                        <button class="add-cart-btn" *ngIf="!isInCart(seller.product)"
                             (click)="openDialog(seller.product, '', seller.product.preOrder ? 'Pre-Order' : 'Buy Now')">
                             ADD TO CART
                         </button>

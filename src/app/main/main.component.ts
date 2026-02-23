@@ -108,7 +108,14 @@ selectCategory(category: string) {
         if (data && data.mainRefresh == true) {
           this.cartData = data.cartData;
         }
+        if (data && data.refresh == true) {
+          this.cartData = JSON.parse(localStorage.getItem("cartData") || "[]");
+        }
       });
+
+    this.cartService.cartUpdated$.subscribe(() => {
+      this.cartData = JSON.parse(localStorage.getItem("cartData") || "[]");
+    });
   }
 
   ngOnInit() {
@@ -726,6 +733,59 @@ selectCategory(category: string) {
       }
     }
   }
+  isInCart(product: any): boolean {
+    const selectedWeight = this.getCurrentWeightPrice(product)?.weight;
+    return this.cartData ? this.cartData.some((item: any) =>
+      item.productId === product._id && item.productWeight === selectedWeight
+    ) : false;
+  }
+
+  getCartQuantity(product: any): number {
+    const selectedWeight = this.getCurrentWeightPrice(product)?.weight;
+    const item = this.cartData ? this.cartData.find((item: any) =>
+      item.productId === product._id && item.productWeight === selectedWeight
+    ) : null;
+    return item ? item.quantity : 0;
+  }
+
+  increaseQty(product: any) {
+    const selectedWeight = this.getCurrentWeightPrice(product)?.weight;
+    const index = this.cartData.findIndex((item: any) =>
+      item.productId === product._id && item.productWeight === selectedWeight
+    );
+    if (index !== -1) {
+      this.cartData[index].quantity++;
+      localStorage.setItem('cartData', JSON.stringify(this.cartData));
+      if (this.currentUser?._id) {
+        this.cartService.updateCartQuantity({ ...this.cartData[index] }, null, this.currentUser);
+      }
+      this.messageService.sendMessage({ refresh: true });
+    }
+  }
+
+  decreaseQty(product: any) {
+    const selectedWeight = this.getCurrentWeightPrice(product)?.weight;
+    const index = this.cartData.findIndex((item: any) =>
+      item.productId === product._id && item.productWeight === selectedWeight
+    );
+    if (index === -1) return;
+
+    const cartItem = { ...this.cartData[index] };
+    if (cartItem.quantity > 1) {
+      this.cartData[index].quantity--;
+      localStorage.setItem('cartData', JSON.stringify(this.cartData));
+      if (this.currentUser?._id) {
+        this.cartService.updateCartQuantity({ ...this.cartData[index] }, null, this.currentUser);
+      }
+    } else {
+      this.cartData.splice(index, 1);
+      this.cartService.removeItem(cartItem, this.currentUser || {}).catch(() => {
+        this.cartData = JSON.parse(localStorage.getItem("cartData") || "[]");
+      });
+    }
+    this.messageService.sendMessage({ refresh: true });
+  }
+
   getCurrentWeightPrice(offer: any) {
     const selectedPrice = offer.prices.find((price: any) => price.selected);
     return selectedPrice ? selectedPrice : offer.prices[0];
