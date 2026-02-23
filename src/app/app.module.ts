@@ -47,7 +47,7 @@ import { ScrollingBannerComponent } from './scrolling-banner/scrolling-banner.co
 import { MyWishlistComponent } from './my-account/wishlist/wishlist.component';
 import { CartModalComponent } from './cart-modal/cart-modal.component';
 import { KitchenModule } from './kitchen/kitchen.module';
-import { AdminLoginComponent } from './admin-login/admin-login.component';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'rgba(12,80,219,0.98)',
@@ -88,8 +88,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MyReviewComponent,
     ScrollingBannerComponent,
     MyWishlistComponent,
-    CartModalComponent,
-    AdminLoginComponent
+    CartModalComponent
     // MainComponent
   ],
   imports: [

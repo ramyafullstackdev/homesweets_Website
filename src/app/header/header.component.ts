@@ -209,11 +209,6 @@ export class HeaderComponent {
 		this.router.navigate(['']);
 	}
 
-	adminLogout() {
-		localStorage.removeItem('adminLoggedIn');
-		this.router.navigate(['/admin-login']);
-	}
-
 	selectedOption(option: any) {
 		console.log(option);
 		localStorage.setItem("searchSelection", JSON.stringify(option));
